@@ -45,9 +45,10 @@ class HrPerformanceBonus(models.Model):#奖金计算new
     khxs = fields.Float(u'考核系数')	
     kj = fields.Float(u'扣奖')	
     jj = fields.Float(u'奖金')
-
-
-    
+    ranking =  fields.Integer(u'排名')   
+    ratio = fields.Float(u'整体系数')
+    manager_ratio = fields.Float(u'作业经理系数')
+    complete_rate = fields.Float(u'完成率')
     
     
     

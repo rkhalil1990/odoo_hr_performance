@@ -44,6 +44,10 @@
 							<field name="khxs"/>
 							<field name="kj"/>
 							<field name="jj"/>
+							<field name="ranking"/>
+							<field name="ratio"/>
+							<field name="manager_ratio"/>
+							<field name="complete_rate"/>
 					</group>
                 </sheet>
             </form>
@@ -57,12 +61,12 @@
                 <tree string="Hr performancebonus">
                    <field name="teller_num"/>
 							<field name="teller_name"/>
-							<field name="identity"/>
+							<!-- <field name="identity"/>
 							<field name="quarters"/>
 							<field name="quarters_date"/>
 							<field name="group"/>
 							<field name="role"/>
-							<field name="role1"/>
+							<field name="role1"/> -->
 							<field name="ywlx"/>
 							<field name="ywzhs"/>
 							<field name="ywzl"/>
@@ -81,6 +85,10 @@
 							<field name="khxs"/>
 							<field name="kj"/>
 							<field name="jj"/>
+							<field name="ranking"/>
+							<field name="ratio"/>
+							<field name="manager_ratio"/>
+							<field name="complete_rate"/>
                 </tree>
             </field>
        </record>
