@@ -1,0 +1,1243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="assets_backend" name="hr performance assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/hr_performance/static/src/js/webaddon.js"></script>
+            </xpath>
+     </template> 
+	 
+
+	
+	 
+	 
+	 <record id="hr_performancebonus_form" model="ir.ui.view">
+        <field name="name">hr.performancebonus.form</field>
+        <field name="model">hr.performancebonus</field>
+        <field name="arch" type="xml">
+            <form string="hr performancebonus Form">
+                <sheet>
+					<group>
+							<field name="teller_num"/>
+							<field name="teller_name"/>
+							<field name="identity"/>
+							<field name="quarters"/>
+							<field name="quarters_date"/>
+							<field name="group"/>
+							<field name="role"/>
+							<field name="role1"/>
+							<field name="ywlx"/>
+							<field name="ywzhs"/>
+							<field name="ywzl"/>
+							<field name="hzs"/>
+							<field name="zjs"/>
+							<field name="ccs"/>
+							<field name="tjyxmh"/>
+							<field name="cwl"/>
+							<field name="zql"/>
+							<field name="dhl"/>
+							<field name="jbzjs"/>
+							<field name="gwxs"/>
+							<field name="zshzjs"/>
+							<field name="jjdj"/>
+							<field name="sskcs"/>
+							<field name="khxs"/>
+							<field name="kj"/>
+							<field name="jj"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancebonus_tree" model="ir.ui.view">
+            <field name="name">hr.performancebonus.tree</field>
+            <field name="model">hr.performancebonus</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancebonus">
+                   <field name="teller_num"/>
+							<field name="teller_name"/>
+							<field name="identity"/>
+							<field name="quarters"/>
+							<field name="quarters_date"/>
+							<field name="group"/>
+							<field name="role"/>
+							<field name="role1"/>
+							<field name="ywlx"/>
+							<field name="ywzhs"/>
+							<field name="ywzl"/>
+							<field name="hzs"/>
+							<field name="zjs"/>
+							<field name="ccs"/>
+							<field name="tjyxmh"/>
+							<field name="cwl"/>
+							<field name="zql"/>
+							<field name="dhl"/>
+							<field name="jbzjs"/>
+							<field name="gwxs"/>
+							<field name="zshzjs"/>
+							<field name="jjdj"/>
+							<field name="sskcs"/>
+							<field name="khxs"/>
+							<field name="kj"/>
+							<field name="jj"/>
+                </tree>
+            </field>
+       </record>
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 <record id="hr_performancebonuscalculation_form" model="ir.ui.view">
+        <field name="name">hr.performancebonuscalculation.form</field>
+        <field name="model">hr.performancebonuscalculation</field>
+        <field name="arch" type="xml">
+            <form string="hr performancebonuscalculation Form">
+                <sheet>
+					<group>
+							<field name="teller_num"/>
+							<field name="teller_name"/>
+							<field name="identity"/>
+							<field name="quarters"/>
+							<field name="quarters_date"/>
+							<field name="group"/>
+							<field name="role"/>
+							<field name="role1"/>
+							<field name="x_lrywzhs"/>
+							<field name="x_lrywzl"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancebonuscalculation_tree" model="ir.ui.view">
+            <field name="name">hr.performancebonuscalculation.tree</field>
+            <field name="model">hr.performancebonuscalculation</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancebonuscalculation">
+                   <field name="teller_num"/>
+					<field name="teller_name"/>
+					<field name="identity"/>
+					<field name="quarters"/>
+					<field name="quarters_date"/>
+					<field name="group"/>
+					<field name="role"/>
+					<field name="role1"/>
+					<field name="x_lrywzhs"/>
+					<field name="x_lrywzl"/>
+                </tree>
+            </field>
+       </record>
+	 
+	 
+	 
+
+  <record id="hr_performancereportori_form" model="ir.ui.view">
+        <field name="name">hr.performancereportori.form</field>
+        <field name="model">hr.performancereportori</field>
+        <field name="arch" type="xml">
+            <form string="hr performancereportori Form">
+                <sheet>
+					<group>
+						<group>
+							<field name="teller_num"/>
+							<field name="teller_name"/>
+							<field name="role"/>
+							<field name="ywzhs"/>
+							<field name="ywzl"/>
+							<field name="lrhzs"/>
+							<field name="lrzjs"/>
+							<field name="lrccs"/>
+							<field name="tjyxmh"/>
+							<field name="lrcwl"/>
+							<field name="lrzql"/>
+						</group>
+						<group>
+							<field name="lrdhl"/>
+							<field name="shdhs"/>
+							<field name="ythqtdhs"/>
+							<field name="rqshdhs"/>
+							<field name="jeshdhs"/>
+							<field name="skrshdhs"/>
+							<field name="fkrshdhs"/>
+							<field name="bsshdhs"/>
+							<field name="shdhl"/>
+							<field name="sqdhs"/>
+							<field name="sqdhl"/>
+							<field name="pjclsd"/>
+							<field name="pzhs"/>
+						</group>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+  <record id="hr_performancereportori_tree" model="ir.ui.view">
+            <field name="name">hr.performancereportori.tree</field>
+            <field name="model">hr.performancereportori</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancereportori">
+                    <field name="teller_num"/>
+					<field name="teller_name"/>
+					<field name="role"/>
+					<field name="ywzhs"/>
+					<field name="ywzl"/>
+					<field name="lrhzs"/>
+					<field name="lrzjs"/>
+					<field name="lrccs"/>
+					<field name="tjyxmh"/>
+					<field name="lrcwl"/>
+					<field name="lrzql"/>
+					<field name="lrdhl"/>
+					<field name="shdhs"/>
+					<field name="ythqtdhs"/>
+					<field name="rqshdhs"/>
+					<field name="jeshdhs"/>
+					<field name="skrshdhs"/>
+					<field name="fkrshdhs"/>
+					<field name="bsshdhs"/>
+					<field name="shdhl"/>
+					<field name="sqdhs"/>
+					<field name="sqdhl"/>
+					<field name="pjclsd"/>
+					<field name="pzhs"/>
+                </tree>
+            </field>
+       </record>
+  
+  <record id="hr_performancemobilereportori_form" model="ir.ui.view">
+        <field name="name">hr.performancemobilereportori.form</field>
+        <field name="model">hr.performancemobilereportori</field>
+        <field name="arch" type="xml">
+            <form string="hr performancemobilereportori Form">
+                <sheet>
+					<group>
+						<group>
+							<field name="teller_num"/>
+							<field name="teller_name"/>
+							<field name="role"/>
+							<field name="ywzhs"/>
+							<field name="ywbs"/>
+							<field name="zrwxzs"/>
+							<field name="cctwzhs"/>
+							<field name="ccywzl"/>
+							<field name="cczrwxzs"/>
+							<field name="lrhzs"/>
+							<field name="lrzjs"/>
+						</group>
+						<group>
+							<field name="ccs"/>
+							<field name="tjyxmhs"/>
+							<field name="cwl"/>
+							<field name="zql"/>
+							<field name="yxmhl"/>
+							<field name="jjgtg"/>
+							<field name="jjgbtg"/>
+							<field name="jjgdqrdbj"/>
+							<field name="dhlxgtg"/>
+							<field name="dhlxgbtg"/>
+							<field name="dhlxgbj"/>
+							<field name="ccgthqt"/>
+							<field name="ccgcxtj"/>
+							<field name="ccgdhlx"/>
+							<field name="clsd"/>
+						</group>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancemobilereportori_tree" model="ir.ui.view">
+            <field name="name">hr.performancemobilereportori.tree</field>
+            <field name="model">hr.performancemobilereportori</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancemobilereportori">
+                    <field name="teller_num"/>
+					<field name="teller_name"/>
+					<field name="role"/>
+					<field name="ywzhs"/>
+					<field name="ywbs"/>
+					<field name="zrwxzs"/>
+					<field name="cctwzhs"/>
+					<field name="ccywzl"/>
+					<field name="cczrwxzs"/>
+					<field name="lrhzs"/>
+					<field name="lrzjs"/>
+					<field name="ccs"/>
+					<field name="tjyxmhs"/>
+					<field name="cwl"/>
+					<field name="zql"/>
+					<field name="yxmhl"/>
+					<field name="jjgtg"/>
+					<field name="jjgbtg"/>
+					<field name="jjgdqrdbj"/>
+					<field name="dhlxgtg"/>
+					<field name="dhlxgbtg"/>
+					<field name="dhlxgbj"/>
+					<field name="ccgthqt"/>
+					<field name="ccgcxtj"/>
+					<field name="ccgdhlx"/>
+					<field name="clsd"/>
+                </tree>
+            </field>
+       </record>
+	   
+	 <record id="hr_performancebranchreportori_form" model="ir.ui.view">
+        <field name="name">hr.performancebranchreportori.form</field>
+        <field name="model">hr.performancebranchreportori</field>
+        <field name="arch" type="xml">
+            <form string="hr performancebranchreportori Form">
+                <sheet>
+					<group>
+						<group>
+							<field name="teller_num"/>
+							<field name="teller_name"/>
+							<field name="role"/>
+							<field name="ywzhs"/>
+							<field name="ywzl"/>
+							<field name="lrhzs"/>
+							<field name="lrzjs"/>
+							<field name="lrccs"/>
+							<field name="tjyxmh"/>
+							<field name="lrcwl"/>
+							<field name="lrzql"/>
+						</group>
+						<group>
+							<field name="lrdhl"/>
+							<field name="shdhs"/>
+							<field name="ythqtdhs"/>
+							<field name="rqshdhs"/>
+							<field name="jeshdhs"/>
+							<field name="skrshdhs"/>
+							<field name="fkrshdhs"/>
+							<field name="bsshdhs"/>
+							<field name="shdhl"/>
+							
+						</group>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancebranchreportori_tree" model="ir.ui.view">
+            <field name="name">hr.performancebranchreportori.tree</field>
+            <field name="model">hr.performancebranchreportori</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancebranchreportori">
+                    <field name="teller_num"/>
+					<field name="teller_name"/>
+					<field name="role"/>
+					<field name="ywzhs"/>
+					<field name="ywzl"/>
+					<field name="lrhzs"/>
+					<field name="lrzjs"/>
+					<field name="lrccs"/>
+					<field name="tjyxmh"/>
+					<field name="lrcwl"/>
+					<field name="lrzql"/>
+					<field name="lrdhl"/>
+					<field name="shdhs"/>
+					<field name="ythqtdhs"/>
+					<field name="rqshdhs"/>
+					<field name="jeshdhs"/>
+					<field name="skrshdhs"/>
+					<field name="fkrshdhs"/>
+					<field name="bsshdhs"/>
+					<field name="shdhl"/>
+                </tree>
+            </field>
+       </record>  
+	   
+	   <record id="hr_performancebranchmobilereportori_form" model="ir.ui.view">
+        <field name="name">hr.performancebranchmobilereportori.form</field>
+        <field name="model">hr.performancebranchmobilereportori</field>
+        <field name="arch" type="xml">
+            <form string="hr performancebranchmobilereportori Form">
+                <sheet>
+					<group>
+						<group>
+							<field name="teller_num"/>
+							<field name="teller_name"/>
+							<field name="role"/>
+							<field name="ywzhs"/>
+							<field name="ywbs"/>
+							<field name="zrwxzs"/>
+							<field name="lrhzs"/>
+							<field name="lrzjs"/>
+							<field name="lrccs"/>
+							<field name="tjyxmhs"/>
+							<field name="lrcwl"/>
+							<field name="lrzql"/>
+							<field name="yxmhl"/>
+						</group>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancebranchmobilereportori_tree" model="ir.ui.view">
+            <field name="name">hr.performancebranchmobilereportori.tree</field>
+            <field name="model">hr.performancebranchmobilereportori</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancebranchmobilereportori">
+                    <field name="teller_num"/>
+					<field name="teller_name"/>
+					<field name="role"/>
+					<field name="ywzhs"/>
+					<field name="ywbs"/>
+					<field name="zrwxzs"/>
+					<field name="lrhzs"/>
+					<field name="lrzjs"/>
+					<field name="lrccs"/>
+					<field name="tjyxmhs"/>
+					<field name="lrcwl"/>
+					<field name="lrzql"/>
+					<field name="yxmhl"/>
+                </tree>
+            </field>
+       </record>
+	   
+	   
+	    <record id="hr_performanceroleori_form" model="ir.ui.view">
+        <field name="name">hr.performanceroleori.form</field>
+        <field name="model">hr.performanceroleori</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceroleori Form">
+                <sheet>
+					<group>
+							<field name="work_num"/>
+							<field name="teller_num"/>
+							<field name="name"/>
+							<field name="work_center"/>
+							<field name="work_group"/>
+							<field name="quarters"/>
+							<field name="role"/>
+							<field name="role1"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performanceroleori_tree" model="ir.ui.view">
+            <field name="name">hr.performanceroleori.tree</field>
+            <field name="model">hr.performanceroleori</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceroleori">
+                    <field name="work_num"/>
+					<field name="teller_num"/>
+					<field name="name"/>
+					<field name="work_center"/>
+					<field name="work_group"/>
+					<field name="quarters"/>
+					<field name="role"/>
+					<field name="role1"/>
+                </tree>
+            </field>
+       </record>
+	   
+	   
+	    <record id="hr_performancebystandardori_form" model="ir.ui.view">
+        <field name="name">hr.performancebystandardori.form</field>
+        <field name="model">hr.performancebystandardori</field>
+        <field name="arch" type="xml">
+            <form string="hr performancebystandardori Form">
+                <sheet>
+					<group>
+							<field name="work_num"/>
+							<field name="name"/>
+							<field name="quarters"/>
+							<field name="quarters_date"/>
+							<field name="work_center"/>
+							<field name="work_group"/>
+							<field name="kpi"/>
+							<field name="kpi_param"/>
+							<field name="standard_bonus"/>
+							<field name="remark"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancebystandardori_tree" model="ir.ui.view">
+            <field name="name">hr.performancebystandardori.tree</field>
+            <field name="model">hr.performancebystandardori</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancebystandardori">
+                    <field name="work_num"/>
+							<field name="name"/>
+							<field name="quarters"/>
+							<field name="quarters_date"/>
+							<field name="work_center"/>
+							<field name="work_group"/>
+							<field name="kpi"/>
+							<field name="kpi_param"/>
+							<field name="standard_bonus"/>
+							<field name="remark"/>
+                </tree>
+            </field>
+       </record>
+	   
+	   
+	   
+	   
+  
+  <record id="hr_performancelurushenheparameter_form" model="ir.ui.view">
+        <field name="name">hr.performancelurushenheparameter.form</field>
+        <field name="model">hr.performancelurushenheparameter</field>
+        <field name="arch" type="xml">
+            <form string="hr performancelurushenheparameter Form">
+                <sheet>
+					<group>
+							<field name="quarters"/>
+							<field name="parameter_name"/>
+							<field name="daily_quantity"/>
+							
+							<field name="quantity"/>
+							<field name="unit_price"/>
+							<field name="price_add_minus"/>
+
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancelurushenheparameter_tree" model="ir.ui.view">
+            <field name="name">hr.performancelurushenheparameter.tree</field>
+            <field name="model">hr.performancelurushenheparameter</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancelurushenheparameter">
+                   <field name="quarters"/>
+							<field name="parameter_name"/>
+							<field name="daily_quantity"/>
+						
+							<field name="quantity"/>
+							<field name="unit_price"/>
+							<field name="price_add_minus"/>
+                </tree>
+            </field>
+       </record>
+  
+  <record id="hr_performanceparameter_form" model="ir.ui.view">
+        <field name="name">hr.performanceparameter.form</field>
+        <field name="model">hr.performanceparameter</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceparameter Form">
+                <sheet>
+					<group>
+							<field name="quarters"/>
+							<field name="jjfs"/>
+							<field name="role"/>
+							<field name="parameter_name"/>
+							<field name="parameter_valuex"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performanceparameter_tree" model="ir.ui.view">
+            <field name="name">hr.performanceparameter.tree</field>
+            <field name="model">hr.performanceparameter</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceparameter">
+                    <field name="quarters"/>
+					<field name="jjfs"/>
+					<field name="role"/>
+					<field name="parameter_name"/>
+					<field name="parameter_valuex"/>
+						
+                </tree>
+            </field>
+       </record>
+  
+  
+  <record id="hr_performanceplusminus_form" model="ir.ui.view">
+        <field name="name">hr.performanceplusminus.form</field>
+        <field name="model">hr.performanceplusminus</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceplusminus Form">
+                <sheet>
+					<group>
+							<field name="teller_name"/>
+							<field name="work_num"/>
+							<field name="work_group"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performanceplusminus_tree" model="ir.ui.view">
+            <field name="name">hr.performanceplusminus.tree</field>
+            <field name="model">hr.performanceplusminus</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceplusminus">
+                    <field name="teller_name"/>
+							<field name="work_num"/>
+							<field name="work_group"/>
+						
+                </tree>
+            </field>
+       </record>
+  
+  
+  <record id="hr_performanceyxdw_form" model="ir.ui.view">
+        <field name="name">hr.performanceyxdw.form</field>
+        <field name="model">hr.performanceyxdw</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceyxdw Form">
+                <sheet>
+					<group>
+							<field name="teller_num"/>
+							<field name="teller_name"/>
+							<field name="role"/>
+							<field name="ywzhs"/>
+							<field name="yxdwywzl"/>
+							<field name="hzlzhjh"/>
+							<field name="qtywlx"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performanceyxdw_tree" model="ir.ui.view">
+            <field name="name">hr.performanceyxdw.tree</field>
+            <field name="model">hr.performanceyxdw</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceyxdw">
+                    <field name="teller_num"/>
+							<field name="teller_name"/>
+							<field name="role"/>
+							<field name="ywzhs"/>
+							<field name="yxdwywzl"/>
+							<field name="hzlzhjh"/>
+							<field name="qtywlx"/>
+						
+                </tree>
+            </field>
+       </record>
+  
+  
+  
+   <record id="hr_performancetele_form" model="ir.ui.view">
+        <field name="name">hr.performancetele.form</field>
+        <field name="model">hr.performancetele</field>
+        <field name="arch" type="xml">
+            <form string="hr performancetele Form">
+                <sheet>
+					<group>
+							<field name="teller_name"/>
+							<field name="role"/>
+							<field name="ywzhs"/>
+							<field name="ywzl"/>
+							<field name="hcywl"/>
+							<field name="hrywl"/>
+							<field name="bjywhshywl"/>
+							<field name="dyhbjywhshywl"/>
+							<field name="yxdw"/>
+							<field name="hzlzhjh"/>
+							<field name="zrwxzs"/>
+							<field name="wjtdhgs"/>
+							<field name="jtdhgs"/>
+							<field name="jtdhzsc"/>
+							<field name="thgs"/>
+							<field name="pjthsc"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancetele_tree" model="ir.ui.view">
+            <field name="name">hr.performancetele.tree</field>
+            <field name="model">hr.performancetele</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancetele">
+                    <field name="teller_name"/>
+							<field name="role"/>
+							<field name="ywzhs"/>
+							<field name="ywzl"/>
+							<field name="hcywl"/>
+							<field name="hrywl"/>
+							<field name="bjywhshywl"/>
+							<field name="dyhbjywhshywl"/>
+							<field name="yxdw"/>
+							<field name="hzlzhjh"/>
+							<field name="zrwxzs"/>
+							<field name="wjtdhgs"/>
+							<field name="jtdhgs"/>
+							<field name="jtdhzsc"/>
+							<field name="thgs"/>
+							<field name="pjthsc"/>
+						
+                </tree>
+            </field>
+       </record>
+  
+ 
+  
+  <record id="hr_performancebonustotal_form" model="ir.ui.view">
+        <field name="name">hr.performancebonustotal.form</field>
+        <field name="model">hr.performancebonustotal</field>
+        <field name="arch" type="xml">
+            <form string="hr performancebonustotal Form">
+                <sheet>
+					<group>
+							<field name="teller_num"/>
+							<field name="work_num"/>
+							<field name="teller_name"/>
+							<field name="quarters"/>
+							<field name="role"/>
+							<field name="group"/>
+							<field name="identity"/>
+							<field name="jjjsz"/>
+							<field name="qttz"/>
+							<field name="jxjjxj"/>
+							<field name="jljkzj"/>
+							<field name="jljkbz"/>
+							<field name="jljkzj"/>
+							<field name="sfjj"/>
+							<field name="remark"/>
+							<field name="yjj"/>
+							<field name="bc"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancebonustotal_tree" model="ir.ui.view">
+            <field name="name">hr.performancebonustotal.tree</field>
+            <field name="model">hr.performancebonustotal</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancebonustotal">
+                   <field name="teller_num"/>
+					<field name="work_num"/>
+					<field name="teller_name"/>
+					<field name="quarters"/>
+					<field name="role"/>
+					<field name="group"/>
+					<field name="identity"/>
+					<field name="jjjsz"/>
+					<field name="qttz"/>
+					<field name="jxjjxj"/>
+					<field name="jljkzj"/>
+					<field name="jljkbz"/>
+					<field name="jljkzj"/>
+					<field name="sfjj"/>
+					<field name="remark"/>
+					<field name="yjj"/>
+					<field name="bc"/>
+                </tree>
+            </field>
+       </record>
+  
+  
+  
+  <record id="hr_performancebasicallowance_form" model="ir.ui.view">
+        <field name="name">hr.performancebasicallowance.form</field>
+        <field name="model">hr.performancebasicallowance</field>
+        <field name="arch" type="xml">
+            <form string="hr performancebasicallowance Form">
+                <sheet>
+					<group>
+							<field name="work_num"/>
+							<field name="teller_name"/>
+							<field name="group"/>
+							<field name="area"/>
+							<field name="role"/>
+							<field name="jjywsj1"/>
+							<field name="jjywsj2"/>
+                            <field name="jjywsj3"/>
+							<field name="jjywsj4"/>
+							<field name="jjywsj5"/>
+							<field name="jjywsjxj"/>
+							<field name="mxsbtywl"/>
+							<field name="btywlxj"/>
+							<field name="remark"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancebasicallowance_tree" model="ir.ui.view">
+            <field name="name">hr.performancebasicallowance.tree</field>
+            <field name="model">hr.performancebasicallowance</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancebasicallowance">
+							<field name="work_num"/>
+							<field name="teller_name"/>
+							<field name="group"/>
+							<field name="area"/>
+							<field name="role"/>
+							<field name="jjywsj1"/>
+							<field name="jjywsj2"/>
+                            <field name="jjywsj3"/>
+							<field name="jjywsj4"/>
+							<field name="jjywsj5"/>
+							<field name="jjywsjxj"/>
+							<field name="mxsbtywl"/>
+							<field name="btywlxj"/>
+							<field name="remark"/>
+                </tree>
+            </field>
+       </record>
+  
+  
+  <record id="hr_performancebasicallowancepara_form" model="ir.ui.view">
+        <field name="name">hr.performancebasicallowancepara.form</field>
+        <field name="model">hr.performancebasicallowancepara</field>
+        <field name="arch" type="xml">
+            <form string="hr performancebasicallowancepara Form">
+                <sheet>
+					<group>
+							<field name="role"/>
+							<field name="mxsbtywl"/>
+							<field name="ywldw"/>
+							<field name="remark"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performancebasicallowancepara_tree" model="ir.ui.view">
+            <field name="name">hr.performancebasicallowancepara.tree</field>
+            <field name="model">hr.performancebasicallowancepara</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancebasicallowancepara">
+                            <field name="role"/>
+							<field name="mxsbtywl"/>
+							<field name="ywldw"/>
+							<field name="remark"/>
+						
+                </tree>
+            </field>
+       </record>
+  
+  
+  
+  <record id="hr_performanceproallowance_form" model="ir.ui.view">
+        <field name="name">hr.performanceproallowance.form</field>
+        <field name="model">hr.performanceproallowance</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceproallowance Form">
+                <sheet>
+					<group>
+							<field name="work_num"/>
+							<field name="teller_name"/>
+							<field name="quarters"/>
+							<field name="role"/>
+							<field name="group"/>
+                            <field name="quarters_date"/>
+							<field name="jjywsj1"/>
+							<field name="jjywsj2"/>
+                            <field name="jjywsj3"/>
+							<field name="total_time"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performanceproallowance_tree" model="ir.ui.view">
+            <field name="name">hr.performanceproallowance.tree</field>
+            <field name="model">hr.performanceproallowance</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceproallowance">
+							<field name="work_num"/>
+							<field name="teller_name"/>
+							<field name="quarters"/>
+							<field name="role"/>
+							<field name="group"/>
+                            <field name="quarters_date"/>
+							<field name="jjywsj1"/>
+							<field name="jjywsj2"/>
+                            <field name="jjywsj3"/>
+							<field name="total_time"/>
+                </tree>
+            </field>
+       </record>
+  
+  
+  
+  
+  
+  <record id="hr_performanceproname_form" model="ir.ui.view">
+        <field name="name">hr.performanceproname.form</field>
+        <field name="model">hr.performanceproname</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceproname Form">
+                <sheet>
+					<group>
+							<field name="quarters"/>
+							<field name="ywmc"/>
+							<field name="total_time"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performanceproname_tree" model="ir.ui.view">
+            <field name="name">hr.performanceproname.tree</field>
+            <field name="model">hr.performanceproname</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceproname">
+                            <field name="quarters"/>
+							<field name="ywmc"/>
+							<field name="total_time"/>
+						
+                </tree>
+            </field>
+       </record>
+  
+  
+  
+  <record id="hr_performanceglobalparameter_form" model="ir.ui.view">
+        <field name="name">hr.performanceglobalparameter.form</field>
+        <field name="model">hr.performanceglobalparameter</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceglobalparameter Form">
+                <sheet>
+					<group>
+							<field name="parameter_name"/>
+							<field name="parameter_value"/>
+					</group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+	  <record id="hr_performanceglobalparameter_tree" model="ir.ui.view">
+            <field name="name">hr.performanceglobalparameter.tree</field>
+            <field name="model">hr.performanceglobalparameter</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceglobalparameter">
+                            <field name="parameter_name"/>
+							<field name="parameter_value"/>
+                </tree>
+            </field>
+       </record>
+  
+  
+  <record id="hr_performancebonus_search" model="ir.ui.view">
+            <field name='name'>hr.performancebonus.search</field>
+            <field name='model'>hr.performancebonus</field>
+            <field name='arch' type='xml'>
+                <search string="hr_performancebonus_search">
+                    <field name="teller_num"/>
+                    <field name="teller_name"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_user" string="By teller_name" context="{'group_by':'teller_name'}"/>
+                    </group>
+		</search> 
+            </field>
+        </record>
+  
+  
+ 
+  
+		<record id="act_hr_performanceglobalparameter" model="ir.actions.act_window">
+            <field name="name">设置全局参数(</field>
+            <field name="res_model">hr.performanceglobalparameter</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                设置全局参数(工作天数等).
+              </p>
+            </field>
+       </record>
+  
+  
+     <record id="act_hr_performancereportori" model="ir.actions.act_window">
+            <field name="name">导入总行数据处理中心绩效考核报表</field>
+            <field name="res_model">hr.performancereportori</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                导入总行数据处理中心绩效考核报表.
+              </p>
+            </field>
+       </record>
+     
+     <record id="act_hr_performancemobilereportori" model="ir.actions.act_window">
+            <field name="name">导入信移业务绩效考核报表</field>
+            <field name="res_model">hr.performancemobilereportori</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                导入信移业务绩效考核报表.
+              </p>
+            </field>
+       </record>
+	 
+	 <record id="act_hr_performancebranchreportori" model="ir.actions.act_window">
+            <field name="name">导入双中心总行数据处理中心绩效考核报表</field>
+            <field name="res_model">hr.performancebranchreportori</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                导入双中心总行数据处理中心绩效考核报表.
+              </p>
+            </field>
+       </record>
+	 
+     <record id="act_hr_performancebranchmobilereportori" model="ir.actions.act_window">
+            <field name="name">导入双中心信移业务绩效考核报表</field>
+            <field name="res_model">hr.performancebranchmobilereportori</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                导入双中心信移业务绩效考核报表.
+              </p>
+            </field>
+       </record>
+	
+	<record id="act_hr_performanceroleori" model="ir.actions.act_window">
+            <field name="name">导入角色表</field>
+            <field name="res_model">hr.performanceroleori</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                导入角色表.
+              </p>
+            </field>
+      </record>
+
+	<record id="act_hr_performancebystandardori" model="ir.actions.act_window">
+            <field name="name">导入按标准计奖岗考核</field>
+            <field name="res_model">hr.performancebystandardori</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                导入按标准计奖岗考核.
+              </p>
+            </field>
+      </record>
+	  
+	 <record id="act_hr_performancetele" model="ir.actions.act_window">
+            <field name="name">导入电联柜员业务量</field>
+            <field name="res_model">hr.performancetele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                导入电联柜员业务量.
+              </p>
+            </field>
+      </record>
+	  
+	 <record id="act_hr_performanceplusminus" model="ir.actions.act_window">
+            <field name="name">导入加扣</field>
+            <field name="res_model">hr.performanceplusminus</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                导入加扣.
+              </p>
+            </field>
+      </record>
+	  
+	  <record id="act_hr_performanceyxdw" model="ir.actions.act_window">
+            <field name="name">导入影像定位</field>
+            <field name="res_model">hr.performanceyxdw</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                导入影像定位.
+              </p>
+            </field>
+      </record>
+	  
+	   <record id="act_hr_performancelurushenheparameter" model="ir.actions.act_window">
+            <field name="name">录入审核参数</field>
+            <field name="res_model">hr.performancelurushenheparameter</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                录入审核参数.
+              </p>
+            </field>
+      </record>
+	  
+	  <record id="act_hr_performanceparameter" model="ir.actions.act_window">
+            <field name="name">计奖参数</field>
+            <field name="res_model">hr.performanceparameter</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                计奖参数.
+              </p>
+            </field>
+      </record>
+	  
+	 <record id="act_hr_performancebonus" model="ir.actions.act_window">
+            <field name="name">奖金计算</field>
+            <field name="res_model">hr.performancebonus</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+			<field name="search_view_id" ref="hr_performancebonus_search"/>
+            <field name="context">{"search_default_group_by_user":1}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                奖金计算.
+              </p>
+            </field>
+      </record>
+
+		<record id="act_hr_performancebonustotal" model="ir.actions.act_window">
+            <field name="name">奖金汇总</field>
+            <field name="res_model">hr.performancebonustotal</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+			
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                奖金汇总.
+              </p>
+            </field>
+      </record>
+      
+      <record id="act_hr_performancebasicallowance" model="ir.actions.act_window">
+            <field name="name">补业务量明细表</field>
+            <field name="res_model">hr.performancebasicallowance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                补业务量明细表.
+              </p>
+            </field>
+      </record>
+      
+	 <record id="act_hr_performancebasicallowancepara" model="ir.actions.act_window">
+            <field name="name">补业务量参数</field>
+            <field name="res_model">hr.performancebasicallowancepara</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                补业务量参数.
+              </p>
+            </field>
+      </record>
+     
+     <record id="act_hr_performanceproallowance" model="ir.actions.act_window">
+            <field name="name">专业化业务量明细表</field>
+            <field name="res_model">hr.performanceproallowance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                专业化业务量明细表.
+              </p>
+            </field>
+      </record>
+      
+      <record id="act_hr_performanceproname" model="ir.actions.act_window">
+            <field name="name">专业化业务</field>
+            <field name="res_model">hr.performanceproname</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                专业化业务.
+              </p>
+            </field>
+      </record>
+     
+     
+	<menuitem
+        id="menu_performance_title"
+        name="人事绩效"
+        web_icon="change_request,static/description/icon.png"
+        groups="base.group_hr_user"
+        sequence="110"/>
+	
+	<menuitem id="menu_hr_performance" name="人员绩效相关" parent="menu_performance_title"
+        sequence="100" />
+		<menuitem action="act_hr_performancebonus" name="奖金计算" id="menu_act_hr_performancebonus" parent="menu_hr_performance"
+        sequence="101"/>
+		
+		
+			 
+	<menuitem id="menu_hr_performance_operation" name="操作" parent="menu_performance_title"
+        sequence="200" />
+		 
+			 
+	<menuitem id="menu_hr_performance_setup" name="设置" parent="menu_performance_title"
+        sequence="400" />
+	<menuitem action="act_hr_performanceglobalparameter" name="设置全局参数" id="menu_act_hr_performanceglobalparameter" parent="menu_hr_performance_setup"
+             sequence="401"/>
+		
+	<menuitem action="act_hr_performancelurushenheparameter" name="录入审核计奖参数" id="menu_act_hr_performancelurushenheparameter" parent="menu_hr_performance_setup"
+             sequence="402"/>	
+	<menuitem action="act_hr_performanceparameter" name="计奖参数" id="menu_act_hr_performanceparameter" parent="menu_hr_performance_setup"
+             sequence="403"/> 
+	
+	<menuitem id="menu_hr_performance_ori" name="原始报表导入" parent="menu_performance_title"
+        sequence="500" />	
+	<menuitem action="act_hr_performanceroleori" name="导入角色表" id="menu_act_hr_performanceroleori" parent="menu_hr_performance_ori"
+         sequence="501"/>          
+	<menuitem action="act_hr_performancereportori" name="导入总行数据处理中心绩效考核报表" id="menu_act_hr_performancereportori" parent="menu_hr_performance_ori"
+         sequence="502"/>
+    <menuitem action="act_hr_performancemobilereportori" name="导入信移业务绩效考核报表" id="menu_act_hr_performancemobilereportori" parent="menu_hr_performance_ori"
+         sequence="503"/>    
+    <menuitem action="act_hr_performancebranchreportori" name="导入双中心总行数据处理中心绩效考核报表" id="menu_act_hr_performancebranchreportori" parent="menu_hr_performance_ori"
+         sequence="504"/>     
+    <menuitem action="act_hr_performancebranchmobilereportori" name="导入双中心信移业务绩效考核报表" id="menu_act_hr_performancebranchmobilereportori" parent="menu_hr_performance_ori"
+         sequence="505"/>     
+    <menuitem action="act_hr_performancetele" name="导入电联柜员业务量" id="menu_act_hr_performancetele" parent="menu_hr_performance_ori"
+         sequence="506"/>      
+	<menuitem action="act_hr_performanceplusminus" name="导入加扣" id="menu_act_hr_performanceplusminus" parent="menu_hr_performance_ori"
+         sequence="507"/> 	 
+	<menuitem action="act_hr_performanceyxdw" name="导入影像定位" id="menu_act_hr_performanceyxdw" parent="menu_hr_performance_ori"
+         sequence="508"/>		
+	<menuitem action="act_hr_performancebystandardori" name="导入按标准计奖岗考核" id="menu_act_hr_performancebystandardori" parent="menu_hr_performance_ori"
+         sequence="509"/>
+		 
+	<menuitem action="act_hr_performancebasicallowance" name="补业务量明细表" id="menu_act_hr_performancebasicallowance" parent="menu_hr_performance_ori"
+         sequence="510"/>	 
+	<menuitem action="act_hr_performancebasicallowancepara" name="补业务量参数" id="menu_act_hr_performancebasicallowancepara" parent="menu_hr_performance_ori"
+         sequence="511"/>	 
+	<menuitem action="act_hr_performanceproallowance" name="专业化业务量明细表" id="menu_act_hr_performanceproallowance" parent="menu_hr_performance_ori"
+         sequence="512"/>
+	<menuitem action="act_hr_performanceproname" name="专业化业务名称" id="menu_act_hr_performanceproname" parent="menu_hr_performance_ori"
+         sequence="513"/>
+		 
+     <menuitem id="menu_hr_performance_field" name="数据库" parent="menu_performance_title"
+        sequence="600" />    
+       
+    <menuitem id="menu_hr_performance_report" name="报表" parent="menu_performance_title"
+        sequence="700" /> 
+		
+		
+		
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_longsickleavememberinfo_user,hr.longsickleavememberinfo.user,model_hr_longsickleavememberinfo,base.group_hr_user,1,1,1,1
+access_hr_dimissiondetail_user,hr.dimissiondetail.user,model_hr_dimissiondetail,base.group_hr_user,1,1,1,1
+access_hr_trainingcycle_user,hr.trainingcycle.user,model_hr_trainingcycle,base.group_hr_user,1,1,1,1
+access_hr_memberneed_user,hr.memberneed.user,model_hr_memberneed,base.group_hr_user,1,1,1,1
+access_hr_memberinjob_user,hr.memberinjob.user,model_hr_memberinjob,base.group_hr_user,1,1,1,1

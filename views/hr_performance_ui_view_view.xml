@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- View -->
+        <record id="view_view_form_new" model="ir.ui.view">
+            <field name="model">ir.ui.view</field>
+            <field name="arch" type="xml">
+                <form string="Views">
+                  <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="type"/>
+                            <field name="model"/>
+                            <field name="priority"/>
+                        </group>
+                        <group>
+                            <field name="field_parent"/>
+                            <field name="inherit_id"/>
+                            <field name="mode"/>
+                            <field name="model_data_id"/>
+                            <field name="xml_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Architecture">
+                            <button type="object" name="open_translations"
+                                string="Edit Translations" class="oe_link oe_right"/>
+                            <field name="arch_base"/>
+                        </page>
+                        <page string="Groups">
+                            <field name="groups_id"/>
+                        </page>
+                        <page name="inherit_children" string="Inherited Views">
+                            <field name="inherit_children_ids" context="{'default_model':model,'default_type':type,'default_inherit_id':active_id,'default_mode':'extension'}">
+                                <tree>
+                                    <field name="priority"/>
+                                    <field name="name"/>
+                                    <field name="xml_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_view_tree_new" model="ir.ui.view">
+            <field name="model">ir.ui.view</field>
+            <field name="arch" type="xml">
+                <tree string="Views">
+                    <field name="priority" string="Sequence"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="model"/>
+                    <field name="xml_id"/>
+                    <field name="inherit_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_view_search_new" model="ir.ui.view">
+            <field name="model">ir.ui.view</field>
+            <field name="arch" type="xml">
+                <search string="Views">
+                    <field name="name" filter_domain="['|', '|', ('name','ilike',self), ('model','ilike',self), ('model_data_id','ilike',self)]" string="View"/>
+                    <filter string="Active" name="active" domain="[('active', '=',True),('model', 'like','hr%')]"/>
+                    <filter string="Inactive" domain="[('active', '=',False)]"/>
+                    <separator/>
+                    <filter string="Form" domain="[('type', '=','form')]"/>
+                    <filter string="Tree" domain="[('type', '=', 'tree')]"/>
+                    <filter string="Kanban" domain="[('type', '=', 'kanban')]"/>
+                    <filter string="Search" domain="[('type', '=', 'search')]"/>
+                    <filter string="QWeb" domain="[('type', '=', 'qweb')]"/>
+                    <field name="model"/>
+                    <field name="inherit_id"/>
+                    <field name="type"/>
+                    <field name="arch_db" string="View Architecture"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Object" domain="[]" context="{'group_by':'model'}"/>
+                        <filter string="Type" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Inherit" domain="[]" context="{'group_by':'inherit_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+<!--         <record id="action_ui_view" model="ir.actions.act_window">
+            <field name="name">Views</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ir.ui.view</field>
+            <field name="view_id" ref="view_view_tree"/>
+            <field name="context">{'search_default_active': 1}</field>
+            <field name="help">Views allows you to personalize each view of Odoo. You can add new fields, move fields, rename them or delete the ones that you do not need.</field>
+        </record> -->
+
+
+		
+		<record id="act_hr_performance_ui_view" model="ir.actions.act_window">
+            <field name="name">奖金计算表界面修改</field>
+			<!-- <field name="type">ir.actions.act_window</field> -->
+            <field name="res_model">ir.ui.view</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+			
+			
+			<field name="context">{'search_default_active':1}</field>
+            <field name="help" type="html">
+			
+              <p class="oe_view_nocontent_create">
+                奖金计算表界面修改.
+              </p>
+            </field>
+      </record>
+
+	<menuitem action="act_hr_performance_ui_view" name="奖金计算表界面修改" id="menu_act_hr_performance_ui_view" parent="menu_hr_performance_field"
+         sequence="602"/>  
+		
+		
+
+    </data>
+</openerp>
