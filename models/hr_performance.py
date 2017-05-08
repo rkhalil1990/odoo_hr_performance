@@ -7,56 +7,48 @@ from datetime import date, datetime, timedelta
 import calendar
 
 
-
 class HrPerformance(models.Model):
     _name = 'hr.performance'
-    _description = 'Hr Performance' 
+    _description = 'Hr Performance'
     _order = 'id'
 
-    
-class HrPerformanceBonus(models.Model):#奖金计算new
+
+class HrPerformanceBonus(models.Model):  # 奖金计算new
     _name = 'hr.performancebonus'
-    _description = 'Hr Performance Bonus' 
-    _order = 'id' 
-    
+    _description = 'Hr Performance Bonus'
+    _order = 'id'
+
     teller_num = fields.Char(u'柜员号')
     teller_name = fields.Char(u'柜员名')
     identity = fields.Char(u'身份')
-    quarters= fields.Char(u'岗位')
-    quarters_date= fields.Date(u'当前岗位上岗日期')
-    group= fields.Char(u'组别')
-    role= fields.Char(u'角色')
-    role1= fields.Char(u'角色1')    
-    ywlx = fields.Char(u'业务类型') 	
-    ywzhs = fields.Float(u'业务总耗时') 	
-    ywzl = fields.Float(u'业务总量') 	
-    hzs = fields.Float(u'汉字数') 	
+    quarters = fields.Char(u'岗位')
+    quarters_date = fields.Date(u'当前岗位上岗日期')
+    group = fields.Char(u'组别')
+    role = fields.Char(u'角色')
+    role1 = fields.Char(u'角色1')
+    ywlx = fields.Char(u'业务类型')
+    ywzhs = fields.Float(u'业务总耗时')
+    ywzl = fields.Float(u'业务总量')
+    hzs = fields.Float(u'汉字数')
     zjs = fields.Float(u'字节数')
     ccs = fields.Float(u'差错数')
-    tjyxmh = fields.Float(u'提交影像模糊')	
-    cwl = fields.Float(u'错误率')	
-    zql = fields.Float(u'正确率')	
-    dhl = fields.Float(u'打回率')	
+    tjyxmh = fields.Float(u'提交影像模糊')
+    cwl = fields.Float(u'错误率')
+    zql = fields.Float(u'正确率')
+    dhl = fields.Float(u'打回率')
     jbzjs = fields.Float(u'基本字节数')
     gwxs = fields.Float(u'岗位系数')
-    zshzjs = fields.Float(u'折算后字节数')	
-    jjdj = fields.Float(u'计奖单价')	
+    zshzjs = fields.Float(u'折算后字节数')
+    jjdj = fields.Float(u'计奖单价')
     sskcs = fields.Float(u'速算扣除数')
-    khxs = fields.Float(u'考核系数')	
-    kj = fields.Float(u'扣奖')	
+    khxs = fields.Float(u'考核系数')
+    kj = fields.Float(u'扣奖')
     jj = fields.Float(u'奖金')
-    ranking =  fields.Integer(u'排名')   
+    ranking = fields.Integer(u'排名')
     ratio = fields.Float(u'整体系数')
     manager_ratio = fields.Float(u'作业经理系数')
     complete_rate = fields.Float(u'完成率')
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 class HrPerformanceReportOri(models.Model):#总行数据处理中心绩效考核报表
     _name = 'hr.performancereportori'
@@ -266,48 +258,48 @@ class HrPerformanceLuRuShenHeParameter(models.Model):#录入审核计奖参数
     quarters= fields.Char(u'岗位')
     parameter_name=fields.Char(u'参数名称')    
     daily_quantity=fields.Char(u'日均字节/业务量') 
-    #work_day=fields.Float(u'工作日',related='hr.performanceglobalparameter.parameter_value') 
-    quantity=fields.Integer(u'字节/业务量',compute='_compute_quantity',store=True) 
-    unit_price=fields.Float(u'单价',digits=(5, 5))
-    price_add_minus=fields.Float(u'速算扣除',compute='_compute_price_add_minus',store=True)
+    work_day=fields.Float(u'工作日') 
+    quantity=fields.Char(u'字节/业务量') 
+    unit_price=fields.Char(u'单价',digits=(5, 5))
+    price_add_minus=fields.Char(u'速算扣除')
     
     # @api.onchange('work_day')
     # def _onchange_work_day(self):
         # for record in self.env['hr.performancelurushenheparameter'].search([]): 
             # record.write({'work_day': self.work_day})
-    @api.one           
-    @api.depends('daily_quantity')
-    def _compute_quantity(self):
-        work_day=self.env['hr.performanceglobalparameter'].search([('parameter_name','=','工作日')])
-        self.quantity=int(self.daily_quantity)*int(work_day.parameter_value)
+    # @api.one           
+    # @api.depends('daily_quantity')
+    # def _compute_quantity(self):
+    #     work_day=self.env['hr.performanceglobalparameter'].search([('parameter_name','=','工作日')])
+    #     self.quantity=int(self.daily_quantity)*int(work_day.parameter_value)
     
-    @api.one
-    @api.depends('quarters','quantity','unit_price')
-    def _compute_price_add_minus(self):
-        if self.quarters==u"录入岗":
-            if self.quantity==0:
-                self.price_add_minus=0.00
-            else:
-                performancelurushenheparameters=self.env['hr.performancelurushenheparameter'].search([('quarters','=','录入岗')])
-                l1=[]
-                for p in performancelurushenheparameters:
-                    l1.append([p.daily_quantity,p.quantity,p.unit_price])
-                    self.price_add_minus=p.daily_quantity
-                l1.sort(lambda x,y:cmp(x[0],y[0]))
-                if self.daily_quantity==l1[1][0]:
-                    self.price_add_minus= float(l1[1][1])* float(l1[1][2]-l1[0][2])  
-                else:
-                    self.price_add_minus=float(l1[1][1]-l1[0][1])* float(l1[2][2]-l1[0][2])+float(l1[2][1]-l1[1][1])* float(l1[2][2]-l1[1][2])
-        elif self.quarters==u"审核岗":
-            if self.quantity==0:
-                self.price_add_minus=0.00
-            else:
-                performancelurushenheparameters=self.env['hr.performancelurushenheparameter'].search([('quarters','=','审核岗')])
-                l1=[]
-                for p in performancelurushenheparameters:
-                    l1.append([p.daily_quantity,p.quantity,p.unit_price])
-                l1.sort(lambda x,y:cmp(x[0],y[0]))
-                self.price_add_minus= float(l1[1][1])* float(l1[1][2]-l1[0][2])
+    # @api.one
+    # @api.depends('quarters','quantity','unit_price')
+    # def _compute_price_add_minus(self):
+    #     if self.quarters==u"录入岗":
+    #         if self.quantity==0:
+    #             self.price_add_minus=0.00
+    #         else:
+    #             performancelurushenheparameters=self.env['hr.performancelurushenheparameter'].search([('quarters','=','录入岗')])
+    #             l1=[]
+    #             for p in performancelurushenheparameters:
+    #                 l1.append([p.daily_quantity,p.quantity,p.unit_price])
+    #                 self.price_add_minus=p.daily_quantity
+    #             l1.sort(lambda x,y:cmp(x[0],y[0]))
+    #             if self.daily_quantity==l1[1][0]:
+    #                 self.price_add_minus= float(l1[1][1])* float(l1[1][2]-l1[0][2])  
+    #             else:
+    #                 self.price_add_minus=float(l1[1][1]-l1[0][1])* float(l1[2][2]-l1[0][2])+float(l1[2][1]-l1[1][1])* float(l1[2][2]-l1[1][2])
+    #     elif self.quarters==u"审核岗":
+    #         if self.quantity==0:
+    #             self.price_add_minus=0.00
+    #         else:
+    #             performancelurushenheparameters=self.env['hr.performancelurushenheparameter'].search([('quarters','=','审核岗')])
+    #             l1=[]
+    #             for p in performancelurushenheparameters:
+    #                 l1.append([p.daily_quantity,p.quantity,p.unit_price])
+    #             l1.sort(lambda x,y:cmp(x[0],y[0]))
+    #             self.price_add_minus= float(l1[1][1])* float(l1[1][2]-l1[0][2])
 
 
 class HrPerformanceTele(models.Model):#电联

@@ -33,6 +33,8 @@
 							<field name="zjs"/>
 							<field name="ccs"/>
 							<field name="tjyxmh"/>
+                     </group>
+                     <group>
 							<field name="cwl"/>
 							<field name="zql"/>
 							<field name="dhl"/>
@@ -511,7 +513,7 @@
 							<field name="quarters"/>
 							<field name="parameter_name"/>
 							<field name="daily_quantity"/>
-							
+							<field name="work_day"/>
 							<field name="quantity"/>
 							<field name="unit_price"/>
 							<field name="price_add_minus"/>
@@ -530,7 +532,7 @@
                    <field name="quarters"/>
 							<field name="parameter_name"/>
 							<field name="daily_quantity"/>
-						
+						    <field name="work_day"/>  
 							<field name="quantity"/>
 							<field name="unit_price"/>
 							<field name="price_add_minus"/>
