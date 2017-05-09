@@ -49,6 +49,43 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
     manager_ratio = fields.Float(u'作业经理系数')
     complete_rate = fields.Float(u'完成率')
 
+
+class HrPerformanceBonus(models.Model):  # 奖金计算new
+    _name = 'hr.performancebonus'
+    _description = 'Hr Performance Bonus'
+    _order = 'id'
+
+    teller_num = fields.Char(u'柜员号')
+    teller_name = fields.Char(u'柜员名')
+    identity = fields.Char(u'身份')
+    quarters = fields.Char(u'岗位')
+    quarters_date = fields.Date(u'当前岗位上岗日期')
+    group = fields.Char(u'组别')
+    role = fields.Char(u'角色')
+    role1 = fields.Char(u'角色1')
+    ywlx = fields.Char(u'业务类型')
+    ywzhs = fields.Float(u'业务总耗时')
+    ywzl = fields.Float(u'业务总量')
+    hzs = fields.Float(u'汉字数')
+    zjs = fields.Float(u'字节数')
+    ccs = fields.Float(u'差错数')
+    tjyxmh = fields.Float(u'提交影像模糊')
+    cwl = fields.Float(u'错误率')
+    zql = fields.Float(u'正确率')
+    dhl = fields.Float(u'打回率')
+    jbzjs = fields.Float(u'基本字节数')
+    gwxs = fields.Float(u'岗位系数')
+    zshzjs = fields.Float(u'折算后字节数')
+    jjdj = fields.Float(u'计奖单价')
+    sskcs = fields.Float(u'速算扣除数')
+    khxs = fields.Float(u'考核系数')
+    kj = fields.Float(u'扣奖')
+    jj = fields.Float(u'奖金')
+    ranking = fields.Integer(u'排名')
+    ratio = fields.Float(u'整体系数')
+    manager_ratio = fields.Float(u'作业经理系数')
+    complete_rate = fields.Float(u'完成率')
+
     
 class HrPerformanceReportOri(models.Model):#总行数据处理中心绩效考核报表
     _name = 'hr.performancereportori'
@@ -140,7 +177,7 @@ class HrPerformanceBranchReportOri(models.Model):#双中心总行数据处理中
     shdhl=fields.Float(u'审核打回率')
      
     
-class HrPerformanceBranchMobileReportOri(models.Model):#双中心信移业务绩效考核报表
+class HrPerformanceBranchMobileReportOri(models.Model):  # 双中心信移业务绩效考核报表
     _name = 'hr.performancebranchmobilereportori'
     _description = 'Hr Performance Branch Mobile Report Ori' 
     _order = 'id'
@@ -159,7 +196,7 @@ class HrPerformanceBranchMobileReportOri(models.Model):#双中心信移业务绩
     lrzql=fields.Float(u'录入正确率')
     yxmhl=fields.Float(u'影像模糊率')
      
-class HrPerformanceRoleOri(models.Model):#角色表
+class HrPerformanceRoleOri(models.Model):  # 角色表
     _name = 'hr.performanceroleori'
     _description = 'Hr Performance Role Ori' 
     _order = 'id'    
@@ -218,7 +255,7 @@ class HrPerformanceSpecialistPortfolioCalculation(models.Model):#专业化岗位
     
     
     
-class HrPerformanceGlobalParameter(models.Model):#全局参数
+class HrPerformanceGlobalParameter(models.Model): # 岗位系数
     _name = 'hr.performanceglobalparameter'
     _description = 'Hr Performance Global Parameter' 
     _order = 'id'   
@@ -227,15 +264,18 @@ class HrPerformanceGlobalParameter(models.Model):#全局参数
     parameter_value=fields.Float(u'参数值')
     
     
+class HrPerformanceGoal(models.Model):  # 正确放弃系数
+    _name = 'hr.performancegoal'
+    _description = 'Hr Performance Goal' 
+    _order = 'id'
     
+    role = fields.Char(u'角色')   
+    role1 = fields.Char(u'角色1') 
+    zql_goal = fields.Float(u'正确率目标',  digits=(5, 5))
+    fql_goal = fields.Float(u'放弃率目标',  digits=(5, 5))
     
-    
-    
-    
-    
-    
-    
-class HrPerformanceParameter(models.Model):#计奖参数   
+
+class HrPerformanceParameter(models.Model):  # 计奖参数   
     _name = 'hr.performanceparameter'
     _description = 'Hr Performance Parameter' 
     _order = 'id'     
@@ -256,11 +296,12 @@ class HrPerformanceLuRuShenHeParameter(models.Model):#录入审核计奖参数
     _order = 'id'     
   
     quarters= fields.Char(u'岗位')
+    role= fields.Char(u'角色')
     parameter_name=fields.Char(u'参数名称')    
     daily_quantity=fields.Char(u'日均字节/业务量') 
     work_day=fields.Float(u'工作日') 
     quantity=fields.Char(u'字节/业务量') 
-    unit_price=fields.Char(u'单价',digits=(5, 5))
+    unit_price=fields.Char(u'单价', digits=(5, 5))
     price_add_minus=fields.Char(u'速算扣除')
     
     # @api.onchange('work_day')

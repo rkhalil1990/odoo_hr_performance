@@ -511,6 +511,7 @@
                 <sheet>
 					<group>
 							<field name="quarters"/>
+                            <field name="role"/>
 							<field name="parameter_name"/>
 							<field name="daily_quantity"/>
 							<field name="work_day"/>
@@ -529,8 +530,10 @@
             <field name="model">hr.performancelurushenheparameter</field>
             <field name="arch" type="xml">
                 <tree string="Hr performancelurushenheparameter">
-                   <field name="quarters"/>
+                           <field name="quarters"/>
+                           <field name="role"/>
 							<field name="parameter_name"/>
+                            
 							<field name="daily_quantity"/>
 						    <field name="work_day"/>  
 							<field name="quantity"/>
@@ -945,6 +948,37 @@
             </field>
        </record>
   
+    <record id="hr_performancegoal_form" model="ir.ui.view">
+        <field name="name">hr.performancegoal.form</field>
+        <field name="model">hr.performancegoal</field>
+        <field name="arch" type="xml">
+            <form string="hr performancegoal Form">
+                <sheet>
+                    <group>
+                            <field name="role"/>
+                            <field name="role1"/>
+                            <field name="zql_goal"/>
+                            <field name="fql_goal"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performancegoal_tree" model="ir.ui.view">
+            <field name="name">hr.performancegoal.tree</field>
+            <field name="model">hr.performancegoal</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancegoal">
+                            <field name="role"/>
+                            <field name="role1"/>
+                            <field name="zql_goal"/>
+                            <field name="fql_goal"/>
+                </tree>
+            </field>
+       </record>
+
+
   
   <record id="hr_performancebonus_search" model="ir.ui.view">
             <field name='name'>hr.performancebonus.search</field>
@@ -964,13 +998,13 @@
  
   
 		<record id="act_hr_performanceglobalparameter" model="ir.actions.act_window">
-            <field name="name">设置全局参数(</field>
+            <field name="name">设置岗位系数(</field>
             <field name="res_model">hr.performanceglobalparameter</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field> 
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
-                设置全局参数(工作天数等).
+                设置岗位系数.
               </p>
             </field>
        </record>
@@ -1107,6 +1141,19 @@
               </p>
             </field>
       </record>
+
+      <record id="act_hr_performancegoal" model="ir.actions.act_window">
+            <field name="name">正确放弃参数</field>
+            <field name="res_model">hr.performancegoal</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                正确放弃参数.
+              </p>
+            </field>
+      </record>
+
 	  
 	 <record id="act_hr_performancebonus" model="ir.actions.act_window">
             <field name="name">奖金计算</field>
@@ -1204,13 +1251,15 @@
 			 
 	<menuitem id="menu_hr_performance_setup" name="设置" parent="menu_performance_title"
         sequence="400" />
-	<menuitem action="act_hr_performanceglobalparameter" name="设置全局参数" id="menu_act_hr_performanceglobalparameter" parent="menu_hr_performance_setup"
+	<menuitem action="act_hr_performanceglobalparameter" name="设置岗位系数" id="menu_act_hr_performanceglobalparameter" parent="menu_hr_performance_setup"
              sequence="401"/>
 		
 	<menuitem action="act_hr_performancelurushenheparameter" name="录入审核计奖参数" id="menu_act_hr_performancelurushenheparameter" parent="menu_hr_performance_setup"
              sequence="402"/>	
 	<menuitem action="act_hr_performanceparameter" name="计奖参数" id="menu_act_hr_performanceparameter" parent="menu_hr_performance_setup"
              sequence="403"/> 
+    <menuitem action="act_hr_performancegoal" name="正确放弃参数" id="menu_act_hr_performancegoal" parent="menu_hr_performance_setup"
+             sequence="404"/>         
 	
 	<menuitem id="menu_hr_performance_ori" name="原始报表导入" parent="menu_performance_title"
         sequence="500" />	
