@@ -4,7 +4,7 @@
 #
 # Order Point Method:
 #    - Order if the virtual stock of today is bellow the min of the defined order point
-#hr_performance_bonuscalculation_compute.py
+# hr_performance_bonuscalculation_compute.py
 
 from openerp import api, models
 import threading
@@ -14,57 +14,64 @@ class HrPerformanceBonusCompute(models.TransientModel):
     _name = 'hr.performance.bonus.compute'
     _description = 'HR Performancebonus Compute'
 
-
     def get_lurushenheparameter(self, quarters, daily_quantity):
         if daily_quantity < 0:
             return None
-        performancelurushenheparameter_data = self.env['hr.performancelurushenheparameter'].search([('quarters', '=', quarters)])
-        t_daily_quantity = eval(performancelurushenheparameter_data.daily_quantity)
+        performancelurushenheparameter_data = self.env[
+            'hr.performancelurushenheparameter'].search([('quarters', '=', quarters)])
+        t_daily_quantity = eval(
+            performancelurushenheparameter_data.daily_quantity)
         t_unit_price = eval(performancelurushenheparameter_data.unit_price)
-        t_price_add_minus = eval(performancelurushenheparameter_data.price_add_minus)
+        t_price_add_minus = eval(
+            performancelurushenheparameter_data.price_add_minus)
         index = len(t_daily_quantity) - 1
-        for i,v in enumerate(t_daily_quantity):
+        for i, v in enumerate(t_daily_quantity):
             if daily_quantity < v:
                 index = i - 1
                 break
         return t_unit_price[index], t_price_add_minus[index]
-
 
     @api.multi
     def performancebonus_compute(self):
         role_datas = self.env['hr.performanceroleori'].search([])
         for rd in role_datas:
             # performanceglobalparameter_datas=self.env['hr.performanceglobalparameter'].search([])  # 全局参数
-            # performanceparameter_datas = self.env['hr.performanceparameter'].search([])              # 计奖参数  
-            # performancelurushenheparameter_datas = self.env['hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数 
-            
+            # performanceparameter_datas = self.env['hr.performanceparameter'].search([])              # 计奖参数
+            # performancelurushenheparameter_datas =
+            # self.env['hr.performancelurushenheparameter'].search([])  #
+            # 录入审核计奖参数
 
-            performancereportori_datas = self.env['hr.performancereportori'].search([('teller_name', '=', rd.name)])
-            performancemobilereportori_datas = self.env['hr.performancemobilereportori'].search([('teller_name', '=', rd.name)])
-            performancebranchreportori_datas = self.env['hr.performancebranchreportori'].search([('teller_name', '=', rd.name)])
-            performancebranchmobilereportori_datas = self.env['hr.performancebranchmobilereportori'].search([('teller_name', '=', rd.name)])
-            
-            
+            performancereportori_datas = self.env[
+                'hr.performancereportori'].search([('teller_name', '=', rd.name)])
+            performancemobilereportori_datas = self.env[
+                'hr.performancemobilereportori'].search([('teller_name', '=', rd.name)])
+            performancebranchreportori_datas = self.env[
+                'hr.performancebranchreportori'].search([('teller_name', '=', rd.name)])
+            performancebranchmobilereportori_datas = self.env[
+                'hr.performancebranchmobilereportori'].search([('teller_name', '=', rd.name)])
+
             for p in performancereportori_datas:
-                jjcs = self.env['hr.performanceparameter'].search([('role', '=', rd.role)])
-                gwxs = self.env['hr.performanceglobalparameter'].search([('parameter_name', '=', rd.role1)])
+                jjcs = self.env['hr.performanceparameter'].search(
+                    [('role', '=', rd.role)])
+                gwxs = self.env['hr.performanceglobalparameter'].search(
+                    [('parameter_name', '=', rd.role1)])
 
                 performancebonusdetail = self.env['hr.performancebonus'].create({'performancebonus_id': self.id,
                                                                                  'teller_num': rd.teller_num,
-                                                                                 'teller_name':rd.name,'identity':'派遣','quarters':rd.quarters,
-                                                                                 'group':rd.work_group,'role':rd.role,'role1':rd.role1,
-                                                                                 'ywlx':p.role,'ywzhs':p.ywzhs,'ywzl':p.ywzl,
-                                                                                 'hzs':p.lrhzs,'zjs':p.lrzjs,'ccs':p.lrccs,
-                                                                                 'tjyxmh':p.tjyxmh ,'cwl':p.lrcwl,'zql':p.lrzql,
-                                                                                 'dhl':p.lrdhl,'gwxs':gwxs.parameter_value,
+                                                                                 'teller_name': rd.name, 'identity': '派遣', 'quarters': rd.quarters,
+                                                                                 'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                                                                                 'ywlx': p.role, 'ywzhs': p.ywzhs, 'ywzl': p.ywzl,
+                                                                                 'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
+                                                                                 'tjyxmh': p.tjyxmh, 'cwl': p.lrcwl, 'zql': p.lrzql,
+                                                                                 'dhl': p.lrdhl, 'gwxs': gwxs.parameter_value,
 
                                                                                  # ,'jbzjs':
                                                                                  #'zshzjs':,'jjdj':,'sskcs':,
-                                                                                 #'khxs':,'kj':,'jj':                                                                             
+                                                                                 #'khxs':,'kj':,'jj':
                                                                                  })
-            
+
             # dj, sskc = self.get_lurushenheparameter(quarters, p.lrzjs)
-            
+
 # =AE2+AG2+AI2+AK2+AZ2+BA2
 # "基本录入总字节*岗位系数
 # (6)=(4)*(5)"
@@ -73,81 +80,71 @@ class HrPerformanceBonusCompute(models.TransientModel):
 # 影像定位折合字节(8-2)
 
 # 信用卡录入总字节
-# 录入补业务量字节            
-            
-            
-
-
+# 录入补业务量字节
 
 
 # class HrPerformanceBonuscalculationCompute(models.TransientModel):
     # _name = 'hr.performance.bonuscalculation.compute'
     # _description = 'HR Performancebonuscalculation Compute'
 
-    
     # @api.multi
     # def performancebonuscalculation_compute(self):
         # role_datas=self.env['hr.performanceroleori'].search([])
         # for rd in role_datas:
             # recruitmentmodeldetail=self.env['hr.performancebonuscalculation'].create({'performancebonuscalculation_id': self.id,
-                                                                                 # 'teller_num': rd.teller_num,
-                                                                                 # 'teller_name':rd.name,'identity':'派遣','quarters':rd.quarters,
-                                                                                 # 'group':rd.work_group,'role':rd.role,
-                                                                                 # 'role1':rd.role1
-                                                                                 # })
+                # 'teller_num': rd.teller_num,
+                # 'teller_name':rd.name,'identity':'派遣','quarters':rd.quarters,
+                # 'group':rd.work_group,'role':rd.role,
+                # 'role1':rd.role1
+                # })
 
 
 class HrPerformanceBonusDelete(models.TransientModel):
     _name = 'hr.performance.bonus.delete'
-    _description = 'HR Performancebonus Delete'          
-    
+    _description = 'HR Performancebonus Delete'
+
     @api.multi
     def performancebonus_delete(self):
-        
-        performancebonuscalculation=self.env['hr.performancebonus'].search([])
+
+        performancebonuscalculation = self.env[
+            'hr.performancebonus'].search([])
         for r in performancebonuscalculation:
             r.unlink()
 
+
 class HrPerformanceOriReportDelete(models.TransientModel):
     _name = 'hr.performance.orireport.delete'
-    _description = 'HR Ori Report Delete'          
-    
+    _description = 'HR Ori Report Delete'
+
     @api.multi
     def performanceorireport_delete(self):
-        #TODO:delete ori report
+        # TODO:delete ori report
         pass
-         
-            
-            
+
+
 class HrPerformanceProCalculationCompute(models.TransientModel):
     _name = 'hr.performance.procalculation.compute'
     _description = 'HR PerformancePro Calculation Compute'
 
-    
     @api.multi
     def performanceprocalculation_compute(self):
-        role_datas=self.env['hr.performanceroleori'].search([])
+        role_datas = self.env['hr.performanceroleori'].search([])
         for rd in role_datas:
-            recruitmentmodeldetail=self.env['hr.performancespecialistportfoliocalculation'].create({'performancespecialistportfoliocalculation_id': self.id,
-                                                                                 'teller_num': rd.teller_num,
-                                                                                 'teller_name':rd.name,'identity':'派遣','quarters':rd.quarters,
-                                                                                 'group':rd.work_group,'role':rd.role,
-                                                                                 'role1':rd.role1
-                                                                                 })
+            recruitmentmodeldetail = self.env['hr.performancespecialistportfoliocalculation'].create({'performancespecialistportfoliocalculation_id': self.id,
+                                                                                                      'teller_num': rd.teller_num,
+                                                                                                      'teller_name': rd.name, 'identity': '派遣', 'quarters': rd.quarters,
+                                                                                                      'group': rd.work_group, 'role': rd.role,
+                                                                                                      'role1': rd.role1
+                                                                                                      })
 
-
-
-
-
-            
     # def _procure_calculation_orderpoint(self):
         # with api.Environment.manage():
             # # As this function is in a new thread, I need to open a new cursor, because the old one may be closed
             # new_cr = self.pool.cursor()
             # self = self.with_env(self.env(cr=new_cr))
             # self.env['procurement.order']._procure_orderpoint_confirm(
-                # use_new_cursor=new_cr.dbname,
-                # company_id=self.env.user.company_id.id)
+            # use_new_cursor=new_cr.dbname,
+            # company_id=self.env.user.company_id.id)
             # new_cr.close()
             # return {}
 
@@ -158,10 +155,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):
         # return {'type': 'ir.actions.act_window_close'}
 
 
-
 # read_group(*args, **kwargs)
 # Get the list of records in list view grouped by the given groupby fields
-# Parameters  
+# Parameters
 # cr -- database cursor
 # uid -- current user id
 # domain -- list specifying search criteria [['field_name', 'operator', 'value'], ...]
@@ -172,7 +168,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):
 # context (dict) -- context arguments, like lang, time zone.
 # orderby (list) -- optional order by specification, for overriding the natural sort ordering of the groups, see also search() (supported only for many2one fields currently)
 # lazy (bool) -- if true, the results are only grouped by the first groupby and the remaining groupbys are put in the __context key. If false, all the groupbys are done in one call.
-# Returns 
+# Returns
 # list of dictionaries(one dictionary for each record) containing:
 
 # the values of fields grouped by the fields in groupby argument
@@ -184,35 +180,36 @@ class HrPerformanceProCalculationCompute(models.TransientModel):
 # if user tries to bypass access rules for read on the requested object
 
 
-# class your_class(osv.osv):  
-#     # ...          
-  
-#     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):  
-#         res = super(your_class, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)  
-#         if 'amount_pending' in fields:  
-#             for line in res:  
-#                 if '__domain' in line:  
-#                     lines = self.search(cr, uid, line['__domain'], context=context)  
-#                     pending_value = 0.0  
-#                     for current_account in self.browse(cr, uid, lines, context=context):  
-#                         pending_value += current_account.amount_pending  
-#                     line['amount_pending'] = pending_value  
-#         if 'amount_payed' in fields:  
-#             for line in res:  
-#                 if '__domain' in line:  
-#                     lines = self.search(cr, uid, line['__domain'], context=context)  
-#                     payed_value = 0.0  
-#                     for current_account in self.browse(cr, uid, lines, context=context):  
-#                         payed_value += current_account.amount_payed  
-#                     line['amount_payed'] = payed_value  
-#         return res  
+# class your_class(osv.osv):
+#     # ...
+
+#     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
+#         res = super(your_class, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
+#         if 'amount_pending' in fields:
+#             for line in res:
+#                 if '__domain' in line:
+#                     lines = self.search(cr, uid, line['__domain'], context=context)
+#                     pending_value = 0.0
+#                     for current_account in self.browse(cr, uid, lines, context=context):
+#                         pending_value += current_account.amount_pending
+#                     line['amount_pending'] = pending_value
+#         if 'amount_payed' in fields:
+#             for line in res:
+#                 if '__domain' in line:
+#                     lines = self.search(cr, uid, line['__domain'], context=context)
+#                     payed_value = 0.0
+#                     for current_account in self.browse(cr, uid, lines, context=context):
+#                         payed_value += current_account.amount_payed
+#                     line['amount_payed'] = payed_value
+#         return res
 
 
+#         class your_class(osv.osv):
+#     # ...
 
-#         class your_class(osv.osv):  
-#     # ...       
-  
-#     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):  
-#         if 'column' in fields:  
-#             fields.remove('column')  
-#         return super(your_class, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy):  
+#     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
+#         if 'column' in fields:
+#             fields.remove('column')
+# return super(your_class, self).read_group(cr, uid, domain, fields,
+# groupby, offset, limit=limit, context=context, orderby=orderby,
+# lazy=lazy):
