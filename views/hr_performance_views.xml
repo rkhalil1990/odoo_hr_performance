@@ -38,7 +38,6 @@
 							<field name="cwl"/>
 							<field name="zql"/>
 							<field name="dhl"/>
-							<field name="jbzjs"/>
 							<field name="gwxs"/>
 							<field name="zshzjs"/>
 							<field name="jjdj"/>
@@ -79,7 +78,6 @@
 							<field name="cwl"/>
 							<field name="zql"/>
 							<field name="dhl"/>
-							<field name="jbzjs"/>
 							<field name="gwxs"/>
 							<field name="zshzjs"/>
 							<field name="jjdj"/>

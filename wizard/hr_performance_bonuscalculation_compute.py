@@ -33,13 +33,13 @@ class HrPerformanceBonusCompute(models.TransientModel):
 
     @api.multi
     def performancebonus_compute(self):
+        gwxs_role = [u'录入', u'行号选择', u'行号录入']
         role_datas = self.env['hr.performanceroleori'].search([])
         for rd in role_datas:
             # performanceglobalparameter_datas=self.env['hr.performanceglobalparameter'].search([])  # 全局参数
             # performanceparameter_datas = self.env['hr.performanceparameter'].search([])              # 计奖参数
             # performancelurushenheparameter_datas =
-            # self.env['hr.performancelurushenheparameter'].search([])  #
-            # 录入审核计奖参数
+            # self.env['hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数
 
             performancereportori_datas = self.env[
                 'hr.performancereportori'].search([('teller_name', '=', rd.name)])
@@ -55,20 +55,52 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     [('role', '=', rd.role)])
                 gwxs = self.env['hr.performanceglobalparameter'].search(
                     [('parameter_name', '=', rd.role1)])
+                
+
+                zshzjs = 0.0
+                para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                if para.jjfs == 'byByte':
+                    zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
+                elif  para.jjfs == 'byQuantity':
+                    zshzjs = p.ywzl * para.parameter_valuex
+                # elif  para.jjfs == 'byTime':
+                #     zshzjs = p.ywzl * para.parameter_valuex
+                 
+
 
                 performancebonusdetail = self.env['hr.performancebonus'].create({'performancebonus_id': self.id,
                                                                                  'teller_num': rd.teller_num,
-                                                                                 'teller_name': rd.name, 'identity': '派遣', 'quarters': rd.quarters,
+                                                                                 'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                  'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
                                                                                  'ywlx': p.role, 'ywzhs': p.ywzhs, 'ywzl': p.ywzl,
                                                                                  'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
-                                                                                 'tjyxmh': p.tjyxmh, 'cwl': p.lrcwl, 'zql': p.lrzql,
-                                                                                 'dhl': p.lrdhl, 'gwxs': gwxs.parameter_value,
-
+                                                                                 'tjyxmh': p.tjyxmh,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
+                                                                                 'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,
                                                                                  # ,'jbzjs':
-                                                                                 #'zshzjs':,'jjdj':,'sskcs':,
+                                                                                 #'jjdj':,'sskcs':,
                                                                                  #'khxs':,'kj':,'jj':
                                                                                  })
+
+        for rd in role_datas:
+            performancebonus_datas = self.env['hr.performancebonus'].search(
+                [('teller_name', '=', rd.name),('ywlx', '=', u'录入')])
+            tempccs = sum([i.ccs for i in performancebonus_datas])
+            tempywzl = sum([i.ywzl for i in performancebonus_datas])
+            temptjyxmh = sum([i.tjyxmh for i in performancebonus_datas])
+            if tempywzl != 0:
+                zql = tempccs/tempywzl
+                cwl = 1.0 - zql
+                dhl = temptjyxmh/tempywzl
+                for pd in performancebonus_datas:
+                    pd.write({'zql': zql, 'cwl': cwl, 'dhl': dhl})
+
+
+                   
+
+
+
+
+            
 
             # dj, sskc = self.get_lurushenheparameter(quarters, p.lrzjs)
 
