@@ -39,7 +39,7 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
     # jbzjs = fields.Float(u'基本字节数')
     gwxs = fields.Float(u'岗位系数')
     zshzjs = fields.Float(u'折算后字节数')
-    jjdj = fields.Float(u'计奖单价')
+    jjdj = fields.Float(u'计奖单价', digits=(5, 5))
     sskcs = fields.Float(u'速算扣除数')
     khxs = fields.Float(u'考核系数')
     kj = fields.Float(u'扣奖')
@@ -288,13 +288,16 @@ class HrPerformanceLuRuShenHeParameter(models.Model):  # 录入审核计奖参�
     _order = 'id'
 
     quarters = fields.Char(u'岗位')
-    role = fields.Char(u'角色')
+    role = fields.Char(u'角色', help=u'使用英语的逗号')
     parameter_name = fields.Char(u'参数名称')
     daily_quantity = fields.Char(u'日均字节/业务量')
     work_day = fields.Float(u'工作日')
     quantity = fields.Char(u'字节/业务量')
     unit_price = fields.Char(u'单价', digits=(5, 5))
     price_add_minus = fields.Char(u'速算扣除')
+
+
+
 
     # @api.onchange('work_day')
     # def _onchange_work_day(self):

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import sys
+
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 #
@@ -8,7 +10,10 @@
 
 from openerp import api, models
 import threading
+import logging
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 class HrPerformanceBonusCompute(models.TransientModel):
     _name = 'hr.performance.bonus.compute'
@@ -33,13 +38,14 @@ class HrPerformanceBonusCompute(models.TransientModel):
 
     @api.multi
     def performancebonus_compute(self):
-        gwxs_role = [u'录入', u'行号选择', u'行号录入']
+        gwxs_role = (u'录入', u'行号选择', u'行号录入')
+        lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
+        performancelurushenheparameter_datas =self.env['hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数
         role_datas = self.env['hr.performanceroleori'].search([])
         for rd in role_datas:
             # performanceglobalparameter_datas=self.env['hr.performanceglobalparameter'].search([])  # 全局参数
             # performanceparameter_datas = self.env['hr.performanceparameter'].search([])              # 计奖参数
-            # performancelurushenheparameter_datas =
-            # self.env['hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数
+         
 
             performancereportori_datas = self.env[
                 'hr.performancereportori'].search([('teller_name', '=', rd.name)])
@@ -76,7 +82,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                  'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
                                                                                  'tjyxmh': p.tjyxmh,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
                                                                                  'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,
-                                                                                 # ,'jbzjs':
+                                                                                 
                                                                                  #'jjdj':,'sskcs':,
                                                                                  #'khxs':,'kj':,'jj':
                                                                                  })
@@ -94,13 +100,21 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 for pd in performancebonus_datas:
                     pd.write({'zql': zql, 'cwl': cwl, 'dhl': dhl})
 
+            performancebonus_datas_byname = self.env['hr.performancebonus'].search(
+                [('teller_name', '=', rd.name)])        
+            if rd.role1 in lurushenhe_role1_group:
+                for plsp in performancelurushenheparameter_datas:
 
-                   
+                    _logger = logging.getLogger(__name__)
+                    rolelist = [i.decode('unicode-escape') for i in plsp.role.split(',')]
+                    _logger.info(rolelist)
+                    daily_quantity = sum([i.zshzjs for i in performancebonus_datas_byname if i.role in rolelist])
 
 
 
-
-            
+                    jjdj, sskcs = self.get_lurushenheparameter(u'录入岗', daily_quantity)
+                    for pd in performancebonus_datas_byname:
+                        pd.write({'jjdj': jjdj, 'sskcs': sskcs})
 
             # dj, sskc = self.get_lurushenheparameter(quarters, p.lrzjs)
 

@@ -1250,14 +1250,17 @@
 	<menuitem id="menu_hr_performance_setup" name="设置" parent="menu_performance_title"
         sequence="400" />
 	<menuitem action="act_hr_performanceglobalparameter" name="设置岗位系数" id="menu_act_hr_performanceglobalparameter" parent="menu_hr_performance_setup"
-             sequence="401"/>
-		
+             sequence="403"/>	
 	<menuitem action="act_hr_performancelurushenheparameter" name="录入审核计奖参数" id="menu_act_hr_performancelurushenheparameter" parent="menu_hr_performance_setup"
              sequence="402"/>	
 	<menuitem action="act_hr_performanceparameter" name="计奖参数" id="menu_act_hr_performanceparameter" parent="menu_hr_performance_setup"
-             sequence="403"/> 
+             sequence="401"/> 
     <menuitem action="act_hr_performancegoal" name="正确放弃参数" id="menu_act_hr_performancegoal" parent="menu_hr_performance_setup"
-             sequence="404"/>         
+             sequence="404"/>
+
+
+
+
 	
 	<menuitem id="menu_hr_performance_ori" name="原始报表导入" parent="menu_performance_title"
         sequence="500" />	
