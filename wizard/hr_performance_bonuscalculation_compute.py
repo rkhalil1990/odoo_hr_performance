@@ -109,7 +109,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     rolelist = [i.decode('unicode-escape') for i in plsp.role.split(',')]
                     _logger.info(rolelist)
                     daily_quantity = sum([i.zshzjs for i in performancebonus_datas_byname if i.role in rolelist])
-
+                    _logger.info(daily_quantity)
 
 
                     jjdj, sskcs = self.get_lurushenheparameter(u'录入岗', daily_quantity)
