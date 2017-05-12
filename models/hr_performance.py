@@ -50,6 +50,51 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
     complete_rate = fields.Float(u'完成率')
 
 
+    def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
+        res = super(HrPerformanceBonus, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
+        if 'cwl' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['cwl'] = 0.0
+        if 'zql' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['zql'] = 0.0
+        if 'dhl' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['dhl'] = 0.0            
+        if 'gwxs' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['gwxs'] = 0.0
+        if 'jjdj' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['jjdj'] = 0.0
+        if 'sskcs' in fields:
+            for line in res:
+                if '__domain' in line:
+                    lines = self.search(cr, uid, line['__domain'], context=context)
+                    pending_value = 0.0
+                    for current_account in self.browse(cr, uid, lines, context=context):
+                        if current_account.sskcs != 0.0:
+                            pending_value = current_account.sskcs
+                            break
+                    line['sskcs'] = pending_value                        
+
+
+        # if 'amount_payed' in fields:
+        #     for line in res:
+        #         if '__domain' in line:
+        #             lines = self.search(cr, uid, line['__domain'], context=context)
+        #             payed_value = 0.0
+        #             for current_account in self.browse(cr, uid, lines, context=context):
+        #                 payed_value += current_account.amount_payed
+        #             line['amount_payed'] = payed_value
+        return res
+
+
 # class HrPerformanceBonus(models.Model):  # 奖金计算new
 #     _name = 'hr.performancebonus'
 #     _description = 'Hr Performance Bonus'

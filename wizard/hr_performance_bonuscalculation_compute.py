@@ -19,19 +19,19 @@ class HrPerformanceBonusCompute(models.TransientModel):
     _name = 'hr.performance.bonus.compute'
     _description = 'HR Performancebonus Compute'
 
-    def get_lurushenheparameter(self, quarters, daily_quantity):
-        if daily_quantity < 0:
+    def get_lurushenheparameter(self, quarters, quantity):
+        if quantity < 0:
             return None
         performancelurushenheparameter_data = self.env[
             'hr.performancelurushenheparameter'].search([('quarters', '=', quarters)])
-        t_daily_quantity = eval(
-            performancelurushenheparameter_data.daily_quantity)
+        t_quantity = eval(
+            performancelurushenheparameter_data.quantity)
         t_unit_price = eval(performancelurushenheparameter_data.unit_price)
         t_price_add_minus = eval(
             performancelurushenheparameter_data.price_add_minus)
-        index = len(t_daily_quantity) - 1
-        for i, v in enumerate(t_daily_quantity):
-            if daily_quantity < v:
+        index = len(t_quantity) - 1
+        for i, v in enumerate(t_quantity):
+            if quantity < v:
                 index = i - 1
                 break
         return t_unit_price[index], t_price_add_minus[index]
@@ -94,8 +94,8 @@ class HrPerformanceBonusCompute(models.TransientModel):
             tempywzl = sum([i.ywzl for i in performancebonus_datas])
             temptjyxmh = sum([i.tjyxmh for i in performancebonus_datas])
             if tempywzl != 0:
-                zql = tempccs/tempywzl
-                cwl = 1.0 - zql
+                cwl = tempccs/tempywzl
+                zql = 1.0 - cwl
                 dhl = temptjyxmh/tempywzl
                 for pd in performancebonus_datas:
                     pd.write({'zql': zql, 'cwl': cwl, 'dhl': dhl})
@@ -103,20 +103,15 @@ class HrPerformanceBonusCompute(models.TransientModel):
             performancebonus_datas_byname = self.env['hr.performancebonus'].search(
                 [('teller_name', '=', rd.name)])        
             if rd.role1 in lurushenhe_role1_group:
+                
                 for plsp in performancelurushenheparameter_datas:
-
-                    _logger = logging.getLogger(__name__)
-                    rolelist = [i.decode('unicode-escape') for i in plsp.role.split(',')]
-                    _logger.info(rolelist)
-                    daily_quantity = sum([i.zshzjs for i in performancebonus_datas_byname if i.role in rolelist])
-                    _logger.info(daily_quantity)
-
-
-                    jjdj, sskcs = self.get_lurushenheparameter(u'录入岗', daily_quantity)
+                    rolelist = [i for i in plsp.role.split(',')]
+                    quantity = sum([i.zshzjs for i in performancebonus_datas_byname if i.ywlx in rolelist])
+                    jjdj, sskcs = self.get_lurushenheparameter(plsp.quarters, quantity)
                     for pd in performancebonus_datas_byname:
-                        pd.write({'jjdj': jjdj, 'sskcs': sskcs})
+                        if pd.ywlx in rolelist:
+                            pd.write({'jjdj': jjdj, 'sskcs': sskcs})
 
-            # dj, sskc = self.get_lurushenheparameter(quarters, p.lrzjs)
 
 # =AE2+AG2+AI2+AK2+AZ2+BA2
 # "基本录入总字节*岗位系数
