@@ -5,7 +5,7 @@ from openerp import _, tools
 from openerp.exceptions import UserError, AccessError
 from datetime import date, datetime, timedelta
 import calendar
-
+import logging 
 
 class HrPerformance(models.Model):
     _name = 'hr.performance'
@@ -52,18 +52,42 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
 
     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
         res = super(HrPerformanceBonus, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
+        _logger = logging.getLogger(__name__)
+        gwxs_role = (u'录入', u'行号选择', u'行号录入')
+        lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
+        performancelurushenheparameter_datas_ids = self.pool['hr.performancelurushenheparameter'].search(cr, uid, [], context=context)
+        performancelurushenheparameter_datas = self.pool.get('hr.performancelurushenheparameter').browse(cr, uid, performancelurushenheparameter_datas_ids, context=context)
+        
         if 'cwl' in fields:
             for line in res:
                 if '__domain' in line:
-                    line['cwl'] = 0.0
+                    lines = self.search(cr, uid, line['__domain'], context=context)
+                    pending_value = 0.0
+                    for current_account in self.browse(cr, uid, lines, context=context):
+                        if current_account.cwl != 0.0:
+                            pending_value = current_account.cwl
+                            break
+                    line['cwl'] = pending_value
         if 'zql' in fields:
             for line in res:
                 if '__domain' in line:
-                    line['zql'] = 0.0
+                    lines = self.search(cr, uid, line['__domain'], context=context)
+                    pending_value = 0.0
+                    for current_account in self.browse(cr, uid, lines, context=context):
+                        if current_account.zql != 0.0:
+                            pending_value = current_account.zql
+                            break
+                    line['cwl'] = pending_value
         if 'dhl' in fields:
             for line in res:
                 if '__domain' in line:
-                    line['dhl'] = 0.0            
+                    lines = self.search(cr, uid, line['__domain'], context=context)
+                    pending_value = 0.0
+                    for current_account in self.browse(cr, uid, lines, context=context):
+                        if current_account.dhl != 0.0:
+                            pending_value = current_account.dhl
+                            break
+                    line['dhl'] = pending_value
         if 'gwxs' in fields:
             for line in res:
                 if '__domain' in line:
@@ -75,13 +99,28 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
         if 'sskcs' in fields:
             for line in res:
                 if '__domain' in line:
+                    line['sskcs'] = 0.0            
+        if 'sskcs' in fields:
+            for line in res:
+                if '__domain' in line:
+                    # lines = self.search(cr, uid, line['__domain'], context=context)
+                    # pending_value = 0.0
+                    # for current_account in self.browse(cr, uid, lines, context=context):
+                    #     if current_account.sskcs != 0.0:
+                    #         pending_value = current_account.sskcs
+                    #         break
+                    line['sskcs'] = 0.0                   
+
+        if 'jj' in fields:
+            for line in res:
+                if '__domain' in line:
                     lines = self.search(cr, uid, line['__domain'], context=context)
                     pending_value = 0.0
-                    for current_account in self.browse(cr, uid, lines, context=context):
-                        if current_account.sskcs != 0.0:
-                            pending_value = current_account.sskcs
-                            break
-                    line['sskcs'] = pending_value                        
+                    datas = self.browse(cr, uid, lines, context=context)
+                    for current_account in datas:
+                        if current_account.ywlx in gwxs_role:
+                            pending_value += current_account.zshzjs * current_account.gwxs
+                    line['jj'] = pending_value
 
 
         # if 'amount_payed' in fields:

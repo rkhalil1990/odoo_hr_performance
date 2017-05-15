@@ -112,6 +112,12 @@ class HrPerformanceBonusCompute(models.TransientModel):
                         if pd.ywlx in rolelist:
                             pd.write({'jjdj': jjdj, 'sskcs': sskcs})
 
+                            
+                            
+
+
+
+
 
 # =AE2+AG2+AI2+AK2+AZ2+BA2
 # "基本录入总字节*岗位系数
