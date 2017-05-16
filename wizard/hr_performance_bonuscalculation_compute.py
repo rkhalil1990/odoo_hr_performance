@@ -88,6 +88,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                  })
 
         for rd in role_datas:
+            # get cwl zql dhl，only related by lr
             performancebonus_datas = self.env['hr.performancebonus'].search(
                 [('teller_name', '=', rd.name),('ywlx', '=', u'录入')])
             tempccs = sum([i.ccs for i in performancebonus_datas])
@@ -100,6 +101,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 for pd in performancebonus_datas:
                     pd.write({'zql': zql, 'cwl': cwl, 'dhl': dhl})
 
+            # get jjdj sskcs
             performancebonus_datas_byname = self.env['hr.performancebonus'].search(
                 [('teller_name', '=', rd.name)])        
             if rd.role1 in lurushenhe_role1_group:
@@ -112,8 +114,8 @@ class HrPerformanceBonusCompute(models.TransientModel):
                         if pd.ywlx in rolelist:
                             pd.write({'jjdj': jjdj, 'sskcs': sskcs})
 
-                            
-                            
+
+
 
 
 
