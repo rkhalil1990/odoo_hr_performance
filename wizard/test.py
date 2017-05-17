@@ -16,4 +16,9 @@
 # 
 a = [1, 2, 3, 4]
 b = [1, 2]
-print set(a) - set(b)
+
+
+s = u'你好-哈哈哈'
+print dir(s)
+x=s.replace(u'你好',u'')
+print x

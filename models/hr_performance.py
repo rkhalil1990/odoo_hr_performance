@@ -62,6 +62,8 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
         performancegoal_datas = self.pool.get('hr.performancegoal').browse(cr, uid, performancegoal_datas_ids, context=context)
 
 
+
+
         if 'cwl' in fields:
             for line in res:
                 if '__domain' in line:
@@ -107,14 +109,7 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
         if 'sskcs' in fields:
             for line in res:
                 if '__domain' in line:
-                    # lines = self.search(cr, uid, line['__domain'], context=context)
-                    # pending_value = 0.0
-                    # for current_account in self.browse(cr, uid, lines, context=context):
-                    #     if current_account.sskcs != 0.0:
-                    #         pending_value = current_account.sskcs
-                    #         break
                     line['sskcs'] = 0.0                   
-
         if 'jj' in fields:
             for line in res:
                 if '__domain' in line:
@@ -148,50 +143,62 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
                     role = datas[0].role
                     role1 = datas[0].role1
 
-                    # get jblr_mul_gwxs_ae
-                    for current_account in datas:
-                        if current_account.ywlx in gwxs_role_list:
-                            jblr_mul_gwxs_ae += current_account.zshzjs * current_account.gwxs
-                     
-                    # get jjzzj_bb
-                    except_list=[]
-                    for plsp in performancelurushenheparameter_datas:
-                        role_list = [i for i in plsp.role.split(',')]
-                        except_list.extend(role_list)
-                        role_set = set(role_list) - set(gwxs_role_list)
-                        if plsp.quarters == u'录入岗':
-                            for i in datas:
-                                if i.ywlx in role_set:
-                                    jjzzj_bb += i.zshzjs
-                                    cwl = i.cwl if i.cwl != 0.0 else cwl
-                                    zql = i.zql if i.zql != 0.0 else zql
-                                    dhl = i.dhl if i.dhl != 0.0 else dhl
-                                    jjdj = i.jjdj if i.jjdj != 0.0 else jjdj
-                                    sskcs = i.sskcs if i.sskcs != 0.0 else sskcs
-                        elif plsp.quarters == u'审核岗':
-                            for i in datas:
-                                if i.ywlx in role_list:
-                                    shywlxj_cy += i.zshzjs
-                                    sh_jjdj = i.jjdj
-                                    sh_sskcs = i.sskcs
+                    if role1 != u'专业化岗':
+                        # get jblr_mul_gwxs_ae
+                        for current_account in datas:
+                            if current_account.ywlx in gwxs_role_list:
+                                jblr_mul_gwxs_ae += current_account.zshzjs * current_account.gwxs
+                         
+                        # get jjzzj_bb
+                        except_list=[]
+                        for plsp in performancelurushenheparameter_datas:
+                            role_list = [i for i in plsp.role.split(',')]
+                            except_list.extend(role_list)
+                            role_set = set(role_list) - set(gwxs_role_list)
+                            if plsp.quarters == u'录入岗':
+                                for i in datas:
+                                    if i.ywlx in role_set:
+                                        jjzzj_bb += i.zshzjs
+                                        cwl = i.cwl if i.cwl != 0.0 else cwl
+                                        zql = i.zql if i.zql != 0.0 else zql
+                                        dhl = i.dhl if i.dhl != 0.0 else dhl
+                                        jjdj = i.jjdj if i.jjdj != 0.0 else jjdj
+                                        sskcs = i.sskcs if i.sskcs != 0.0 else sskcs
+                            elif plsp.quarters == u'审核岗':
+                                for i in datas:
+                                    if i.ywlx in role_list:
+                                        shywlxj_cy += i.zshzjs
+                                        sh_jjdj = i.jjdj
+                                        sh_sskcs = i.sskcs
 
 
-                    jjzzj_bb += jblr_mul_gwxs_ae
-                    lrjj_be = jjzzj_bb * jjdj - sskcs
+                        jjzzj_bb += jblr_mul_gwxs_ae
+                        lrjj_be = jjzzj_bb * jjdj - sskcs
 
-                    for i in performancegoal_datas:
-                        if i.role == role and  i.role1 == role1:
-                           lrzlj_bk = ((1+(zql-i.zql_goal)*100)*(1+(i.fql_goal - dhl))-1) * lrjj_be
-                    shjj_db = shywlxj_cy * sh_jjdj - sh_sskcs
+                        for i in performancegoal_datas:
+                            if i.role == role and  i.role1 == role1:
+                               lrzlj_bk = ((1+(zql-i.zql_goal)*100)*(1+(i.fql_goal - dhl))-1) * lrjj_be
+                        shjj_db = shywlxj_cy * sh_jjdj - sh_sskcs
 
-                    for i in datas:
-                        if i.ywlx not in except_list:
-                            pending_value += i.zshzjs
+                        for i in datas:
+                            if i.ywlx not in except_list:
+                                pending_value += i.zshzjs
 
-                    pending_value = lrjj_be + lrzlj_bk + shjj_db
+                        pending_value += lrjj_be + lrzlj_bk + shjj_db
+                        
+                    else:
+                        performanceparameter_datas_ids = self.pool['hr.performanceparameter'].search(cr, uid, [('quarters', '=', u'专业化岗')], context=context)
+                        performanceparameter_datas = self.pool.get('hr.performanceparameter').browse(cr, uid, performanceparameter_datas_ids, context=context)
+                        standard_trans = u'标准化业务-'
+                        for i in datas:
+                            for para in performanceparameter_datas:
+                                role = para.role
+                                if standard_trans in para.role:
+                                    role = para.role.replace(standard_trans,'')
+                                if role == i.ywlx:
+                                    pending_value += i.zshzjs * para.parameter_valuex 
+                                    
                     line['jj'] = pending_value
-
-
         # if 'amount_payed' in fields:
         #     for line in res:
         #         if '__domain' in line:
@@ -432,8 +439,11 @@ class HrPerformanceParameter(models.Model):  # 计奖参数
         default='byTime')
     role = fields.Char(u'角色')
     parameter_name = fields.Char(u'参数名称')
-    parameter_valuex = fields.Float(u'参数值')
+    parameter_valuex = fields.Float(u'参数值', digits=(4, 4))
 
+
+    def __str__():
+        return u'计奖参数'
 
 class HrPerformanceLuRuShenHeParameter(models.Model):  # 录入审核计奖参数
     _name = 'hr.performancelurushenheparameter'

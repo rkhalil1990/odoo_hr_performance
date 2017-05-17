@@ -65,9 +65,9 @@
 							<!-- <field name="identity"/>
 							<field name="quarters"/>
 							<field name="quarters_date"/>
-							<field name="group"/>
+							<field name="group"/>-->
 							<field name="role"/>
-							<field name="role1"/> -->
+							<field name="role1"/> 
 							<field name="ywlx"/>
 							<field name="ywzhs"/>
 							<field name="ywzl"/>
