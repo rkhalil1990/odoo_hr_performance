@@ -1,13 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
-#
-# Order Point Method:
-#    - Order if the virtual stock of today is bellow the min of the defined order point
-# hr_performance_bonuscalculation_compute.py
-
 from openerp import api, models
 import threading
 import logging

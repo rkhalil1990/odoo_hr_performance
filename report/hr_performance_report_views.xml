@@ -85,8 +85,8 @@
         <field name="context">{}</field>  <!-- force empty -->
     </record>
 	
-    <menuitem name="业务量报表" id="report_hr_performance" parent="menu_hr_performance_report" 
-    sequence="701" action="action_hr_performance_report_all"/>
+<!--     <menuitem name="业务量报表" id="report_hr_performance" parent="menu_hr_performance_report" 
+    sequence="701" action="action_hr_performance_report_all"/> -->
 	
    <!--  <record id="action_hr_recruitment_report_filtered_department" model="ir.actions.act_window">
         <field name="name">performance Analysis</field>

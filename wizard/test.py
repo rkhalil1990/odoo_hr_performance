@@ -14,11 +14,19 @@
 # print u'\u98de\u8f6c\u9080\u8bf7\u6392\u884c\u699c'.encode('utf-8')
 # print unicode('呵呵','utf-8')
 # 
-a = [1, 2, 3, 4]
-b = [1, 2]
+# a = [1, 2, 3, 4]
+# b = [1, 2]
 
 
-s = u'你好-哈哈哈'
-print dir(s)
-x=s.replace(u'你好',u'')
-print x
+# s = u'你好-哈哈哈'
+# print dir(s)
+# x=s.replace(u'你好',u'')
+# print x
+# 
+# 
+import re
+
+
+r = re.sub(r'not[\w\d\s]*bad', 'good','This dinner is not that bad!')
+print r
+# print s.replace(r.group[0], 'good')

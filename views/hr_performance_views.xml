@@ -94,7 +94,7 @@
        </record>
 	 
 	 
-	 
+	   
 	 
 	 
 	 
@@ -976,6 +976,55 @@
             </field>
        </record>
 
+<record id="hr_performanceattendance_form" model="ir.ui.view">
+        <field name="name">hr.performanceattendance.form</field>
+        <field name="model">hr.performanceattendance</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceattendance Form">
+                <sheet>
+                    <group>
+                            <field name="teller_id"/>
+                            <field name="work_num"/>
+                            <field name="teller_name"/>
+                            <field name="sap_num"/>
+                            <field name="person_manage_num"/>
+                            <field name="quarters"/>
+                            <field name="role"/>
+                            <field name="group"/>
+                            <field name="manager"/>
+                            <field name="enter_date"/>
+                            <field name="leave_date"/>
+                            <field name="attendance_basic"/>
+                            <field name="attendance_actual"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performanceattendance_tree" model="ir.ui.view">
+            <field name="name">hr.performanceattendance.tree</field>
+            <field name="model">hr.performanceattendance</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceattendance">
+                            <field name="teller_id"/>
+                            <field name="work_num"/>
+                            <field name="teller_name"/>
+                            <field name="sap_num"/>
+                            <field name="person_manage_num"/>
+                            <field name="quarters"/>
+                            <field name="role"/>
+                            <field name="group"/>
+                            <field name="manager"/>
+                            <field name="enter_date"/>
+                            <field name="leave_date"/>
+                            <field name="attendance_basic"/>
+                            <field name="attendance_actual"/>
+                </tree>
+            </field>
+       </record>
+
+
 
   
   <record id="hr_performancebonus_search" model="ir.ui.view">
@@ -1229,6 +1278,19 @@
       </record>
      
      
+      <record id="act_hr_performanceattendance" model="ir.actions.act_window">
+            <field name="name">考勤记录</field>
+            <field name="res_model">hr.performanceattendance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                考勤记录.
+              </p>
+            </field>
+      </record>
+
+
 	<menuitem
         id="menu_performance_title"
         name="人事绩效"
@@ -1292,11 +1354,16 @@
 	<menuitem action="act_hr_performanceproname" name="专业化业务名称" id="menu_act_hr_performanceproname" parent="menu_hr_performance_ori"
          sequence="513"/>
 		 
-     <menuitem id="menu_hr_performance_field" name="数据库" parent="menu_performance_title"
+     <menuitem id="menu_hr_performance_hr_ori" name="人事基础信息导入" parent="menu_performance_title"
         sequence="600" />    
+        <menuitem action="act_hr_performanceattendance" name="考勤记录导入" id="menu_act_hr_performanceattendance" parent="menu_hr_performance_hr_ori"
+         sequence="601"/>
+
+   <!--   <menuitem id="menu_hr_performance_field" name="数据库" parent="menu_performance_title"
+        sequence="700" />   -->  
        
     <menuitem id="menu_hr_performance_report" name="报表" parent="menu_performance_title"
-        sequence="700" /> 
+        sequence="800" /> 
 		
 		
 		

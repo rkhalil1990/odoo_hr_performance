@@ -62,8 +62,6 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
         performancegoal_datas = self.pool.get('hr.performancegoal').browse(cr, uid, performancegoal_datas_ids, context=context)
 
 
-
-
         if 'cwl' in fields:
             for line in res:
                 if '__domain' in line:
@@ -658,3 +656,23 @@ class HrPerformanceProName(models.Model):  # 专业化业务
     quarters = fields.Char(u'岗位')
     ywmc = fields.Char(u'业务名称')
     total_time = fields.Float(u'耗时')
+
+
+class HrPerformanceAttendance(models.Model):  # 考勤
+    _name = 'hr.performanceattendance'
+    _description = 'Hr Performance Attendance'
+    _order = 'id'
+
+    teller_id = fields.Char(u'序号')
+    work_num = fields.Char(u'工号')
+    teller_name = fields.Char(u'姓名')
+    sap_num = fields.Char(u'SAP系统工号')
+    person_manage_num = fields.Char(u'人员管理系统人员编号')
+    quarters = fields.Char(u'聘用岗位')
+    role = fields.Char(u'柜员角色')
+    group = fields.Char(u'组别')
+    manager = fields.Char(u'区域负责人')
+    enter_date = fields.Date(u'进公司日期')
+    leave_date = fields.Date(u'在职情况')
+    attendance_basic = fields.Integer(u'应出勤')
+    attendance_actual = fields.Integer(u'出勤日')

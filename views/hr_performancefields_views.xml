@@ -153,7 +153,7 @@
             </field>
       </record>
 
-	<menuitem action="act_hr_performancefields" name="奖金计算表修改" id="menu_act_hr_performancefields" parent="menu_hr_performance_field"
-         sequence="601"/>  
+	<!-- <menuitem action="act_hr_performancefields" name="奖金计算表修改" id="menu_act_hr_performancefields" parent="menu_hr_performance_field"
+         sequence="601"/>   -->
     
 </odoo>
