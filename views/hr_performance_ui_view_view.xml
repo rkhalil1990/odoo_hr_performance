@@ -112,8 +112,8 @@
             </field>
       </record>
 
-	<menuitem action="act_hr_performance_ui_view" name="奖金计算表界面修改" id="menu_act_hr_performance_ui_view" parent="menu_hr_performance_field"
-         sequence="602"/>  
+<!-- 	<menuitem action="act_hr_performance_ui_view" name="奖金计算表界面修改" id="menu_act_hr_performance_ui_view" parent="menu_hr_performance_field"
+         sequence="602"/>   -->
 		
 		
 

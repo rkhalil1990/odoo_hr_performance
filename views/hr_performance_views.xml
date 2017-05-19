@@ -988,10 +988,12 @@
                             <field name="teller_name"/>
                             <field name="sap_num"/>
                             <field name="person_manage_num"/>
+                            <field name="department"/>
                             <field name="quarters"/>
                             <field name="role"/>
                             <field name="group"/>
                             <field name="manager"/>
+                            <field name="emp_type"/>
                             <field name="enter_date"/>
                             <field name="leave_date"/>
                             <field name="attendance_basic"/>
@@ -1012,10 +1014,12 @@
                             <field name="teller_name"/>
                             <field name="sap_num"/>
                             <field name="person_manage_num"/>
+                            <field name="department"/>
                             <field name="quarters"/>
                             <field name="role"/>
                             <field name="group"/>
                             <field name="manager"/>
+                            <field name="emp_type"/>
                             <field name="enter_date"/>
                             <field name="leave_date"/>
                             <field name="attendance_basic"/>
