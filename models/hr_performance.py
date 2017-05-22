@@ -60,8 +60,30 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
 
         performancegoal_datas_ids = self.pool['hr.performancegoal'].search(cr, uid, [], context=context)
         performancegoal_datas = self.pool.get('hr.performancegoal').browse(cr, uid, performancegoal_datas_ids, context=context)
-
-
+        if 'ywzhs' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['ywzhs'] = 0.0
+        if 'ywzl' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['ywzl'] = 0.0 
+        if 'hzs' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['hzs'] = 0.0
+        if 'zjs' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['zjs'] = 0.0
+        if 'ccs' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['ccs'] = 0.0
+        if 'tjyxmh' in fields:
+            for line in res:
+                if '__domain' in line:
+                    line['tjyxmh'] = 0.0
         if 'cwl' in fields:
             for line in res:
                 if '__domain' in line:
@@ -81,7 +103,7 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
                         if current_account.zql != 0.0:
                             pending_value = current_account.zql
                             break
-                    line['cwl'] = pending_value
+                    line['zql'] = pending_value
         if 'dhl' in fields:
             for line in res:
                 if '__domain' in line:
@@ -113,9 +135,9 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
                 if '__domain' in line:
                     lines = self.search(cr, uid, line['__domain'], context=context)
                     # paramater
-                    cwl = 0.0
-                    zql = 0.0
-                    dhl = 0.0
+                    cwl = 0.00000
+                    zql = 0.00000
+                    dhl = 0.00000
                     jjdj, sskcs = 0.0, 0.0
                     sh_jjdj = 0.0
                     sh_sskcs = 0.0
@@ -157,26 +179,42 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
                                 for i in datas:
                                     if i.ywlx in role_set:
                                         jjzzj_bb += i.zshzjs
-                                        cwl = i.cwl if i.cwl != 0.0 else cwl
-                                        zql = i.zql if i.zql != 0.0 else zql
-                                        dhl = i.dhl if i.dhl != 0.0 else dhl
-                                        jjdj = i.jjdj if i.jjdj != 0.0 else jjdj
-                                        sskcs = i.sskcs if i.sskcs != 0.0 else sskcs
+                                    cwl = i.cwl if i.cwl != 0.0 else cwl
+                                    zql = i.zql if i.zql != 0.0 else zql
+                                    dhl = i.dhl if i.dhl != 0.0 else dhl
+                                    jjdj = i.jjdj if i.jjdj != 0.0 else jjdj
+                                    sskcs = i.sskcs if i.sskcs != 0.0 else sskcs
                             elif plsp.quarters == u'审核岗':
                                 for i in datas:
                                     if i.ywlx in role_list:
                                         shywlxj_cy += i.zshzjs
                                         sh_jjdj = i.jjdj
                                         sh_sskcs = i.sskcs
-
+                        _logger = logging.getLogger(__name__)
+                        
 
                         jjzzj_bb += jblr_mul_gwxs_ae
                         lrjj_be = jjzzj_bb * jjdj - sskcs
 
                         for i in performancegoal_datas:
                             if i.role == role and  i.role1 == role1:
-                               lrzlj_bk = ((1+(zql-i.zql_goal)*100)*(1+(i.fql_goal - dhl))-1) * lrjj_be
+                                zqlxs = (1+(zql-i.zql_goal)*100)
+                                lhlxs = (1+(i.fql_goal - dhl))
+                                lrzlj_bk = zqlxs*lhlxs
+                                lrzlj_bk = (lrzlj_bk - 1) * lrjj_be
+                                if teller_name == u'曹明月':
+                                    _logger.info(zql) 
+                                    _logger.info(i.zql_goal)
+                                    _logger.info(zqlxs)
+
+
                         shjj_db = shywlxj_cy * sh_jjdj - sh_sskcs
+
+                        if teller_name == u'曹明月':
+                            _logger.info(jjzzj_bb) 
+                            _logger.info(lrjj_be)
+                            _logger.info(lrzlj_bk)
+                            _logger.info(shjj_db)
 
                         for i in datas:
                             if i.ywlx not in except_list:
@@ -274,6 +312,8 @@ class HrPerformanceReportOri(models.Model):  # 总行数据处理中心绩效考
     sqdhl = fields.Float(u'授权打回率')
     pjclsd = fields.Float(u'平均处理速度')
     pzhs = fields.Float(u'批注耗时')
+    yxdw_zhjh = fields.Float(u'影像定位账户激活')
+    yxdw_qt = fields.Float(u'影像定位其他')
 
 
 class HrPerformanceMobileReportOri(models.Model):  # 信移业务绩效考核报表
@@ -334,7 +374,8 @@ class HrPerformanceBranchReportOri(models.Model):  # 双中心总行数据处理
     fkrshdhs = fields.Integer(u'付款人审核打回数')
     bsshdhs = fields.Integer(u'背书审核打回数')
     shdhl = fields.Float(u'审核打回率')
-
+    yxdw_zhjh = fields.Float(u'影像定位账户激活')
+    yxdw_qt = fields.Float(u'影像定位其他')
 
 class HrPerformanceBranchMobileReportOri(models.Model):  # 双中心信移业务绩效考核报表
     _name = 'hr.performancebranchmobilereportori'
@@ -676,5 +717,5 @@ class HrPerformanceAttendance(models.Model):  # 考勤
     emp_type = fields.Char(u'员工身份')
     enter_date = fields.Char(u'进公司日期')
     leave_date = fields.Char(u'在职情况')
-    attendance_basic = fields.Float = None(u'应出勤')
+    attendance_basic = fields.Float(u'应出勤')
     attendance_actual = fields.Float(u'出勤日')

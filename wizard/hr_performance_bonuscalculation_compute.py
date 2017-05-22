@@ -31,6 +31,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
     @api.multi
     def performancebonus_compute(self):
         gwxs_role = (u'录入', u'行号选择', u'行号录入')
+
         lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
         performancelurushenheparameter_datas =self.env['hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数
         role_datas = self.env['hr.performanceroleori'].search([])
@@ -51,18 +52,27 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     [('role', '=', rd.role)])
                 gwxs = self.env['hr.performanceglobalparameter'].search(
                     [('parameter_name', '=', rd.role1)])
-                
+                # _logger = logging.getLogger(__name__)  
+                # _logger.info(p.role) 
                 zshzjs = 0.0
+
                 para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
                 if para.jjfs == 'byByte':
-                    zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
+                    if p.role == u'影像定位':
+                        p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位账户激活')], limit=1)
+                        p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位其他')], limit=1)
+                        
+                        zshzjs += p.yxdw_zhjh * p1.parameter_valuex
+                        zshzjs += p.yxdw_qt * p2.parameter_valuex
+                    else:
+                        zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
                 elif  para.jjfs == 'byQuantity':
                     zshzjs = p.ywzl * para.parameter_valuex
                 elif  para.jjfs == 'byTime':
                     zshzjs = p.ywzl * para.parameter_valuex
                  
 
-                performancebonusdetail = self.env['hr.performancebonus'].create({'performancebonus_id': self.id,
+                performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
                                                                                  'teller_num': rd.teller_num,
                                                                                  'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                  'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
@@ -93,14 +103,14 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 # get jjdj sskcs
                 performancebonus_datas_byname = self.env['hr.performancebonus'].search(
                     [('teller_name', '=', rd.name)])
-                if rd.role1 in lurushenhe_role1_group:
-                    for plsp in performancelurushenheparameter_datas:
-                        rolelist = [i for i in plsp.role.split(',')]
-                        quantity = sum([i.zshzjs for i in performancebonus_datas_byname if i.ywlx in rolelist])
-                        jjdj, sskcs = self.get_lurushenheparameter(plsp.quarters, quantity)
-                        for pd in performancebonus_datas_byname:
-                            if pd.ywlx in rolelist:
-                                pd.write({'jjdj': jjdj, 'sskcs': sskcs})
+                # if rd.role1 in lurushenhe_role1_group:
+                for plsp in performancelurushenheparameter_datas:
+                    rolelist = [i for i in plsp.role.split(',')]
+                    quantity = sum([i.zshzjs for i in performancebonus_datas_byname if i.ywlx in rolelist])
+                    jjdj, sskcs = self.get_lurushenheparameter(plsp.quarters, quantity)
+                    for pd in performancebonus_datas_byname:
+                        if pd.ywlx in rolelist:
+                            pd.write({'jjdj': jjdj, 'sskcs': sskcs})
             # else:
             #     performancebonus_datas_byname_byrole1 = self.env['hr.performancebonus'].search(
             #         [('teller_name', '=', rd.name),('role1', '=', u'专业化岗')])
@@ -159,7 +169,22 @@ class HrPerformanceOriReportDelete(models.TransientModel):
     @api.multi
     def performanceorireport_delete(self):
         # TODO:delete ori report
-        pass
+        performancereportori_datas = self.env[
+            'hr.performancereportori'].search([])
+        for r in performancereportori_datas:
+            r.unlink()
+        performancemobilereportori_datas = self.env[
+            'hr.performancemobilereportori'].search([])
+        for r in performancemobilereportori_datas:
+            r.unlink()    
+        performancebranchreportori_datas = self.env[
+            'hr.performancebranchreportori'].search([])
+        for r in performancebranchreportori_datas:
+            r.unlink()
+        performancebranchmobilereportori_datas = self.env[
+            'hr.performancebranchmobilereportori'].search([])
+        for r in performancebranchmobilereportori_datas:
+            r.unlink() 
 
 
 class HrPerformanceProCalculationCompute(models.TransientModel):

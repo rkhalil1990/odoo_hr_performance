@@ -24,9 +24,18 @@
 # print x
 # 
 # 
-import re
+# import re
 
 
-r = re.sub(r'not[\w\d\s]*bad', 'good','This dinner is not that bad!')
-print r
+# r = re.sub(r'not[\w\d\s]*bad', 'good','This dinner is not that bad!')
+# print r
 # print s.replace(r.group[0], 'good')
+# import base64
+
+# a = '6KaB54K577yaSlTmsqHog4zmma/vvJtMWemHjOmdouS6i+WEv+aMuuWkp++8m0xLUeWkseWKv++8m0xGRuiAgeWFrOiiq25lbmfmrbs='
+# b = base64.b64decode(a)
+a = 1
+if a==0:
+    b=3
+print type(b)
+print b

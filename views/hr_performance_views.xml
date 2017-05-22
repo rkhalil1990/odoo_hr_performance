@@ -165,9 +165,9 @@
 							<field name="tjyxmh"/>
 							<field name="lrcwl"/>
 							<field name="lrzql"/>
+                            <field name="lrdhl"/>
 						</group>
 						<group>
-							<field name="lrdhl"/>
 							<field name="shdhs"/>
 							<field name="ythqtdhs"/>
 							<field name="rqshdhs"/>
@@ -180,6 +180,8 @@
 							<field name="sqdhl"/>
 							<field name="pjclsd"/>
 							<field name="pzhs"/>
+                            <field name="yxdw_zhjh"/>
+                            <field name="yxdw_qt"/>
 						</group>
 					</group>
                 </sheet>
@@ -216,6 +218,8 @@
 					<field name="sqdhl"/>
 					<field name="pjclsd"/>
 					<field name="pzhs"/>
+                    <field name="yxdw_zhjh"/>
+                    <field name="yxdw_qt"/>
                 </tree>
             </field>
        </record>
@@ -317,9 +321,9 @@
 							<field name="tjyxmh"/>
 							<field name="lrcwl"/>
 							<field name="lrzql"/>
+                            <field name="lrdhl"/>
 						</group>
 						<group>
-							<field name="lrdhl"/>
 							<field name="shdhs"/>
 							<field name="ythqtdhs"/>
 							<field name="rqshdhs"/>
@@ -328,7 +332,8 @@
 							<field name="fkrshdhs"/>
 							<field name="bsshdhs"/>
 							<field name="shdhl"/>
-							
+							<field name="yxdw_zhjh"/>
+                            <field name="yxdw_qt"/>
 						</group>
 					</group>
                 </sheet>
@@ -361,6 +366,8 @@
 					<field name="fkrshdhs"/>
 					<field name="bsshdhs"/>
 					<field name="shdhl"/>
+                    <field name="yxdw_zhjh"/>
+                    <field name="yxdw_qt"/>
                 </tree>
             </field>
        </record>  
