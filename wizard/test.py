@@ -34,8 +34,6 @@
 
 # a = '6KaB54K577yaSlTmsqHog4zmma/vvJtMWemHjOmdouS6i+WEv+aMuuWkp++8m0xLUeWkseWKv++8m0xGRuiAgeWFrOiiq25lbmfmrbs='
 # b = base64.b64decode(a)
-a = 1
-if a==0:
-    b=3
-print type(b)
-print b
+b= u'专业化岗1'
+a =u'专业化岗位'
+print b in a

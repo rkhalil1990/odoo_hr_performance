@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="Parameters">
                 <group>
-                    <label string="后台计算奖金."/>
+                    <label string="生成业务信息明细."/>
                 </group>
                 <footer>
                     <button name="performancebonus_compute" string="计算" type="object" class="btn-primary"/>
@@ -39,7 +39,7 @@
         <field name="arch" type="xml">
             <form string="Parameters">
                 <group>
-                    <label string="清空已生成数据."/>
+                    <label string="清空已生成数据（包括明细和汇总）."/>
                 </group>
                 <footer>
                     <button name="performancebonus_delete" string="清空" type="object" class="btn-primary"/>
@@ -101,15 +101,15 @@
 	
 	
 	
-		<menuitem action="act_hr_performance_bonus_compute" name="生成中间奖金计算" id="menu_act_hr_performance_bonus_compute"  parent="menu_hr_performance_operation" 
+		<menuitem action="act_hr_performance_bonus_compute" name="生成业务信息明细" id="menu_act_hr_performance_bonus_compute"  parent="menu_hr_performance_operation" 
 		sequence="201"/>
 		
 		<menuitem action="act_hr_performance_procalculation_compute" name="生成专业化岗位业务量计算表" id="menu_act_hr_performance_procalculation_compute"  parent="menu_hr_performance_operation" 
 		sequence="202"/>
 
-		<menuitem action="act_hr_performance_bonus_delete" name="清空已生成数据" id="menu_act_hr_performance_bonus_delete"  parent="menu_hr_performance_operation" 
-		sequence="209"/>
+		<menuitem action="act_hr_performance_bonus_delete" name="清空已生成数据" id="menu_act_hr_performance_bonus_delete"  parent="menu_hr_performance_del" 
+		sequence="901"/>
 		
-		<menuitem action="act_hr_performance_orireport_delete" name="清空原始报表" id="menu_act_hr_performance_orireport_delete"  parent="menu_hr_performance_operation" 
-		sequence="210"/>
+		<menuitem action="act_hr_performance_orireport_delete" name="清空原始报表" id="menu_act_hr_performance_orireport_delete"  parent="menu_hr_performance_del" 
+		sequence="902"/>
 </odoo>

@@ -6,11 +6,7 @@
                 <script type="text/javascript" src="/hr_performance/static/src/js/webaddon.js"></script>
             </xpath>
      </template> 
-	 
 
-	
-	 
-	 
 	 <record id="hr_performancebonus_form" model="ir.ui.view">
         <field name="name">hr.performancebonus.form</field>
         <field name="model">hr.performancebonus</field>
@@ -48,7 +44,9 @@
 							<field name="ranking"/>
 							<field name="ratio"/>
 							<field name="manager_ratio"/>
-							<field name="complete_rate"/>
+                            <field name="complete_rate"/>
+                            <field name="complete_changed_rate"/>
+							<field name="source_from"/>
 					</group>
                 </sheet>
             </form>
@@ -89,19 +87,68 @@
 							<field name="ratio"/>
 							<field name="manager_ratio"/>
 							<field name="complete_rate"/>
+                            <field name="complete_changed_rate"/>
+                            <field name="source_from"/>
                 </tree>
             </field>
        </record>
 	 
-	 
+	  <record id="hr_performancebonustotal_form" model="ir.ui.view">
+        <field name="name">hr.performancebonustotal.form</field>
+        <field name="model">hr.performancebonustotal</field>
+        <field name="arch" type="xml">
+            <form string="hr performancebonustotal Form">
+                <sheet>
+                    <group>
+                            <field name="teller_num"/>
+                            <field name="teller_name"/>
+                            <field name="identity"/>
+                            <field name="quarters"/>
+                            <field name="quarters_date"/>
+                            <field name="group"/>
+                            <field name="role"/>
+                            <field name="role1"/>
+                            <field name="zshzjs"/>
+                            <field name="kj"/>
+                            <field name="jj"/>
+                            <field name="ranking"/>
+                            <field name="ratio"/>
+                            <field name="manager_ratio"/>
+                            <field name="complete_rate"/>
+                            <field name="complete_changed_rate"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performancebonustotal_tree" model="ir.ui.view">
+            <field name="name">hr.performancebonustotal.tree</field>
+            <field name="model">hr.performancebonustotal</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancebonustotal">
+                    <field name="teller_num"/>
+                            <field name="teller_name"/>
+                            <field name="identity"/>
+                            <field name="quarters"/>
+                            <field name="quarters_date"/>
+                            <field name="group"/>
+                            <field name="role"/>
+                            <field name="role1"/>
+                            <field name="zshzjs"/>
+                            <field name="kj"/>
+                            <field name="jj"/>
+                            <field name="ranking"/>
+                            <field name="ratio"/>
+                            <field name="manager_ratio"/>
+                            <field name="complete_rate"/>
+                            <field name="complete_changed_rate"/>
+                </tree>
+            </field>
+       </record>
 	   
 	 
-	 
-	 
-	 
-	 
-	 
-	 <record id="hr_performancebonuscalculation_form" model="ir.ui.view">
+<!-- 	 <record id="hr_performancebonuscalculation_form" model="ir.ui.view">
         <field name="name">hr.performancebonuscalculation.form</field>
         <field name="model">hr.performancebonuscalculation</field>
         <field name="arch" type="xml">
@@ -141,10 +188,7 @@
 					<field name="x_lrywzl"/>
                 </tree>
             </field>
-       </record>
-	 
-	 
-	 
+       </record> -->
 
   <record id="hr_performancereportori_form" model="ir.ui.view">
         <field name="name">hr.performancereportori.form</field>
@@ -379,7 +423,6 @@
             <form string="hr performancebranchmobilereportori Form">
                 <sheet>
 					<group>
-						<group>
 							<field name="teller_num"/>
 							<field name="teller_name"/>
 							<field name="role"/>
@@ -393,7 +436,6 @@
 							<field name="lrcwl"/>
 							<field name="lrzql"/>
 							<field name="yxmhl"/>
-						</group>
 					</group>
                 </sheet>
             </form>
@@ -505,9 +547,6 @@
        </record>
 	   
 	   
-	   
-	   
-  
   <record id="hr_performancelurushenheparameter_form" model="ir.ui.view">
         <field name="name">hr.performancelurushenheparameter.form</field>
         <field name="model">hr.performancelurushenheparameter</field>
@@ -589,9 +628,20 @@
             <form string="hr performanceplusminus Form">
                 <sheet>
 					<group>
-							<field name="teller_name"/>
 							<field name="work_num"/>
-							<field name="work_group"/>
+                            <field name="teller_name"/>
+                            <field name="group"/>
+                            <field name="area"/>
+                            <field name="role"/>
+                            <field name="jjywsj1"/>
+                            <field name="jjywsj2"/>
+                            <field name="jjywsj3"/>
+                            <field name="jjywsj4"/>
+                            <field name="jjywsj5"/>
+                            <field name="jjywsjxj"/>
+                            <field name="mxsbtywl"/>
+                            <field name="btywlxj"/>
+                            <field name="remark"/>
 					</group>
                 </sheet>
             </form>
@@ -603,16 +653,27 @@
             <field name="model">hr.performanceplusminus</field>
             <field name="arch" type="xml">
                 <tree string="Hr performanceplusminus">
-                    <field name="teller_name"/>
-							<field name="work_num"/>
-							<field name="work_group"/>
+                            <field name="work_num"/>
+                            <field name="teller_name"/>
+                            <field name="group"/>
+                            <field name="area"/>
+                            <field name="role"/>
+                            <field name="jjywsj1"/>
+                            <field name="jjywsj2"/>
+                            <field name="jjywsj3"/>
+                            <field name="jjywsj4"/>
+                            <field name="jjywsj5"/>
+                            <field name="jjywsjxj"/>
+                            <field name="mxsbtywl"/>
+                            <field name="btywlxj"/>
+                            <field name="remark"/>
 						
                 </tree>
             </field>
        </record>
   
   
-  <record id="hr_performanceyxdw_form" model="ir.ui.view">
+<!--   <record id="hr_performanceyxdw_form" model="ir.ui.view">
         <field name="name">hr.performanceyxdw.form</field>
         <field name="model">hr.performanceyxdw</field>
         <field name="arch" type="xml">
@@ -647,7 +708,7 @@
 						
                 </tree>
             </field>
-       </record>
+       </record> -->
   
   
   
@@ -766,58 +827,10 @@
   
   
   
-  <record id="hr_performancebasicallowance_form" model="ir.ui.view">
-        <field name="name">hr.performancebasicallowance.form</field>
-        <field name="model">hr.performancebasicallowance</field>
-        <field name="arch" type="xml">
-            <form string="hr performancebasicallowance Form">
-                <sheet>
-					<group>
-							<field name="work_num"/>
-							<field name="teller_name"/>
-							<field name="group"/>
-							<field name="area"/>
-							<field name="role"/>
-							<field name="jjywsj1"/>
-							<field name="jjywsj2"/>
-                            <field name="jjywsj3"/>
-							<field name="jjywsj4"/>
-							<field name="jjywsj5"/>
-							<field name="jjywsjxj"/>
-							<field name="mxsbtywl"/>
-							<field name="btywlxj"/>
-							<field name="remark"/>
-					</group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-  
-	  <record id="hr_performancebasicallowance_tree" model="ir.ui.view">
-            <field name="name">hr.performancebasicallowance.tree</field>
-            <field name="model">hr.performancebasicallowance</field>
-            <field name="arch" type="xml">
-                <tree string="Hr performancebasicallowance">
-							<field name="work_num"/>
-							<field name="teller_name"/>
-							<field name="group"/>
-							<field name="area"/>
-							<field name="role"/>
-							<field name="jjywsj1"/>
-							<field name="jjywsj2"/>
-                            <field name="jjywsj3"/>
-							<field name="jjywsj4"/>
-							<field name="jjywsj5"/>
-							<field name="jjywsjxj"/>
-							<field name="mxsbtywl"/>
-							<field name="btywlxj"/>
-							<field name="remark"/>
-                </tree>
-            </field>
-       </record>
   
   
-  <record id="hr_performancebasicallowancepara_form" model="ir.ui.view">
+  
+ <!--  <record id="hr_performancebasicallowancepara_form" model="ir.ui.view">
         <field name="name">hr.performancebasicallowancepara.form</field>
         <field name="model">hr.performancebasicallowancepara</field>
         <field name="arch" type="xml">
@@ -846,7 +859,7 @@
 						
                 </tree>
             </field>
-       </record>
+       </record> -->
   
   
   
@@ -863,10 +876,13 @@
 							<field name="role"/>
 							<field name="group"/>
                             <field name="quarters_date"/>
+                            <field name="role"/>
+                            <field name="ywzl"/>
 							<field name="jjywsj1"/>
 							<field name="jjywsj2"/>
                             <field name="jjywsj3"/>
-							<field name="total_time"/>
+                            <field name="jjywsj4"/>
+                            <field name="jjywsj5"/>
 					</group>
                 </sheet>
             </form>
@@ -879,15 +895,18 @@
             <field name="arch" type="xml">
                 <tree string="Hr performanceproallowance">
 							<field name="work_num"/>
-							<field name="teller_name"/>
-							<field name="quarters"/>
-							<field name="role"/>
-							<field name="group"/>
+                            <field name="teller_name"/>
+                            <field name="quarters"/>
+                            <field name="role"/>
+                            <field name="group"/>
                             <field name="quarters_date"/>
-							<field name="jjywsj1"/>
-							<field name="jjywsj2"/>
+                            <field name="role"/>
+                            <field name="ywzl"/>
+                            <field name="jjywsj1"/>
+                            <field name="jjywsj2"/>
                             <field name="jjywsj3"/>
-							<field name="total_time"/>
+                            <field name="jjywsj4"/>
+                            <field name="jjywsj5"/>
                 </tree>
             </field>
        </record>
@@ -1128,7 +1147,7 @@
             </field>
       </record>
 
-	<record id="act_hr_performancebystandardori" model="ir.actions.act_window">
+<!-- 	<record id="act_hr_performancebystandardori" model="ir.actions.act_window">
             <field name="name">导入按标准计奖岗考核</field>
             <field name="res_model">hr.performancebystandardori</field>
             <field name="view_type">form</field>
@@ -1138,9 +1157,9 @@
                 导入按标准计奖岗考核.
               </p>
             </field>
-      </record>
+      </record> -->
 	  
-	 <record id="act_hr_performancetele" model="ir.actions.act_window">
+<!-- 	 <record id="act_hr_performancetele" model="ir.actions.act_window">
             <field name="name">导入电联柜员业务量</field>
             <field name="res_model">hr.performancetele</field>
             <field name="view_type">form</field>
@@ -1150,31 +1169,20 @@
                 导入电联柜员业务量.
               </p>
             </field>
-      </record>
+      </record> -->
 	  
 	 <record id="act_hr_performanceplusminus" model="ir.actions.act_window">
-            <field name="name">导入加扣</field>
+            <field name="name">导入基础作业岗工时补贴表</field>
             <field name="res_model">hr.performanceplusminus</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field> 
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
-                导入加扣.
+                导入基础作业岗工时补贴表.
               </p>
             </field>
       </record>
 	  
-	  <record id="act_hr_performanceyxdw" model="ir.actions.act_window">
-            <field name="name">导入影像定位</field>
-            <field name="res_model">hr.performanceyxdw</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field> 
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                导入影像定位.
-              </p>
-            </field>
-      </record>
 	  
 	   <record id="act_hr_performancelurushenheparameter" model="ir.actions.act_window">
             <field name="name">录入审核参数</field>
@@ -1232,7 +1240,6 @@
             <field name="res_model">hr.performancebonustotal</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field> 
-			
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 奖金汇总.
@@ -1240,7 +1247,7 @@
             </field>
       </record>
       
-      <record id="act_hr_performancebasicallowance" model="ir.actions.act_window">
+<!--       <record id="act_hr_performancebasicallowance" model="ir.actions.act_window">
             <field name="name">补业务量明细表</field>
             <field name="res_model">hr.performancebasicallowance</field>
             <field name="view_type">form</field>
@@ -1250,28 +1257,17 @@
                 补业务量明细表.
               </p>
             </field>
-      </record>
+      </record> -->
       
-	 <record id="act_hr_performancebasicallowancepara" model="ir.actions.act_window">
-            <field name="name">补业务量参数</field>
-            <field name="res_model">hr.performancebasicallowancepara</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field> 
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                补业务量参数.
-              </p>
-            </field>
-      </record>
      
      <record id="act_hr_performanceproallowance" model="ir.actions.act_window">
-            <field name="name">专业化业务量明细表</field>
+            <field name="name">导入专业化岗业务量及工时补贴表</field>
             <field name="res_model">hr.performanceproallowance</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field> 
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
-                专业化业务量明细表.
+                导入专业化岗业务量及工时补贴表.
               </p>
             </field>
       </record>
@@ -1311,12 +1307,13 @@
 	
 	<menuitem id="menu_hr_performance" name="人员绩效相关" parent="menu_performance_title"
         sequence="100" />
-		<menuitem action="act_hr_performancebonus" name="奖金计算" id="menu_act_hr_performancebonus" parent="menu_hr_performance"
+		<menuitem action="act_hr_performancebonus" name="奖金明细" id="menu_act_hr_performancebonus" parent="menu_hr_performance"
         sequence="101"/>
-		
+		<menuitem action="act_hr_performancebonustotal" name="奖金汇总" id="menu_act_hr_performancebonustotal" parent="menu_hr_performance"
+        sequence="102"/>
 		
 			 
-	<menuitem id="menu_hr_performance_operation" name="操作" parent="menu_performance_title"
+	<menuitem id="menu_hr_performance_operation" name="计算奖金" parent="menu_performance_title"
         sequence="200" />
 		 
 			 
@@ -1335,7 +1332,7 @@
 
 
 	
-	<menuitem id="menu_hr_performance_ori" name="原始报表导入" parent="menu_performance_title"
+	<menuitem id="menu_hr_performance_ori" name="业务基础信息导入" parent="menu_performance_title"
         sequence="500" />	
 	<menuitem action="act_hr_performanceroleori" name="导入角色表" id="menu_act_hr_performanceroleori" parent="menu_hr_performance_ori"
          sequence="501"/>          
@@ -1347,23 +1344,21 @@
          sequence="504"/>     
     <menuitem action="act_hr_performancebranchmobilereportori" name="导入双中心信移业务绩效考核报表" id="menu_act_hr_performancebranchmobilereportori" parent="menu_hr_performance_ori"
          sequence="505"/>     
-    <menuitem action="act_hr_performancetele" name="导入电联柜员业务量" id="menu_act_hr_performancetele" parent="menu_hr_performance_ori"
-         sequence="506"/>      
-	<menuitem action="act_hr_performanceplusminus" name="导入加扣" id="menu_act_hr_performanceplusminus" parent="menu_hr_performance_ori"
-         sequence="507"/> 	 
-	<menuitem action="act_hr_performanceyxdw" name="导入影像定位" id="menu_act_hr_performanceyxdw" parent="menu_hr_performance_ori"
-         sequence="508"/>		
-	<menuitem action="act_hr_performancebystandardori" name="导入按标准计奖岗考核" id="menu_act_hr_performancebystandardori" parent="menu_hr_performance_ori"
-         sequence="509"/>
+  <!--   <menuitem action="act_hr_performancetele" name="导入电联柜员业务量" id="menu_act_hr_performancetele" parent="menu_hr_performance_ori"
+         sequence="506"/>   -->   
+	<menuitem action="act_hr_performanceplusminus" name="导入基础作业岗工时补贴表" id="menu_act_hr_performanceplusminus" parent="menu_hr_performance_ori"
+         sequence="507"/> 	  
+
+	<!-- <menuitem action="act_hr_performancebystandardori" name="导入按标准计奖岗考核" id="menu_act_hr_performancebystandardori" parent="menu_hr_performance_ori"
+         sequence="509"/> -->
 		 
-	<menuitem action="act_hr_performancebasicallowance" name="补业务量明细表" id="menu_act_hr_performancebasicallowance" parent="menu_hr_performance_ori"
-         sequence="510"/>	 
-	<menuitem action="act_hr_performancebasicallowancepara" name="补业务量参数" id="menu_act_hr_performancebasicallowancepara" parent="menu_hr_performance_ori"
-         sequence="511"/>	 
-	<menuitem action="act_hr_performanceproallowance" name="专业化业务量明细表" id="menu_act_hr_performanceproallowance" parent="menu_hr_performance_ori"
+<!-- 	<menuitem action="act_hr_performancebasicallowance" name="补业务量明细表" id="menu_act_hr_performancebasicallowance" parent="menu_hr_performance_ori"
+         sequence="510"/>	--> 
+
+	<menuitem action="act_hr_performanceproallowance" name="导入专业化岗业务量及工时补贴表" id="menu_act_hr_performanceproallowance" parent="menu_hr_performance_ori"
          sequence="512"/>
-	<menuitem action="act_hr_performanceproname" name="专业化业务名称" id="menu_act_hr_performanceproname" parent="menu_hr_performance_ori"
-         sequence="513"/>
+<!-- 	<menuitem action="act_hr_performanceproname" name="专业化业务名称" id="menu_act_hr_performanceproname" parent="menu_hr_performance_ori"
+         sequence="513"/> -->
 		 
      <menuitem id="menu_hr_performance_hr_ori" name="人事基础信息导入" parent="menu_performance_title"
         sequence="600" />    
@@ -1376,6 +1371,7 @@
     <menuitem id="menu_hr_performance_report" name="报表" parent="menu_performance_title"
         sequence="800" /> 
 		
-		
+	<menuitem id="menu_hr_performance_del" name="删除数据慎重" parent="menu_performance_title"
+        sequence="900" /> 	
 		
 </odoo>
