@@ -769,7 +769,7 @@
   
  
   
-  <record id="hr_performancebonustotal_form" model="ir.ui.view">
+  <!-- <record id="hr_performancebonustotal_form" model="ir.ui.view">
         <field name="name">hr.performancebonustotal.form</field>
         <field name="model">hr.performancebonustotal</field>
         <field name="arch" type="xml">
@@ -823,7 +823,7 @@
 					<field name="bc"/>
                 </tree>
             </field>
-       </record>
+       </record> -->
   
   
   
@@ -875,14 +875,10 @@
 							<field name="quarters"/>
 							<field name="role"/>
 							<field name="group"/>
-                            <field name="quarters_date"/>
-                            <field name="role"/>
+                            <field name="ywlx"/>
                             <field name="ywzl"/>
-							<field name="jjywsj1"/>
-							<field name="jjywsj2"/>
-                            <field name="jjywsj3"/>
-                            <field name="jjywsj4"/>
-                            <field name="jjywsj5"/>
+							<field name="join_date"/>
+							<field name="minus_date"/>
 					</group>
                 </sheet>
             </form>
@@ -899,14 +895,10 @@
                             <field name="quarters"/>
                             <field name="role"/>
                             <field name="group"/>
-                            <field name="quarters_date"/>
-                            <field name="role"/>
+                            <field name="ywlx"/>
                             <field name="ywzl"/>
-                            <field name="jjywsj1"/>
-                            <field name="jjywsj2"/>
-                            <field name="jjywsj3"/>
-                            <field name="jjywsj4"/>
-                            <field name="jjywsj5"/>
+                            <field name="join_date"/>
+                            <field name="minus_date"/>
                 </tree>
             </field>
        </record>
@@ -1002,7 +994,7 @@
             </field>
        </record>
 
-<record id="hr_performanceattendance_form" model="ir.ui.view">
+    <record id="hr_performanceattendance_form" model="ir.ui.view">
         <field name="name">hr.performanceattendance.form</field>
         <field name="model">hr.performanceattendance</field>
         <field name="arch" type="xml">
@@ -1054,6 +1046,71 @@
             </field>
        </record>
 
+<record id="hr_performancememberinfo_form" model="ir.ui.view">
+        <field name="name">hr.performancememberinfo.form</field>
+        <field name="model">hr.performancememberinfo</field>
+        <field name="arch" type="xml">
+            <form string="hr performancememberinfo Form">
+                <sheet>
+                    <group>
+                            <field name="teller_num"/>
+                            <field name="work_num"/>
+                            <field name="teller_name"/>
+                            <field name="gender"/>
+                            <field name="orgnization"/>
+                            <field name="quarters"/>
+                            <field name="quarters_date"/>
+                            <field name="role"/>
+                            <field name="group"/>
+                            <field name="area_manager"/>
+                            <field name="join_date"/>
+                            <field name="adjusted_join_date"/>
+                            <field name="job_status"/>
+                            <field name="leave_date"/>
+                            <field name="leave_reason"/>
+                            <field name="age"/>
+                            <field name="adjusted_working_date"/>
+                            <field name="recruite_from"/>
+                            <field name="degree"/>
+                            <field name="school"/>
+                            <field name="job_nature"/>
+                            <field name="job_importance"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performancememberinfo_tree" model="ir.ui.view">
+            <field name="name">hr.performancememberinfo.tree</field>
+            <field name="model">hr.performancememberinfo</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancememberinfo">
+                            <field name="teller_num"/>
+                            <field name="work_num"/>
+                            <field name="teller_name"/>
+                            <field name="gender"/>
+                            <field name="orgnization"/>
+                            <field name="quarters"/>
+                            <field name="quarters_date"/>
+                            <field name="role"/>
+                            <field name="group"/>
+                            <field name="area_manager"/>
+                            <field name="join_date"/>
+                            <field name="adjusted_join_date"/>
+                            <field name="job_status"/>
+                            <field name="leave_date"/>
+                            <field name="leave_reason"/>
+                            <field name="age"/>
+                            <field name="adjusted_working_date"/>
+                            <field name="recruite_from"/>
+                            <field name="degree"/>
+                            <field name="school"/>
+                            <field name="job_nature"/>
+                            <field name="job_importance"/>
+                </tree>
+            </field>
+       </record>
 
 
   
@@ -1297,6 +1354,18 @@
             </field>
       </record>
 
+      <record id="act_hr_performancememberinfo" model="ir.actions.act_window">
+            <field name="name">人员信息表</field>
+            <field name="res_model">hr.performancememberinfo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                人员信息表.
+              </p>
+            </field>
+      </record>
+
 
 	<menuitem
         id="menu_performance_title"
@@ -1308,9 +1377,9 @@
 	<menuitem id="menu_hr_performance" name="人员绩效相关" parent="menu_performance_title"
         sequence="100" />
 		<menuitem action="act_hr_performancebonus" name="奖金明细" id="menu_act_hr_performancebonus" parent="menu_hr_performance"
-        sequence="101"/>
-		<menuitem action="act_hr_performancebonustotal" name="奖金汇总" id="menu_act_hr_performancebonustotal" parent="menu_hr_performance"
         sequence="102"/>
+		<menuitem action="act_hr_performancebonustotal" name="奖金汇总" id="menu_act_hr_performancebonustotal" parent="menu_hr_performance"
+        sequence="101"/>
 		
 			 
 	<menuitem id="menu_hr_performance_operation" name="计算奖金" parent="menu_performance_title"
@@ -1360,11 +1429,12 @@
 <!-- 	<menuitem action="act_hr_performanceproname" name="专业化业务名称" id="menu_act_hr_performanceproname" parent="menu_hr_performance_ori"
          sequence="513"/> -->
 		 
-     <menuitem id="menu_hr_performance_hr_ori" name="人事基础信息导入" parent="menu_performance_title"
+     <menuitem id="menu_hr_performance_hr_ori" name="导入人事基础信息" parent="menu_performance_title"
         sequence="600" />    
-        <menuitem action="act_hr_performanceattendance" name="考勤记录导入" id="menu_act_hr_performanceattendance" parent="menu_hr_performance_hr_ori"
+        <menuitem action="act_hr_performanceattendance" name="考勤记录" id="menu_act_hr_performanceattendance" parent="menu_hr_performance_hr_ori"
          sequence="601"/>
-
+         <menuitem action="act_hr_performancememberinfo" name="人员信息表" id="menu_act_hr_performancememberinfo" parent="menu_hr_performance_hr_ori"
+         sequence="602"/>
    <!--   <menuitem id="menu_hr_performance_field" name="数据库" parent="menu_performance_title"
         sequence="700" />   -->  
        

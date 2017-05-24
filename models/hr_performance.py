@@ -274,9 +274,9 @@ class HrPerformanceReportOri(models.Model):  # 总行数据处理中心绩效考
     lrzjs = fields.Integer(u'录入字节数')
     lrccs = fields.Integer(u'录入差错数')
     tjyxmh = fields.Integer(u'提交影像模糊')
-    lrcwl = fields.Float(u'录入错误率')
-    lrzql = fields.Float(u'录入正确率')
-    lrdhl = fields.Float(u'录入打回率')
+    lrcwl = fields.Float(u'录入错误率', digits=(5, 5))
+    lrzql = fields.Float(u'录入正确率', digits=(5, 5))
+    lrdhl = fields.Float(u'录入打回率', digits=(5, 5))
     shdhs = fields.Integer(u'审核打回数')
     ythqtdhs = fields.Integer(u'用途和其他审核打回数')
     rqshdhs = fields.Integer(u'日期审核打回数')
@@ -284,9 +284,9 @@ class HrPerformanceReportOri(models.Model):  # 总行数据处理中心绩效考
     skrshdhs = fields.Integer(u'收款人审核打回数')
     fkrshdhs = fields.Integer(u'付款人审核打回数')
     bsshdhs = fields.Integer(u'背书审核打回数')
-    shdhl = fields.Float(u'审核打回率')
+    shdhl = fields.Float(u'审核打回率', digits=(5, 5))
     sqdhs = fields.Integer(u'授权打回数')
-    sqdhl = fields.Float(u'授权打回率')
+    sqdhl = fields.Float(u'授权打回率', digits=(5, 5))
     pjclsd = fields.Float(u'平均处理速度')
     pzhs = fields.Float(u'批注耗时')
     yxdw_zhjh = fields.Float(u'影像定位账户激活')
@@ -311,9 +311,9 @@ class HrPerformanceMobileReportOri(models.Model):  # 信移业务绩效考核报
     lrzjs = fields.Integer(u'录入字节数')
     ccs = fields.Integer(u'差错数')
     tjyxmhs = fields.Integer(u'提交影像模糊数')
-    cwl = fields.Float(u'错误率')
-    zql = fields.Float(u'正确率')
-    yxmhl = fields.Float(u'影像模糊率')
+    cwl = fields.Float(u'错误率', digits=(5, 5))
+    zql = fields.Float(u'正确率', digits=(5, 5))
+    yxmhl = fields.Float(u'影像模糊率', digits=(5, 5))
     jjgtg = fields.Integer(u'检件岗(通过)')
     jjgbtg = fields.Integer(u'检件岗(不通过)')
     jjgdqrdbj = fields.Integer(u'检件岗(待确认待补件)')
@@ -323,7 +323,7 @@ class HrPerformanceMobileReportOri(models.Model):  # 信移业务绩效考核报
     ccgthqt = fields.Integer(u'差错岗(退回前台)')
     ccgcxtj = fields.Integer(u'差错岗(重新提交)')
     ccgdhlx = fields.Integer(u'差错岗(电话联系)')
-    clsd = fields.Float(u'处理速度')
+    clsd = fields.Float(u'处理速度', digits=(5, 5))
 
 
 class HrPerformanceBranchReportOri(models.Model):  # 双中心总行数据处理中心绩效考核报表
@@ -340,9 +340,9 @@ class HrPerformanceBranchReportOri(models.Model):  # 双中心总行数据处理
     lrzjs = fields.Integer(u'录入字节数')
     lrccs = fields.Integer(u'录入差错数')
     tjyxmh = fields.Integer(u'提交影像模糊')
-    lrcwl = fields.Float(u'录入错误率')
-    lrzql = fields.Float(u'录入正确率')
-    lrdhl = fields.Float(u'录入打回率')
+    lrcwl = fields.Float(u'录入错误率', digits=(5, 5))
+    lrzql = fields.Float(u'录入正确率', digits=(5, 5))
+    lrdhl = fields.Float(u'录入打回率', digits=(5, 5))
     shdhs = fields.Integer(u'审核打回数')
     ythqtdhs = fields.Integer(u'用途和其他审核打回数')
     rqshdhs = fields.Integer(u'日期审核打回数')
@@ -350,7 +350,7 @@ class HrPerformanceBranchReportOri(models.Model):  # 双中心总行数据处理
     skrshdhs = fields.Integer(u'收款人审核打回数')
     fkrshdhs = fields.Integer(u'付款人审核打回数')
     bsshdhs = fields.Integer(u'背书审核打回数')
-    shdhl = fields.Float(u'审核打回率')
+    shdhl = fields.Float(u'审核打回率', digits=(5, 5))
     yxdw_zhjh = fields.Float(u'影像定位账户激活')
     yxdw_qt = fields.Float(u'影像定位其他')
 
@@ -369,9 +369,9 @@ class HrPerformanceBranchMobileReportOri(models.Model):  # 双中心信移业务
     lrzjs = fields.Integer(u'录入字节数')
     lrccs = fields.Integer(u'录入差错数')
     tjyxmhs = fields.Integer(u'提交影像模糊数')
-    lrcwl = fields.Float(u'录入错误率')
-    lrzql = fields.Float(u'录入正确率')
-    yxmhl = fields.Float(u'影像模糊率')
+    lrcwl = fields.Float(u'录入错误率', digits=(5, 5))
+    lrzql = fields.Float(u'录入正确率', digits=(5, 5))
+    yxmhl = fields.Float(u'影像模糊率', digits=(5, 5))
 
 
 class HrPerformanceRoleOri(models.Model):  # 角色表
@@ -624,14 +624,15 @@ class HrPerformanceProAllowance(models.Model):  # 专业化岗业务量及工时
     quarters = fields.Char(u'岗位')
     role = fields.Char(u'柜员角色')
     group = fields.Char(u'组别')
-    quarters_date = fields.Char(u'当月上岗时间')
-    role = fields.Char(u'角色')
+    ywlx = fields.Char(u'角色')
     ywzl = fields.Float(u'业务总量')
-    jjywsj1 = fields.Float(u'加减业务时间作业经理')
-    jjywsj2 = fields.Float(u'加减业务时间管理组')
-    jjywsj3 = fields.Float(u'加减业务时间调度及流程管理组')
-    jjywsj4 = fields.Float(u'加减业务时间人事组')
-    jjywsj5 = fields.Float(u'加减业务时间IT行政组')
+    join_date = fields.Char(u'当月上岗时间')
+    minus_date = fields.Char(u'新上岗员工当月应扣发天数')
+    # jjywsj1 = fields.Float(u'加减业务时间作业经理')
+    # jjywsj2 = fields.Float(u'加减业务时间管理组')
+    # jjywsj3 = fields.Float(u'加减业务时间调度及流程管理组')
+    # jjywsj4 = fields.Float(u'加减业务时间人事组')
+    # jjywsj5 = fields.Float(u'加减业务时间IT行政组')
     # total_time = fields.Float(u'总业务时间')
 
 
@@ -690,9 +691,9 @@ class HrPerformanceAttendance(models.Model):  # 考勤
     attendance_actual = fields.Float(u'出勤日')
 
 
-class ClassName(models.Model):  # 人员信息导入
-    _name = 'hr.performanceattendance'
-    _description = 'Hr Performance Attendance'
+class HrPerformanceMemberInfo(models.Model):  # 人员信息导入
+    _name = 'hr.performancememberinfo'
+    _description = 'Hr Performance Member Information'
     _order = 'id'
 
     teller_num = fields.Char(u'柜员号')
@@ -713,10 +714,10 @@ class ClassName(models.Model):  # 人员信息导入
     age = fields.Integer(u'年龄')
     adjusted_working_date = fields.Char(u'调整后的参加工作时间')
     recruite_from = fields.Char(u'招聘来源')
-    teller_name = fields.Char(u'最高教育学历')
+    degree = fields.Char(u'最高教育学历')
     school = fields.Char(u'最高学历毕业院校')
-    teller_name = fields.Char(u'岗位性质')
-    teller_name = fields.Char(u'岗位重要度')
+    job_nature = fields.Char(u'岗位性质')
+    job_importance = fields.Char(u'岗位重要度')
 
 
 
