@@ -6,10 +6,10 @@
         <field name="arch" type="xml">
             <form string="Parameters">
                 <group>
-                    <label string="生成业务信息明细."/>
+                    <label string="生成奖金明细."/>
                 </group>
                 <footer>
-                    <button name="performancebonus_compute" string="计算" type="object" class="btn-primary"/>
+                    <button name="performancebonus_compute" string="生成" type="object" class="btn-primary"/>
                     <button string="取消" class="btn-default" special="cancel" />
                 </footer>
             </form>
@@ -22,10 +22,10 @@
         <field name="arch" type="xml">
             <form string="Parameters">
                 <group>
-                    <label string="专业化计算奖金."/>
+                    <label string="生成奖金汇总."/>
                 </group>
                 <footer>
-                    <button name="performanceprocalculation_compute" string="计算" type="object" class="btn-primary"/>
+                    <button name="performanceprocalculation_compute" string="生成" type="object" class="btn-primary"/>
                     <button string="取消" class="btn-default" special="cancel" />
                 </footer>
             </form>

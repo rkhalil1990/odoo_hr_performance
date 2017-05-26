@@ -3,6 +3,8 @@ import sys
 from openerp import api, models
 import threading
 import logging
+import itertools
+from operator import itemgetter, attrgetter
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -44,6 +46,10 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 'hr.performancebranchreportori'].search([('teller_name', '=', rd.name)])
             performancebranchmobilereportori_datas = self.env[
                 'hr.performancebranchmobilereportori'].search([('teller_name', '=', rd.name)])
+
+
+            performanceattendance_datas = self.env[
+                'hr.performanceattendance'].search([('teller_name', '=', rd.name)])
             jjcs = self.env['hr.performanceparameter'].search(
                     [('role', '=', rd.role)])
             gwxs = self.env['hr.performanceglobalparameter'].search(
@@ -115,7 +121,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                      'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
                                                                                      'ywlx': p.role, 'ywzhs': p.ywzhs, 'ywbs': p.ywbs,
                                                                                      'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.ccs,
-                                                                                     'tjyxmh': p.tjyxmh,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
+                                                                                     'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[2]
                                                                                      })
 
@@ -136,8 +142,8 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                      'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                      'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
                                                                                      'ywlx': p.role, 'ywzhs': p.ywzhs, 'ywbs': p.ywbs,
-                                                                                     'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.ccs,
-                                                                                     'tjyxmh': p.tjyxmh,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
+                                                                                     'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
+                                                                                     'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[3]
                                                                                      })
 
@@ -205,11 +211,14 @@ class HrPerformanceBonusDelete(models.TransientModel):
 
     @api.multi
     def performancebonus_delete(self):
-        performancebonuscalculation = self.env[
-            'hr.performancebonus'].search([])
-        for r in performancebonuscalculation:
+        # performancebonuscalculation = self.env[
+        #     'hr.performancebonus'].search([])
+        # for r in performancebonuscalculation:
+        #     r.unlink()
+        performancebonustotal = self.env[
+            'hr.performancebonustotal'].search([])
+        for r in performancebonustotal:
             r.unlink()
-
 
 class HrPerformanceOriReportDelete(models.TransientModel):
     _name = 'hr.performance.orireport.delete'
@@ -236,94 +245,132 @@ class HrPerformanceOriReportDelete(models.TransientModel):
             r.unlink() 
 
 
-class HrPerformanceProCalculationCompute(models.TransientModel):
+class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
     _name = 'hr.performance.procalculation.compute'
     _description = 'HR PerformancePro Calculation Compute'
+
 
     @api.multi
     def performanceprocalculation_compute(self):
         role_datas = self.env['hr.performanceroleori'].search([])
+        gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
+        lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
+        source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',u'双中心信用卡报表')
+        performancelurushenheparameter_datas = self.env['hr.performancelurushenheparameter'].search([])
+        performancegoal_datas = self.env['hr.performancegoal'].search([])
+
         for rd in role_datas:
-            recruitmentmodeldetail = self.env['hr.performancespecialistportfoliocalculation'].create({'performancespecialistportfoliocalculation_id': self.id,
-                                                                                                      'teller_num': rd.teller_num,
-                                                                                                      'teller_name': rd.name, 'identity': '派遣', 'quarters': rd.quarters,
-                                                                                                      'group': rd.work_group, 'role': rd.role,
-                                                                                                      'role1': rd.role1
-                                                                                                      })
-
-    # def _procure_calculation_orderpoint(self):
-        # with api.Environment.manage():
-            # # As this function is in a new thread, I need to open a new cursor, because the old one may be closed
-            # new_cr = self.pool.cursor()
-            # self = self.with_env(self.env(cr=new_cr))
-            # self.env['procurement.order']._procure_orderpoint_confirm(
-            # use_new_cursor=new_cr.dbname,
-            # company_id=self.env.user.company_id.id)
-            # new_cr.close()
-            # return {}
-
-    # @api.multi
-    # def procure_calculation(self):
-        # threaded_calculation = threading.Thread(target=self._procure_calculation_orderpoint, args=())
-        # threaded_calculation.start()
-        # return {'type': 'ir.actions.act_window_close'}
+            performancebonus_datas = self.env['hr.performancebonus'].search(
+                    [('teller_name', '=', rd.name)])
+            if not performancebonus_datas:
+                continue
 
 
-# read_group(*args, **kwargs)
-# Get the list of records in list view grouped by the given groupby fields
-# Parameters
-# cr -- database cursor
-# uid -- current user id
-# domain -- list specifying search criteria [['field_name', 'operator', 'value'], ...]
-# fields (list) -- list of fields present in the list view specified on the object
-# groupby (list) -- list of groupby descriptions by which the records will be grouped. A groupby description is either a field (then it will be grouped by that field) or a string 'field:groupby_function'. Right now, the only functions supported are 'day', 'week', 'month', 'quarter' or 'year', and they only make sense for date/datetime fields.
-# offset (int) -- optional number of records to skip
-# limit (int) -- optional max number of records to return
-# context (dict) -- context arguments, like lang, time zone.
-# orderby (list) -- optional order by specification, for overriding the natural sort ordering of the groups, see also search() (supported only for many2one fields currently)
-# lazy (bool) -- if true, the results are only grouped by the first groupby and the remaining groupbys are put in the __context key. If false, all the groupbys are done in one call.
-# Returns
-# list of dictionaries(one dictionary for each record) containing:
+            # paramater
+            cwl = 0.00000
+            zql = 0.00000
+            dhl = 0.00000
+            jjdj, sskcs = 0.0, 0.0
+            sh_jjdj = 0.0
+            sh_sskcs = 0.0
 
-# the values of fields grouped by the fields in groupby argument
-# __domain: list of tuples specifying the search criteria
-# __context: dictionary with argument like groupby
-# Return type [{'field_name_1': value, ...]
-# Raises  AccessError --
-# if user has no read rights on the requested object
-# if user tries to bypass access rules for read on the requested object
+            jj = 0.0
+            ranking = 0
+            kj = 0.0
 
+            jblr_mul_gwxs_ae = 0.0
+            jjzzj_bb   = 0.0
+            lrjj_be = 0.0
+            lrzlj_bk = 0.0
+            shywlxj_cy = 0.0
+            shjj_db = 0.0
+            zyhgwjbzywzshs_dy = 0.0
+            zyhgwbzj_dz = 0.0
+            teller_num = performancebonus_datas[0].teller_num
+            teller_name =performancebonus_datas[0].teller_name
+            identity = performancebonus_datas[0].identity
+            quarters = performancebonus_datas[0].quarters
+            quarters_date = performancebonus_datas[0].quarters_date
+            group = performancebonus_datas[0].group
+            role = performancebonus_datas[0].role
+            role1 = performancebonus_datas[0].role1
+            if role1 != u'专业化岗位':
+                except_list=[]
+                for plsp in performancelurushenheparameter_datas:
+                    role_list = [i for i in plsp.role.split(',')]
+                    except_list.extend(role_list)
+                    role_set = set(role_list) - set(gwxs_role_list)
+                    if plsp.quarters == u'录入岗':
+                        for i in performancebonus_datas:
+                            if i.ywlx in role_set:
+                                jjzzj_bb += i.zshzjs
+                            if i.ywlx in role_list:
+                                cwl = i.cwl if i.cwl != 0.0 else cwl
+                                zql = i.zql if i.zql != 0.0 else zql
+                                dhl = i.dhl if i.dhl != 0.0 else dhl
+                                jjdj = i.jjdj if i.jjdj != 0.0 else jjdj
+                                sskcs = i.sskcs if i.sskcs != 0.0 else sskcs
+                    elif plsp.quarters == u'审核岗':
+                        for i in performancebonus_datas:
+                            if i.ywlx in role_list:
+                                shywlxj_cy += i.zshzjs
+                                sh_jjdj = i.jjdj
+                                sh_sskcs = i.sskcs
 
-# class your_class(osv.osv):
-#     # ...
+                jblr_mul_gwxs_ae = sum([current_account.zshzjs * current_account.gwxs for current_account in performancebonus_datas if current_account.ywlx in gwxs_role_list and u'绩效' in current_account.source_from])
+                jjzzj_bb += jblr_mul_gwxs_ae
+                lrjj_be = jjzzj_bb * jjdj - sskcs
 
-#     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
-#         res = super(your_class, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
-#         if 'amount_pending' in fields:
-#             for line in res:
-#                 if '__domain' in line:
-#                     lines = self.search(cr, uid, line['__domain'], context=context)
-#                     pending_value = 0.0
-#                     for current_account in self.browse(cr, uid, lines, context=context):
-#                         pending_value += current_account.amount_pending
-#                     line['amount_pending'] = pending_value
-#         if 'amount_payed' in fields:
-#             for line in res:
-#                 if '__domain' in line:
-#                     lines = self.search(cr, uid, line['__domain'], context=context)
-#                     payed_value = 0.0
-#                     for current_account in self.browse(cr, uid, lines, context=context):
-#                         payed_value += current_account.amount_payed
-#                     line['amount_payed'] = payed_value
-#         return res
+                for i in performancegoal_datas:
+                    if i.role == role and  i.role1 == role1:
+                        zqlxs = (1+(zql-i.zql_goal)*100)
+                        lhlxs = (1+(i.fql_goal - dhl))
+                        lrzlj_bk = zqlxs*lhlxs
+                        lrzlj_bk = (lrzlj_bk - 1) * lrjj_be
 
+                shjj_db = shywlxj_cy * sh_jjdj - sh_sskcs
 
-#         class your_class(osv.osv):
-#     # ...
+                for p in performancebonus_datas:
+                    if not p.ywlx in except_list or not u'绩效' in p.source_from:
+                        jj += p.zshzjs
 
-#     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
-#         if 'column' in fields:
-#             fields.remove('column')
-# return super(your_class, self).read_group(cr, uid, domain, fields,
-# groupby, offset, limit=limit, context=context, orderby=orderby,
-# lazy=lazy):
+                jj += lrjj_be + lrzlj_bk + shjj_db
+            else:
+                jj = sum([i.zshzjs for i in performancebonus_datas]) 
+                   
+
+            
+
+            performancebonustotal = self.env['hr.performancebonustotal'].create({'teller_num': teller_num,
+                                                                                  'teller_name': teller_name, 'identity': '派遣', 'quarters': rd.quarters,
+                                                                                  'group': rd.work_group, 'role': rd.role,
+                                                                                  'role1': rd.role1, 'jblr_mul_gwxs_ae':jblr_mul_gwxs_ae,
+                                                                                  'jjzzj_bb':jjzzj_bb,'lrjj_be':lrjj_be,
+                                                                                  'lrzlj_bk':lrzlj_bk,'shywlxj_cy':shywlxj_cy,
+                                                                                  'shjj_db':shjj_db,'zyhgwjbzywzshs_dy':zyhgwjbzywzshs_dy,
+                                                                                  'zyhgwbzj_dz':zyhgwbzj_dz,'kj':kj,
+                                                                                  'jj':jj,'ranking':ranking,
+                                                                                    'lrjjdj_bc':jjdj,'sskc_bd':sskcs,
+                                                                                    'shjjdj_cz':sh_jjdj,'shsskc_da':sh_sskcs,
+                                                                                  })
+
+        datas = self.env['hr.performancebonustotal'].search([('role1','=',u'专业化岗位')])
+        datas=datas.sorted(key=attrgetter('role', 'jj'), reverse=True)
+        lastrole = ''
+        rank = 0
+        lastjj=0.0
+        samecount = 0
+        for d in datas:
+            if lastrole=='' or d.role == lastrole:
+                if lastjj == d.jj:
+                    samecount += 1
+                else:
+                    rank = rank + 1 if samecount == 0 else rank+samecount
+                    samecount = 0
+                lastrole = d.role
+                lastjj = d.jj
+            else:
+                rank = 1
+                # rank += 1
+                lastrole = d.role
+            d.write({'ranking':rank})
