@@ -34,7 +34,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
     def performancebonus_compute(self):
         gwxs_role = (u'录入', u'行号选择', u'行号录入')
         lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
-        source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',u'双中心信用卡报表')
+        source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表', u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
         performancelurushenheparameter_datas =self.env['hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数
         role_datas = self.env['hr.performanceroleori'].search([])
         for rd in role_datas:
@@ -46,7 +46,10 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 'hr.performancebranchreportori'].search([('teller_name', '=', rd.name)])
             performancebranchmobilereportori_datas = self.env[
                 'hr.performancebranchmobilereportori'].search([('teller_name', '=', rd.name)])
-
+            performanceplusminus_datas = self.env[
+                'hr.performanceplusminus'].search([('teller_name', '=', rd.name)])
+            performanceproallowance_datas = self.env[
+                'hr.performanceproallowance'].search([('teller_name', '=', rd.name)])
 
             performanceattendance_datas = self.env[
                 'hr.performanceattendance'].search([('teller_name', '=', rd.name)])
@@ -145,7 +148,38 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                      'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
                                                                                      'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[3]
-                                                                                     })
+                                                                                       })
+
+            for p in performanceproallowance_datas:
+                if not p.teller_name in u'虚拟柜员':
+                    zshzjs = p.ywzl
+
+                    performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
+                                                                                     'teller_num': rd.teller_num,
+                                                                                     'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+                                                                                     'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                                                                                     'ywlx': p.ywlx, 'ywzhs': p.ywzl, 'ywbs': p.ywzl,
+                                                                                     'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
+                                                                                     'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
+                                                                                     'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[4]
+                                                                                       })
+
+            for p in performanceplusminus_datas:
+                if not p.teller_name in u'虚拟柜员':
+                    zshzjs = p.btywlxj
+                    performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
+                                                                                     'teller_num': rd.teller_num,
+                                                                                     'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+                                                                                     'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                                                                                     'ywlx': p.role, 'ywzhs': p.btywlxj, 'ywbs': p.btywlxj,
+                                                                                     'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
+                                                                                     'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
+                                                                                     'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[5]
+                                                                                       })
+
+
+
+
 
 
         for rd in role_datas:
@@ -211,10 +245,10 @@ class HrPerformanceBonusDelete(models.TransientModel):
 
     @api.multi
     def performancebonus_delete(self):
-        # performancebonuscalculation = self.env[
-        #     'hr.performancebonus'].search([])
-        # for r in performancebonuscalculation:
-        #     r.unlink()
+        performancebonuscalculation = self.env[
+            'hr.performancebonus'].search([])
+        for r in performancebonuscalculation:
+            r.unlink()
         performancebonustotal = self.env[
             'hr.performancebonustotal'].search([])
         for r in performancebonustotal:

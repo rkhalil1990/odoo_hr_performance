@@ -258,24 +258,23 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     jjzzj_bb   = fields.Float(u'计奖总字节BB')
     lrjjdj_bc   = fields.Float(u'录入计奖单价BC', digits=(5, 5))
     sskc_bd   = fields.Float(u'录入速算扣除数BD')
-
     lrjj_be = fields.Float(u'录入奖金BE')
     lrzlj_bk = fields.Float(u'录入质量奖BK')
     shywlxj_cy = fields.Float(u'审核业务量小计CY')
-
     shjjdj_cz   = fields.Float(u'审核计奖单价CZ', digits=(5, 5))
     shsskc_da   = fields.Float(u'审核速算扣除数DA')
     shjj_db = fields.Float(u'审核奖金DB')
     zyhgwjbzywzshs_dy = fields.Float(u'专业标准折算耗时DY')
     zyhgwbzj_dz = fields.Float(u'专业化岗位标准奖DZ')
-
     kj = fields.Float(u'扣奖')
     jj = fields.Float(u'奖金')
     ranking = fields.Integer(u'排名')
     ratio = fields.Float(u'整体系数', digits=(5, 5))
     manager_ratio = fields.Float(u'作业经理系数', digits=(5, 5))
-    complete_rate = fields.Float(u'完成率', digits=(5, 5))
+    complete_rate = fields.Float(u'完成率', digits=(5, 5)) # 录入复核， 差错外联审核，专业化
     complete_changed_rate = fields.Float(u'调整后成率', digits=(5, 5))
+    manual_jj = fields.Float(u'手加减奖金')
+
 
 class HrPerformanceReportOri(models.Model):  # 总行数据处理中心绩效考核报表
     _name = 'hr.performancereportori'
@@ -739,18 +738,34 @@ class HrPerformanceMemberInfo(models.Model):  # 人员信息导入
 
 
 
+class HrPerformanceProFixedBonus(models.Model):  # 专业化岗位标准奖金
+    _name = 'hr.performanceprofixedbonus'
+    _description = 'Hr Performance Pro Fixed Bonus'
+    _order = 'id'
+
+    role = fields.Char(u'角色')
+    jj = fields.Float(u'奖金')
+
+
+class HrPerformanceCapBasic(models.Model):  # 专业化岗位标准奖金
+    _name = 'hr.performancecapbasic'
+    _description = 'Hr Performance Cap Basic'
+    _order = 'id'
+
+
+class HrPerformanceCapPro(models.Model):  # 专业化岗位标准奖金
+    _name = 'hr.performancecappro'
+    _description = 'Hr Performance Cap Pro'
+    _order = 'id'
 
 
 
+class HrPerformanceRolePara(models.Model):  # 外联系数，临时系数
+    _name = 'hr.performancecappro'
+    _description = 'Hr Performance Cap Pro'
+    _order = 'id'
 
-
-
-
-
-
-
-
-
+    
 
 
 
