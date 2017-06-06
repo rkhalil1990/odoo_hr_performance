@@ -747,13 +747,13 @@ class HrPerformanceProFixedBonus(models.Model):  # 专业化岗位标准奖金
     jj = fields.Float(u'奖金')
 
 
-class HrPerformanceCapBasic(models.Model):  # 专业化岗位标准奖金
+class HrPerformanceCapBasic(models.Model):  # 标准业务组长考核
     _name = 'hr.performancecapbasic'
     _description = 'Hr Performance Cap Basic'
     _order = 'id'
 
 
-class HrPerformanceCapPro(models.Model):  # 专业化岗位标准奖金
+class HrPerformanceCapPro(models.Model):  # 专业化业务组长考核
     _name = 'hr.performancecappro'
     _description = 'Hr Performance Cap Pro'
     _order = 'id'
@@ -765,8 +765,9 @@ class HrPerformanceRolePara(models.Model):  # 外联系数，临时系数
     _description = 'Hr Performance Cap Pro'
     _order = 'id'
 
-    
-
+    role = fields.Char(u'角色')
+    paramater = fields.Float(u'系数')
+    para_type = fields.Char(u'系数类型')
 
 
 

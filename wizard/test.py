@@ -113,6 +113,17 @@
 
 # a = '6KaB54K577yaSlTmsqHog4zmma/vvJtMWemHjOmdouS6i+WEv+aMuuWkp++8m0xLUeWkseWKv++8m0xGRuiAgeWFrOiiq25lbmfmrbs='
 # b = base64.b64decode(a)
-b= u'专业化岗1'
-a =u'专业化岗位'
-print b in a
+
+
+def print_msg():
+    # print_msg 是外围函数
+    msg = "zen of python"
+    def printer():
+        # printer 是嵌套函数
+        print(msg)
+    return printer
+
+another = print_msg()
+# 输出 zen of python
+print another
+another()
