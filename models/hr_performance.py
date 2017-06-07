@@ -752,6 +752,31 @@ class HrPerformanceCapBasic(models.Model):  # 标准业务组长考核
     _description = 'Hr Performance Cap Basic'
     _order = 'id'
 
+    work_num = fields.Char(u'工号')
+    teller_name = fields.Char(u'姓名')
+    quarters = fields.Char(u'岗位')
+    group = fields.Char(u'组别')
+    manager = fields.Char(u'区域负责人')
+    salary_level = fields.Char(u'薪资等级')
+    ywlkh_avg = fields.Float(u'业务量考核平均完成率', digits=(5, 5))
+    ywlkh_khqk = fields.Char(u'完成率考核情况')
+    zqlkh_avg = fields.Float(u'业务量考核情况平均正确率', digits=(5, 5))
+    zqlkh_khqk = fields.Char(u'正确率考核情况')
+    dhlkh_avg = fields.Float(u'业务量考核情况平均打回率', digits=(5, 5))
+    dhlkh_khqk = fields.Char(u'打回率考核情况')
+    complete_rate = fields.Float(u'完成率', digits=(5, 5)) # 录入复核， 差错外联审核，专业化
+    manage_area_score = fields.Float(u'管理指标考核得分')
+    jj_rate = fields.Float(u'奖金系数')
+    standard_bonus = fields.Float(u'标准绩效奖')
+    fix_bonus = fields.Float(u'组长考核奖')
+    bonus = fields.Float(u'奖金')
+    addition_bonus = fields.Float(u'业务量完成可得组长岗位津贴')
+    total_bonus = fields.Float(u'奖金合计')
+    actual_bonus = fields.Float(u'实际奖金')
+    cap_bonus = fields.Float(u'组长考核奖')
+    remark = fields.Char(u'备注')
+    remark2 = fields.Char(u'备注2')
+
 
 class HrPerformanceCapPro(models.Model):  # 专业化业务组长考核
     _name = 'hr.performancecappro'
@@ -759,10 +784,28 @@ class HrPerformanceCapPro(models.Model):  # 专业化业务组长考核
     _order = 'id'
 
 
+    work_num = fields.Char(u'工号')
+    teller_name = fields.Char(u'姓名')
+    quarters = fields.Char(u'岗位')
+    group = fields.Char(u'组别')
+    manager = fields.Char(u'区域负责人')
+    salary_level = fields.Char(u'薪资等级')
+    ywlkh_avg = fields.Float(u'个人业务量完成率', digits=(5, 5))
+    manage_area_score = fields.Float(u'管理指标考核得分')
+    jj_rate = fields.Float(u'奖金系数')
+    standard_bonus = fields.Float(u'标准绩效奖')
+    fix_bonus = fields.Float(u'组长考核奖')
+    bonus = fields.Float(u'奖金')
+    addition_bonus = fields.Float(u'业务量完成可得组长岗位津贴')
+    total_bonus = fields.Float(u'奖金合计')
+    actual_bonus = fields.Float(u'实际奖金')
+    cap_bonus = fields.Float(u'组长考核奖')
+    remark = fields.Char(u'备注')
 
-class HrPerformanceRolePara(models.Model):  # 外联系数，临时系数
-    _name = 'hr.performancecappro'
-    _description = 'Hr Performance Cap Pro'
+
+class HrPerformanceTelePara(models.Model):  # 外联系数，临时系数
+    _name = 'hr.performancetelepara'
+    _description = 'Hr Performance Tele Para'
     _order = 'id'
 
     role = fields.Char(u'角色')

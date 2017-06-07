@@ -1136,7 +1136,194 @@
        </record>
 
 
+<record id="hr_performanceprofixedbonus_form" model="ir.ui.view">
+        <field name="name">hr.performanceprofixedbonus.form</field>
+        <field name="model">hr.performanceprofixedbonus</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceprofixedbonus Form">
+                <sheet>
+                    <group>
+                            <field name="role"/>
+                            <field name="jj"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
   
+      <record id="hr_performanceprofixedbonus_tree" model="ir.ui.view">
+            <field name="name">hr.performanceprofixedbonus.tree</field>
+            <field name="model">hr.performanceprofixedbonus</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceprofixedbonus">
+                            <field name="role"/>
+                            <field name="jj"/>
+                </tree>
+            </field>
+       </record>
+
+
+<record id="hr_performancecapbasic_form" model="ir.ui.view">
+        <field name="name">hr.performancecapbasic.form</field>
+        <field name="model">hr.performancecapbasic</field>
+        <field name="arch" type="xml">
+            <form string="hr performancecapbasic Form">
+                <sheet>
+                    <group>
+                            <field name="work_num"/>
+                            <field name="teller_name"/>
+                            <field name="quarters"/>
+                            <field name="group"/>
+                            <field name="manager"/>
+                            <field name="salary_level"/>
+                            <field name="ywlkh_avg"/>
+                            <field name="ywlkh_khqk"/>
+                            <field name="zqlkh_avg"/>
+                            <field name="zqlkh_khqk"/>
+                            <field name="dhlkh_avg"/>
+                            <field name="dhlkh_khqk"/>
+                            <field name="complete_rate"/>
+                            <field name="manage_area_score"/>
+                            <field name="jj_rate"/>
+                            <field name="standard_bonus"/>
+                            <field name="fix_bonus"/>
+                            <field name="bonus"/>
+                            <field name="addition_bonus"/>
+                            <field name="total_bonus"/>
+                            <field name="actual_bonus"/>
+                            <field name="cap_bonus"/>
+                            <field name="remark"/>
+                            <field name="remark2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performancecapbasic_tree" model="ir.ui.view">
+            <field name="name">hr.performancecapbasic.tree</field>
+            <field name="model">hr.performancecapbasic</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancecapbasic">
+                            <field name="work_num"/>
+                            <field name="teller_name"/>
+                            <field name="quarters"/>
+                            <field name="group"/>
+                            <field name="manager"/>
+                            <field name="salary_level"/>
+                            <field name="ywlkh_avg"/>
+                            <field name="ywlkh_khqk"/>
+                            <field name="zqlkh_avg"/>
+                            <field name="zqlkh_khqk"/>
+                            <field name="dhlkh_avg"/>
+                            <field name="dhlkh_khqk"/>
+                            <field name="complete_rate"/>
+                            <field name="manage_area_score"/>
+                            <field name="jj_rate"/>
+                            <field name="standard_bonus"/>
+                            <field name="fix_bonus"/>
+                            <field name="bonus"/>
+                            <field name="addition_bonus"/>
+                            <field name="total_bonus"/>
+                            <field name="actual_bonus"/>
+                            <field name="cap_bonus"/>
+                            <field name="remark"/>
+                            <field name="remark2"/>
+                </tree>
+            </field>
+       </record>
+
+<record id="hr_performancecappro_form" model="ir.ui.view">
+        <field name="name">hr.performancecappro.form</field>
+        <field name="model">hr.performancecappro</field>
+        <field name="arch" type="xml">
+            <form string="hr performancecappro Form">
+                <sheet>
+                    <group>
+                            <field name="work_num"/>
+                            <field name="teller_name"/>
+                            <field name="quarters"/>
+                            <field name="group"/>
+                            <field name="manager"/>
+                            <field name="salary_level"/>
+                            <field name="ywlkh_avg"/>
+                            <field name="manage_area_score"/>
+                            <field name="jj_rate"/>
+                            <field name="standard_bonus"/>
+                            <field name="fix_bonus"/>
+                            <field name="bonus"/>
+                            <field name="addition_bonus"/>
+                            <field name="total_bonus"/>
+                            <field name="actual_bonus"/>
+                            <field name="cap_bonus"/>
+                            <field name="remark"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performancecappro_tree" model="ir.ui.view">
+            <field name="name">hr.performancecappro.tree</field>
+            <field name="model">hr.performancecappro</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancecappro">
+                            <field name="work_num"/>
+                            <field name="teller_name"/>
+                            <field name="quarters"/>
+                            <field name="group"/>
+                            <field name="manager"/>
+                            <field name="salary_level"/>
+                            <field name="ywlkh_avg"/>
+                            <field name="manage_area_score"/>
+                            <field name="jj_rate"/>
+                            <field name="standard_bonus"/>
+                            <field name="fix_bonus"/>
+                            <field name="bonus"/>
+                            <field name="addition_bonus"/>
+                            <field name="total_bonus"/>
+                            <field name="actual_bonus"/>
+                            <field name="cap_bonus"/>
+                            <field name="remark"/>
+                </tree>
+            </field>
+       </record>
+  
+
+
+<record id="hr_performancetelepara_form" model="ir.ui.view">
+        <field name="name">hr.performancetelepara.form</field>
+        <field name="model">hr.performancetelepara</field>
+        <field name="arch" type="xml">
+            <form string="hr performancetelepara Form">
+                <sheet>
+                    <group>
+                            <field name="role"/>
+                            <field name="paramater"/>
+                            <field name="para_type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performancetelepara_tree" model="ir.ui.view">
+            <field name="name">hr.performancetelepara.tree</field>
+            <field name="model">hr.performancetelepara</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancetelepara">
+                            <field name="role"/>
+                            <field name="paramater"/>
+                            <field name="para_type"/>
+                </tree>
+            </field>
+       </record>
+
+
+
+
+
+
   <record id="hr_performancebonus_search" model="ir.ui.view">
             <field name='name'>hr.performancebonus.search</field>
             <field name='model'>hr.performancebonus</field>
@@ -1390,6 +1577,56 @@
       </record>
 
 
+    <record id="act_hr_performanceprofixedbonus" model="ir.actions.act_window">
+            <field name="name">专业化岗位标准奖金</field>
+            <field name="res_model">hr.performanceprofixedbonus</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                专业化岗位标准奖金.
+              </p>
+            </field>
+      </record>
+
+
+    <record id="act_hr_performancecapbasic" model="ir.actions.act_window">
+            <field name="name">标准业务组长考核</field>
+            <field name="res_model">hr.performancecapbasic</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                标准业务组长考核.
+              </p>
+            </field>
+      </record>
+
+    <record id="act_hr_performancecappro" model="ir.actions.act_window">
+            <field name="name">专业化业务组长考核</field>
+            <field name="res_model">hr.performancecappro</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                专业化业务组长考核.
+              </p>
+            </field>
+      </record>
+
+      <record id="act_hr_performancetelepara" model="ir.actions.act_window">
+            <field name="name">外联临时系数</field>
+            <field name="res_model">hr.performancetelepara</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                外联系数，临时系数.
+              </p>
+            </field>
+      </record>
+
+
 	<menuitem
         id="menu_performance_title"
         name="人事绩效"
@@ -1419,8 +1656,10 @@
              sequence="401"/> 
     <menuitem action="act_hr_performancegoal" name="正确放弃参数" id="menu_act_hr_performancegoal" parent="menu_hr_performance_setup"
              sequence="404"/>
-
-
+<menuitem action="act_hr_performanceprofixedbonus" name="专业化岗位标准奖金" id="menu_act_hr_performanceprofixedbonus" parent="menu_hr_performance_setup"
+             sequence="405"/>
+<menuitem action="act_hr_performancetelepara" name="外联临时系数" id="menu_act_hr_performancetelepara" parent="menu_hr_performance_setup"
+             sequence="406"/>
 
 
 	
@@ -1458,6 +1697,11 @@
          sequence="601"/>
          <menuitem action="act_hr_performancememberinfo" name="人员信息表" id="menu_act_hr_performancememberinfo" parent="menu_hr_performance_hr_ori"
          sequence="602"/>
+<menuitem action="act_hr_performancecapbasic" name="标准业务组长考核" id="menu_act_hr_performancecapbasic" parent="menu_hr_performance_hr_ori"
+         sequence="603"/>
+<menuitem action="act_hr_performancecappro" name="专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_hr_ori"
+         sequence="604"/>
+
    <!--   <menuitem id="menu_hr_performance_field" name="数据库" parent="menu_performance_title"
         sequence="700" />   -->  
        
