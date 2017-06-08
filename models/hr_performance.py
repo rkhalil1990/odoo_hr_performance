@@ -801,7 +801,7 @@ class HrPerformanceCapPro(models.Model):  # 专业化业务组长考核
     actual_bonus = fields.Float(u'实际奖金')
     cap_bonus = fields.Float(u'组长考核奖')
     remark = fields.Char(u'备注')
-
+    re
 
 class HrPerformanceTelePara(models.Model):  # 外联系数，临时系数
     _name = 'hr.performancetelepara'
@@ -809,7 +809,7 @@ class HrPerformanceTelePara(models.Model):  # 外联系数，临时系数
     _order = 'id'
 
     role = fields.Char(u'角色')
-    paramater = fields.Float(u'系数')
+    paramater = fields.Float(u'系数', digits=(5, 5))
     para_type = fields.Char(u'系数类型')
 
 
