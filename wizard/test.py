@@ -97,10 +97,11 @@
 # b = [1, 2]
 
 
-# s = u'你好-哈哈哈'
-# print dir(s)
-# x=s.replace(u'你好',u'')
-# print x
+s = u'你好-哈哈哈'
+x = u'你好-哈哈哈'
+
+
+print x + s
 # 
 # 
 # import re
@@ -115,15 +116,15 @@
 # b = base64.b64decode(a)
 
 
-def print_msg():
-    # print_msg 是外围函数
-    msg = "zen of python"
-    def printer():
-        # printer 是嵌套函数
-        print(msg)
-    return printer
+# def print_msg():
+#     # print_msg 是外围函数
+#     msg = "zen of python"
+#     def printer():
+#         # printer 是嵌套函数
+#         print(msg)
+#     return printer
 
-another = print_msg()
-# 输出 zen of python
-print another
-another()
+# another = print_msg()
+# # 输出 zen of python
+# print another
+# another()

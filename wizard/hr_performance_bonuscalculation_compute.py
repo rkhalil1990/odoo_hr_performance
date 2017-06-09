@@ -32,6 +32,8 @@ class HrPerformanceBonusCompute(models.TransientModel):
 
     @api.multi
     def performancebonus_compute(self):
+        standard_trans = u'标准化业务-'
+        mobile_prefix = u'信用卡'
         gwxs_role = (u'录入', u'行号选择', u'行号录入')
         lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
         source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表', u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
@@ -60,19 +62,33 @@ class HrPerformanceBonusCompute(models.TransientModel):
 
             for p in performancereportori_datas:
                 zshzjs = 0.0
-                para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                para = None
+                if rd.role1 != u'专业化岗位':
+                    para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                else:
+                    para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                    if para == None:
+                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+p.role)], limit=1)
+                        
                 if para.jjfs == 'byByte':
-                    if p.role == u'影像定位':
-                        p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位账户激活')], limit=1)
-                        p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位其他')], limit=1)
-                        zshzjs += p.yxdw_zhjh * p1.parameter_valuex
-                        zshzjs += p.yxdw_qt * p2.parameter_valuex
-                    else:
-                        zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
+                    zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
                 elif  para.jjfs == 'byQuantity':
                     zshzjs = p.ywzl * para.parameter_valuex
                 elif  para.jjfs == 'byTime':
                     zshzjs = p.ywzl * para.parameter_valuex
+
+                if rd.role1 != u'专业化岗位' and p.role == u'影像定位':
+                    p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位账户激活')], limit=1)
+                    p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位其他')], limit=1)
+                    zshzjs += p.yxdw_zhjh * p1.parameter_valuex
+                    zshzjs += p.yxdw_qt * p2.parameter_valuex
+                elif rd.role1 == u'专业化岗位' and p.role == u'影像定位':
+                    p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', standard_trans+u'影像定位账户激活')], limit=1)
+                    p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', standard_trans+u'影像定位其他')], limit=1)
+                    zshzjs += p.yxdw_zhjh * p1.parameter_valuex
+                    zshzjs += p.yxdw_qt * p2.parameter_valuex
+
+
                 performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
                                                                                  'teller_num': rd.teller_num,
                                                                                  'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
@@ -84,19 +100,30 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                  })
             for p in performancebranchreportori_datas:
                 zshzjs = 0.0
-                para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                para = None
+                if rd.role1 != u'专业化岗位':
+                    para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                else:
+                    para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                    if para == None:
+                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+p.role)], limit=1)
                 if para.jjfs == 'byByte':
-                    if p.role == u'影像定位':
-                        p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位账户激活')], limit=1)
-                        p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位其他')], limit=1)
-                        zshzjs += p.yxdw_zhjh * p1.parameter_valuex
-                        zshzjs += p.yxdw_qt * p2.parameter_valuex
-                    else:
-                        zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
+                    zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
                 elif  para.jjfs == 'byQuantity':
                     zshzjs = p.ywzl * para.parameter_valuex
                 elif  para.jjfs == 'byTime':
                     zshzjs = p.ywzl * para.parameter_valuex
+
+                if rd.role1 != u'专业化岗位' and p.role == u'影像定位':
+                    p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位账户激活')], limit=1)
+                    p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位其他')], limit=1)
+                    zshzjs += p.yxdw_zhjh * p1.parameter_valuex
+                    zshzjs += p.yxdw_qt * p2.parameter_valuex
+                elif rd.role1 == u'专业化岗位' and p.role == u'影像定位':
+                    p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', standard_trans+u'影像定位账户激活')], limit=1)
+                    p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', standard_trans+u'影像定位其他')], limit=1)
+                    zshzjs += p.yxdw_zhjh * p1.parameter_valuex
+                    zshzjs += p.yxdw_qt * p2.parameter_valuex
                 performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
                                                                                  'teller_num': rd.teller_num,
                                                                                  'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
@@ -109,7 +136,14 @@ class HrPerformanceBonusCompute(models.TransientModel):
             for p in performancemobilereportori_datas:
                 if not p.teller_name in u'虚拟柜员':
                     zshzjs = 0.0
-                    para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                    prole = mobile_prefix + p.role
+                    para = None
+                    if rd.role1 != u'专业化岗位':
+                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                    else:
+                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                        if para == None:
+                            para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
                     if para.jjfs == 'byByte':
                         zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
                     elif  para.jjfs == 'byQuantity':
@@ -122,7 +156,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                      'teller_num': rd.teller_num,
                                                                                      'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                      'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': p.role, 'ywzhs': p.ywzhs, 'ywbs': p.ywbs,
+                                                                                     'ywlx': prole, 'ywzhs': p.ywzhs, 'ywbs': p.ywbs,
                                                                                      'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.ccs,
                                                                                      'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[2]
@@ -131,7 +165,14 @@ class HrPerformanceBonusCompute(models.TransientModel):
             for p in performancebranchmobilereportori_datas:
                 if not p.teller_name in u'虚拟柜员':
                     zshzjs = 0.0
-                    para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                    prole = mobile_prefix + p.role
+                    para = None
+                    if rd.role1 != u'专业化岗位':
+                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                    else:
+                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                        if para == None:
+                            para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
                     if para.jjfs == 'byByte':
                         zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
                     elif  para.jjfs == 'byQuantity':
@@ -144,7 +185,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                      'teller_num': rd.teller_num,
                                                                                      'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                      'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': p.role, 'ywzhs': p.ywzhs, 'ywbs': p.ywbs,
+                                                                                     'ywlx': prole, 'ywzhs': p.ywzhs, 'ywbs': p.ywbs,
                                                                                      'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
                                                                                      'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[3]
