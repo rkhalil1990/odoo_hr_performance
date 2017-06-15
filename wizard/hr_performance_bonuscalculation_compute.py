@@ -134,7 +134,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                  'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[1]
                                                                                  })
             for p in performancemobilereportori_datas:
-                if not p.teller_name in u'虚拟柜员':
+                if not u'虚拟柜员' in p.teller_name:
                     zshzjs = 0.0
                     prole = mobile_prefix + p.role
                     para = None
@@ -163,7 +163,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                      })
 
             for p in performancebranchmobilereportori_datas:
-                if not p.teller_name in u'虚拟柜员':
+                if not u'虚拟柜员' in p.teller_name:
                     zshzjs = 0.0
                     prole = mobile_prefix + p.role
                     para = None
@@ -192,7 +192,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                        })
 
             for p in performanceproallowance_datas:
-                if not p.teller_name in u'虚拟柜员':
+                if not u'虚拟柜员' in p.teller_name:
                     zshzjs = p.ywzl
 
                     performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
@@ -206,7 +206,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                        })
 
             for p in performanceplusminus_datas:
-                if not p.teller_name in u'虚拟柜员':
+                if not u'虚拟柜员' in p.teller_name:
                     zshzjs = p.btywlxj
                     performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
                                                                                      'teller_num': rd.teller_num,
