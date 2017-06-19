@@ -334,13 +334,18 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         performancelurushenheparameter_datas = self.env['hr.performancelurushenheparameter'].search([])
         performancegoal_datas = self.env['hr.performancegoal'].search([])
 
+
+
         for rd in role_datas:
             performancebonus_datas = self.env['hr.performancebonus'].search(
                     [('teller_name', '=', rd.name)])
             if not performancebonus_datas:
                 continue
 
-
+            performanceattendance_data= self.env['hr.performanceattendance'].search(
+                    [('teller_name', '=', rd.name)])
+            cal_process=[u'应出勤' + str(performanceattendance_data.attendance_basic), 
+                    u'出勤日' + str(performanceattendance_data.attendance_actual)]
             # paramater
             cwl = 0.00000
             zql = 0.00000
@@ -416,7 +421,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
             
 
-            performancebonustotal = self.env['hr.performancebonustotal'].create({'teller_num': teller_num,
+            performancebonustotal = self.env['hr.performancebonustotal'].create({ 'cal_process':' '.join(cal_process) ,'teller_num': teller_num,
                                                                                   'teller_name': teller_name, 'identity': '派遣', 'quarters': rd.quarters,
                                                                                   'group': rd.work_group, 'role': rd.role,
                                                                                   'role1': rd.role1, 'jblr_mul_gwxs_ae':jblr_mul_gwxs_ae,

@@ -100,6 +100,7 @@
             <form string="hr performancebonustotal Form">
                 <sheet>
                     <group>
+                            <field name="cal_process"/>
                             <field name="teller_name"/>
                             <field name="identity"/>
                             <field name="quarters"/>
@@ -138,7 +139,8 @@
             <field name="model">hr.performancebonustotal</field>
             <field name="arch" type="xml">
                 <tree string="Hr performancebonustotal">
-                    <field name="teller_num"/>
+                            <field name="cal_process"/>
+                            <field name="teller_num"/>
                             <field name="teller_name"/>
                             <field name="identity"/>
                             <field name="quarters"/>

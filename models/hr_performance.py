@@ -50,7 +50,9 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
     complete_rate = fields.Float(u'完成率')
     complete_changed_rate = fields.Float(u'调整后成率')
     source_from = fields.Char(u'数据来源', readonly=True)
+    
 
+    
     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
         res = super(HrPerformanceBonus, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
         _logger = logging.getLogger(__name__)
@@ -244,6 +246,8 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     _description = 'Hr Performance Bonus Total'
     _order = 'id'
 
+
+    cal_process = fields.Char(u'计算过程')
     teller_num = fields.Char(u'柜员号')
     teller_name = fields.Char(u'柜员名')
     identity = fields.Char(u'身份')
