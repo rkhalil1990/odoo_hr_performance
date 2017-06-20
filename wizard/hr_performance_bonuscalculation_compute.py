@@ -34,6 +34,8 @@ class HrPerformanceBonusCompute(models.TransientModel):
     def performancebonus_compute(self):
         standard_trans = u'标准化业务-'
         mobile_prefix = u'信用卡'
+        basic_prefix = u'基础补时'
+        pro_prefix = u'专业化补时'
         gwxs_role = (u'录入', u'行号选择', u'行号录入')
         lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
         source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表', u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
@@ -194,12 +196,12 @@ class HrPerformanceBonusCompute(models.TransientModel):
             for p in performanceproallowance_datas:
                 if not u'虚拟柜员' in p.teller_name:
                     zshzjs = p.ywzl
-
+                    prole = pro_prefix + p.role
                     performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
                                                                                      'teller_num': rd.teller_num,
                                                                                      'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                      'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': p.ywlx, 'ywzhs': p.ywzl, 'ywbs': p.ywzl,
+                                                                                     'ywlx': prole, 'ywzhs': p.ywzl, 'ywbs': p.ywzl,
                                                                                      'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
                                                                                      'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[4]
@@ -208,11 +210,12 @@ class HrPerformanceBonusCompute(models.TransientModel):
             for p in performanceplusminus_datas:
                 if not u'虚拟柜员' in p.teller_name:
                     zshzjs = p.btywlxj
+                    prole = basic_prefix + p.role
                     performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
                                                                                      'teller_num': rd.teller_num,
                                                                                      'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                      'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': p.role, 'ywzhs': p.btywlxj, 'ywbs': p.btywlxj,
+                                                                                     'ywlx': prole, 'ywzhs': p.btywlxj, 'ywbs': p.btywlxj,
                                                                                      'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
                                                                                      'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[5]
@@ -330,7 +333,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         role_datas = self.env['hr.performanceroleori'].search([])
         gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
         lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
-        source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',u'双中心信用卡报表')
+        source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表', u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
         performancelurushenheparameter_datas = self.env['hr.performancelurushenheparameter'].search([])
         performancegoal_datas = self.env['hr.performancegoal'].search([])
 
@@ -397,7 +400,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                 sh_jjdj = i.jjdj
                                 sh_sskcs = i.sskcs
 
-                jblr_mul_gwxs_ae = sum([current_account.zshzjs * current_account.gwxs for current_account in performancebonus_datas if current_account.ywlx in gwxs_role_list and u'绩效' in current_account.source_from])
+                jblr_mul_gwxs_ae = sum([current_account.zshzjs * current_account.gwxs for current_account in performancebonus_datas 
+                    if current_account.ywlx in gwxs_role_list]) #and u'绩效' in current_account.source_from])
                 jjzzj_bb += jblr_mul_gwxs_ae
                 lrjj_be = jjzzj_bb * jjdj - sskcs
 
@@ -406,12 +410,13 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                         zqlxs = (1+(zql-i.zql_goal)*100)
                         lhlxs = (1+(i.fql_goal - dhl))
                         lrzlj_bk = zqlxs*lhlxs
+                        cal_process.append(str(lrzlj_bk)+","+str(zql)+","+str(i.zql_goal)+","+str(i.fql_goal)+","+str(dhl))
                         lrzlj_bk = (lrzlj_bk - 1) * lrjj_be
 
                 shjj_db = shywlxj_cy * sh_jjdj - sh_sskcs
 
                 for p in performancebonus_datas:
-                    if not p.ywlx in except_list or not u'绩效' in p.source_from:
+                    if not p.ywlx in except_list: # or not u'绩效' in p.source_from:
                         jj += p.zshzjs
 
                 jj += lrjj_be + lrzlj_bk + shjj_db
