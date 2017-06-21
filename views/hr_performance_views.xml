@@ -100,6 +100,7 @@
             <form string="hr performancebonustotal Form">
                 <sheet>
                     <group>
+                    <group>
                             <field name="cal_process"/>
                             <field name="teller_name"/>
                             <field name="identity"/>
@@ -114,6 +115,8 @@
                             <field name="lrjjdj_bc"/>
                             <field name="sskc_bd"/>
                             <field name="lrjj_be"/>
+                    </group>
+                    <group>   
                             <field name="lrzlj_bk"/>
                             <field name="shywlxj_cy"/>
                             <field name="shjjdj_cz"/>
@@ -129,7 +132,39 @@
                             <field name="complete_rate"/>
                             <field name="complete_changed_rate"/>
                     </group>
+                    </group>
+                     <field name='performancebonusdetail_ids'>
+                            <tree string='List' editable='bottom'>
+                                <field name="teller_name"/>
+                                <field name="role"/>
+                                <field name="role1"/> 
+                                <field name="ywlx"/>
+                                <field name="ywzhs"/>
+                                <field name="ywzl"/>
+                                <field name="hzs"/>
+                                <field name="zjs"/>
+                                <field name="ccs"/>
+                                <field name="tjyxmh"/>
+                                <field name="cwl"/>
+                                <field name="zql"/>
+                                <field name="dhl"/>
+                                <field name="gwxs"/>
+                                <field name="zshzjs"/>
+                                <field name="jjdj"/>
+                                <field name="sskcs"/>
+                                <field name="khxs"/>
+                                <field name="kj"/>
+                                <field name="jj"/>
+                                <field name="ranking"/>
+                                <field name="ratio"/>
+                                <field name="manager_ratio"/>
+                                <field name="complete_rate"/>
+                                <field name="complete_changed_rate"/>
+                                <field name="source_from"/>
+                            </tree>
+                    </field>
                 </sheet>
+
             </form>
         </field>
     </record>

@@ -20,7 +20,7 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
 
     teller_num = fields.Char(u'柜员号')
     teller_name = fields.Char(u'柜员名')
-    identity = fields.Char(u'身份')
+    identity = fields.Char(u'身份')  
     quarters = fields.Char(u'岗位')
     quarters_date = fields.Date(u'当前岗位上岗日期')
     group = fields.Char(u'组别')
@@ -50,9 +50,8 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
     complete_rate = fields.Float(u'完成率')
     complete_changed_rate = fields.Float(u'调整后成率')
     source_from = fields.Char(u'数据来源', readonly=True)
-    
+    performancebonustotal_id=fields.Many2one('hr.performancebonustotal', 'Hr Performance Bonus Total', ondelete='cascade')
 
-    
     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
         res = super(HrPerformanceBonus, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
         _logger = logging.getLogger(__name__)
@@ -257,7 +256,6 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     role = fields.Char(u'角色')
     role1 = fields.Char(u'角色1')
     zshzjs = fields.Float(u'折算后字节数')
-
     jblr_mul_gwxs_ae = fields.Float(u'基本录入总字节*岗位系数AE')
     jjzzj_bb   = fields.Float(u'计奖总字节BB')
     lrjjdj_bc   = fields.Float(u'录入计奖单价BC', digits=(5, 5))
@@ -278,6 +276,46 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     complete_rate = fields.Float(u'完成率', digits=(5, 5)) # 录入复核， 差错外联审核，专业化
     complete_changed_rate = fields.Float(u'调整后成率', digits=(5, 5))
     manual_jj = fields.Float(u'手加减奖金')
+    performancebonusdetail_ids = fields.One2many('hr.performancebonus', 'performancebonustotal_id',"performancebonus")   
+
+# class HrPerformanceBonusTotalDetail(models.Model):  # 奖金计算new
+#     _name = 'hr.performancebonustotaldetail'
+#     _description = 'Hr Performance Bonus Total Detail'
+#     _order = 'id'
+
+#     performancebonustotal_id=fields.Many2one('hr.performancebonustotal', 'Hr Performance Bonus Total', ondelete='cascade', required=True)
+#     teller_num = fields.Char(u'柜员号')
+#     teller_name = fields.Char(u'柜员名')
+#     identity = fields.Char(u'身份')  
+#     quarters = fields.Char(u'岗位')
+#     quarters_date = fields.Date(u'当前岗位上岗日期')
+#     group = fields.Char(u'组别')
+#     role = fields.Char(u'角色')
+#     role1 = fields.Char(u'角色1')
+#     ywlx = fields.Char(u'业务类型')
+#     ywzhs = fields.Float(u'业务总耗时')
+#     ywzl = fields.Float(u'业务总量')
+#     hzs = fields.Float(u'汉字数')
+#     zjs = fields.Float(u'字节数')
+#     ccs = fields.Float(u'差错数')
+#     tjyxmh = fields.Float(u'提交影像模糊')
+#     cwl = fields.Float(u'错误率', digits=(5, 5))
+#     zql = fields.Float(u'正确率', digits=(5, 5))
+#     dhl = fields.Float(u'打回率', digits=(5, 5))
+#     # jbzjs = fields.Float(u'基本字节数')
+#     gwxs = fields.Float(u'岗位系数')
+#     zshzjs = fields.Float(u'折算后字节数')
+#     jjdj = fields.Float(u'计奖单价', digits=(5, 5))
+#     sskcs = fields.Float(u'速算扣除数')
+#     khxs = fields.Float(u'考核系数')
+#     kj = fields.Float(u'扣奖')
+#     jj = fields.Float(u'奖金')
+#     ranking = fields.Integer(u'排名')
+#     ratio = fields.Float(u'整体系数')
+#     manager_ratio = fields.Float(u'作业经理系数')
+#     complete_rate = fields.Float(u'完成率')
+#     complete_changed_rate = fields.Float(u'调整后成率')
+#     source_from = fields.Char(u'数据来源', readonly=True)
 
 
 class HrPerformanceReportOri(models.Model):  # 总行数据处理中心绩效考核报表

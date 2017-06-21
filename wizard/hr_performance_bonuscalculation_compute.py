@@ -158,7 +158,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                      'teller_num': rd.teller_num,
                                                                                      'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                      'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': prole, 'ywzhs': p.ywzhs, 'ywbs': p.ywbs,
+                                                                                     'ywlx': prole, 'ywzhs': p.ywzhs, 'ywzl': p.ywbs,
                                                                                      'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.ccs,
                                                                                      'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[2]
@@ -187,7 +187,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                                                                                      'teller_num': rd.teller_num,
                                                                                      'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                      'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': prole, 'ywzhs': p.ywzhs, 'ywbs': p.ywbs,
+                                                                                     'ywlx': prole, 'ywzhs': p.ywzhs, 'ywzl': p.ywbs,
                                                                                      'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
                                                                                      'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[3]
@@ -195,13 +195,28 @@ class HrPerformanceBonusCompute(models.TransientModel):
 
             for p in performanceproallowance_datas:
                 if not u'虚拟柜员' in p.teller_name:
-                    zshzjs = p.ywzl
+                    zshzjs = 0.0
                     prole = pro_prefix + p.role
+                    if rd.role1 != u'专业化岗位':
+                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                    else:
+                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                        if para == None:
+                            para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                    if para.jjfs == 'byByte':
+                        zshzjs = p.ywzl * para.parameter_valuex
+                    elif  para.jjfs == 'byQuantity':
+                        zshzjs = p.ywzl * para.parameter_valuex
+                    elif  para.jjfs == 'bySub':
+                        zshzjs = p.ywzl * para.parameter_valuex
+                    elif  para.jjfs == 'byTime':
+                        zshzjs = p.ywzl * para.parameter_valuex
+
                     performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
                                                                                      'teller_num': rd.teller_num,
                                                                                      'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                      'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': prole, 'ywzhs': p.ywzl, 'ywbs': p.ywzl,
+                                                                                     'ywlx': prole, 'ywzhs': p.ywzl, 'ywzl': p.ywzl,
                                                                                      'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
                                                                                      'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[4]
@@ -209,13 +224,27 @@ class HrPerformanceBonusCompute(models.TransientModel):
 
             for p in performanceplusminus_datas:
                 if not u'虚拟柜员' in p.teller_name:
-                    zshzjs = p.btywlxj
+                    zshzjs = 0.0
                     prole = basic_prefix + p.role
+                    if rd.role1 != u'专业化岗位':
+                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                    else:
+                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                        if para == None:
+                            para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                    if para.jjfs == 'byByte':
+                        zshzjs = p.btywlxj * para.parameter_valuex
+                    elif  para.jjfs == 'byQuantity':
+                        zshzjs = p.btywlxj * para.parameter_valuex
+                    elif  para.jjfs == 'bySub':
+                        zshzjs = p.btywlxj * para.parameter_valuex
+                    elif  para.jjfs == 'byTime':
+                        zshzjs = p.btywlxj * para.parameter_valuex
                     performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
                                                                                      'teller_num': rd.teller_num,
                                                                                      'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                      'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': prole, 'ywzhs': p.btywlxj, 'ywbs': p.btywlxj,
+                                                                                     'ywlx': prole, 'ywzhs': p.btywlxj, 'ywzl': p.btywlxj,
                                                                                      'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
                                                                                      'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
                                                                                      'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[5]
@@ -438,6 +467,10 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                     'lrjjdj_bc':jjdj,'sskc_bd':sskcs,
                                                                                     'shjjdj_cz':sh_jjdj,'shsskc_da':sh_sskcs,
                                                                                   })
+
+            for p in performancebonus_datas:
+                p.write({'performancebonustotal_id': performancebonustotal.id})
+
 
         datas = self.env['hr.performancebonustotal'].search([('role1','=',u'专业化岗位')])
         datas=datas.sorted(key=attrgetter('role', 'jj'), reverse=True)
