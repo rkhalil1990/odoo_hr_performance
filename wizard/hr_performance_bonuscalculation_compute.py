@@ -304,14 +304,8 @@ class HrPerformanceBonusDelete(models.TransientModel):
 
     @api.multi
     def performancebonus_delete(self):
-        performancebonuscalculation = self.env[
-            'hr.performancebonus'].search([])
-        for r in performancebonuscalculation:
-            r.unlink()
-        performancebonustotal = self.env[
-            'hr.performancebonustotal'].search([])
-        for r in performancebonustotal:
-            r.unlink()
+        self.env.cr.execute("Delete  From hr_performancebonus")
+        self.env.cr.execute("Delete  From hr_performancebonustotal")
 
 class HrPerformanceOriReportDelete(models.TransientModel):
     _name = 'hr.performance.orireport.delete'
@@ -362,6 +356,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
     @api.multi
     def performanceprocalculation_compute(self):
+        
         role_datas = self.env['hr.performanceroleori'].search([])
         gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
         lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
