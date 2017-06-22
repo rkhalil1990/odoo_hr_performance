@@ -855,4 +855,9 @@ class HrPerformanceTelePara(models.Model):  # 外联系数，临时系数
     para_type = fields.Char(u'系数类型')
 
 
+class HrPerformanceTeleAdditionReportOri(models.Model):  # 外联附加报表
+    _name = 'hr.performanceteleadditionreportori'
+    _description = 'Hr Performance Tele Addition Report Ori'
+    _order = 'id'
+
 
