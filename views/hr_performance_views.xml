@@ -100,38 +100,41 @@
             <form string="hr performancebonustotal Form">
                 <sheet>
                     <group>
-                    <group>
-                            <field name="cal_process"/>
-                            <field name="teller_name"/>
-                            <field name="identity"/>
-                            <field name="quarters"/>
-                            <field name="quarters_date"/>
-                            <field name="group"/>
-                            <field name="role"/>
-                            <field name="role1"/>
-                            <field name="zshzjs"/>
-                            <field name="jblr_mul_gwxs_ae"/>
-                            <field name="jjzzj_bb"/>
-                            <field name="lrjjdj_bc"/>
-                            <field name="sskc_bd"/>
-                            <field name="lrjj_be"/>
-                    </group>
-                    <group>   
-                            <field name="lrzlj_bk"/>
-                            <field name="shywlxj_cy"/>
-                            <field name="shjjdj_cz"/>
-                            <field name="shsskc_da"/>
-                            <field name="shjj_db"/>
-                            <field name="zyhgwjbzywzshs_dy"/>
-                            <field name="zyhgwbzj_dz"/>
-                            <field name="kj"/>
-                            <field name="jj"/>
-                            <field name="ranking"/>
-                            <field name="ratio"/>
-                            <field name="manager_ratio"/>
-                            <field name="complete_rate"/>
-                            <field name="complete_changed_rate"/>
-                    </group>
+                        <group>
+                                <field name="cal_process"/>
+                                <field name="teller_name"/>
+                                <field name="identity"/>
+                                <field name="quarters"/>
+                                <field name="quarters_date"/>
+                                <field name="group"/>
+                                <field name="role"/>
+                                <field name="role1"/>
+                                <field name="zshzjs"/>
+                                <field name="jblr_mul_gwxs_ae"/>
+                                <field name="jjzzj_bb"/>
+                                <field name="lrjjdj_bc"/>
+                                <field name="sskc_bd"/>
+                                <field name="lrjj_be"/>
+                        </group>
+                        <group>   
+                                <field name="lrzlj_bk"/>
+                                <field name="shywlxj_cy"/>
+                                <field name="shjjdj_cz"/>
+                                <field name="shsskc_da"/>
+                                <field name="shjj_db"/>
+                                <field name="zyhgwjbzywzshs_dy"/>
+                                <field name="zyhgwbzj_dz"/>
+                                <field name="kj"/>
+                                <field name="jj"/>
+                                <field name="ranking"/>
+                                <field name="ratio"/>
+                                <field name="manager_ratio"/>
+                                <field name="complete_rate"/>
+                                <field name="complete_changed_rate"/>
+                        </group>
+                        <group>   
+                                <field name="other_datas"/>
+                        </group>
                     </group>
                      <field name='performancebonusdetail_ids'>
                             <tree string='List' editable='bottom'>

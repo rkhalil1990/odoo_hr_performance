@@ -97,11 +97,9 @@
 # b = [1, 2]
 
 
-s = u'你好-哈哈哈'
-x = str(16)
+a = 1.248791212
 
-
-print x + s
+print a * 100
 # 
 # 
 # import re

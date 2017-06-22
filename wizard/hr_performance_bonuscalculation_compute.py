@@ -13,22 +13,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
     _name = 'hr.performance.bonus.compute'
     _description = 'HR Performancebonus Compute'
 
-    def get_lurushenheparameter(self, quarters, quantity):
-        if quantity < 0:
-            return None
-        performancelurushenheparameter_data = self.env[
-            'hr.performancelurushenheparameter'].search([('quarters', '=', quarters)])
-        t_quantity = eval(
-            performancelurushenheparameter_data.quantity)
-        t_unit_price = eval(performancelurushenheparameter_data.unit_price)
-        t_price_add_minus = eval(
-            performancelurushenheparameter_data.price_add_minus)
-        index = len(t_quantity) - 1
-        for i, v in enumerate(t_quantity):
-            if quantity < v:
-                index = i - 1
-                break
-        return t_unit_price[index], t_price_add_minus[index]
+   
 
     @api.multi
     def performancebonus_compute(self):
@@ -36,7 +21,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
         mobile_prefix = u'信用卡'
         basic_prefix = u'基础补时'
         pro_prefix = u'专业化补时'
-        gwxs_role = (u'录入', u'行号选择', u'行号录入')
+        gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
         lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
         source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表', u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
         performancelurushenheparameter_datas =self.env['hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数
@@ -270,17 +255,18 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     for pd in performancebonus_datas:
                         pd.write({'zql': zql, 'cwl': cwl, 'dhl': dhl})
 
-                # get jjdj sskcs
-                performancebonus_datas_byname = self.env['hr.performancebonus'].search(
-                    [('teller_name', '=', rd.name)])
-                # if rd.role1 in lurushenhe_role1_group:
-                for plsp in performancelurushenheparameter_datas:
-                    rolelist = [i for i in plsp.role.split(',')]
-                    quantity = sum([i.zshzjs for i in performancebonus_datas_byname if i.ywlx in rolelist])
-                    jjdj, sskcs = self.get_lurushenheparameter(plsp.quarters, quantity)
-                    for pd in performancebonus_datas_byname:
-                        if pd.ywlx in rolelist:
-                            pd.write({'jjdj': jjdj, 'sskcs': sskcs})
+                # # get jjdj sskcs
+                # performancebonus_datas_byname = self.env['hr.performancebonus'].search(
+                #     [('teller_name', '=', rd.name)])
+                # # if rd.role1 in lurushenhe_role1_group:
+                # for plsp in performancelurushenheparameter_datas:
+                #     rolelist = [i for i in plsp.role.split(',')]
+                #     quantity = sum([i.zshzjs for i in performancebonus_datas_byname if i.ywlx in rolelist and not i.ywlx in gwxs_role_list])
+                #     quantity += sum([i.zshzjs * gwxs.parameter_value for i in performancebonus_datas_byname if i.ywlx in gwxs_role_list])
+                #     jjdj, sskcs = self.get_lurushenheparameter(plsp.quarters, quantity)
+                #     for pd in performancebonus_datas_byname:
+                #         if pd.ywlx in rolelist:
+                #             pd.write({'jjdj': jjdj, 'sskcs': sskcs})
             # else:
             #     performancebonus_datas_byname_byrole1 = self.env['hr.performancebonus'].search(
             #         [('teller_name', '=', rd.name),('role1', '=', u'专业化岗')])
@@ -356,6 +342,23 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
     _name = 'hr.performance.procalculation.compute'
     _description = 'HR PerformancePro Calculation Compute'
 
+    def get_lurushenheparameter(self, quarters, quantity):
+        if quantity < 0:
+            return None
+        performancelurushenheparameter_data = self.env[
+            'hr.performancelurushenheparameter'].search([('quarters', '=', quarters)])
+        t_quantity = eval(
+            performancelurushenheparameter_data.quantity)
+        t_unit_price = eval(performancelurushenheparameter_data.unit_price)
+        t_price_add_minus = eval(
+            performancelurushenheparameter_data.price_add_minus)
+        index = len(t_quantity) - 1
+        for i, v in enumerate(t_quantity):
+            if quantity < v:
+                index = i - 1
+                break
+        return t_unit_price[index], t_price_add_minus[index]
+
 
     @api.multi
     def performanceprocalculation_compute(self):
@@ -379,6 +382,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             cal_process=[u'应出勤' + str(performanceattendance_data.attendance_basic), 
                     u'出勤日' + str(performanceattendance_data.attendance_actual)]
             # paramater
+            other_datas = u""
+            other_datas_dict = {}
             cwl = 0.00000
             zql = 0.00000
             dhl = 0.00000
@@ -406,10 +411,17 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             group = performancebonus_datas[0].group
             role = performancebonus_datas[0].role
             role1 = performancebonus_datas[0].role1
+            all_roleinlurushenhe_set = set()
             if role1 != u'专业化岗位':
                 except_list=[]
+
+                jblr_mul_gwxs_ae = sum([current_account.zshzjs * current_account.gwxs for current_account in performancebonus_datas 
+                    if current_account.ywlx in gwxs_role_list]) #and u'绩效' in current_account.source_from])
+                jjzzj_bb += jblr_mul_gwxs_ae
+                
                 for plsp in performancelurushenheparameter_datas:
                     role_list = [i for i in plsp.role.split(',')]
+                    all_roleinlurushenhe_set  = all_roleinlurushenhe_set | set(role_list)
                     except_list.extend(role_list)
                     role_set = set(role_list) - set(gwxs_role_list)
                     if plsp.quarters == u'录入岗':
@@ -420,40 +432,48 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                 cwl = i.cwl if i.cwl != 0.0 else cwl
                                 zql = i.zql if i.zql != 0.0 else zql
                                 dhl = i.dhl if i.dhl != 0.0 else dhl
-                                jjdj = i.jjdj if i.jjdj != 0.0 else jjdj
-                                sskcs = i.sskcs if i.sskcs != 0.0 else sskcs
+                                jjdj, sskcs = self.get_lurushenheparameter(plsp.quarters, jjzzj_bb)
+                                # jjdj = i.jjdj if i.jjdj != 0.0 else jjdj
+                                # sskcs = i.sskcs if i.sskcs != 0.0 else sskcs
                     elif plsp.quarters == u'审核岗':
                         for i in performancebonus_datas:
                             if i.ywlx in role_list:
                                 shywlxj_cy += i.zshzjs
-                                sh_jjdj = i.jjdj
-                                sh_sskcs = i.sskcs
+                                
+                                # sh_jjdj = i.jjdj
+                                # sh_sskcs = i.sskcs
+                            sh_jjdj, sh_sskcs = self.get_lurushenheparameter(plsp.quarters, shywlxj_cy)
 
-                jblr_mul_gwxs_ae = sum([current_account.zshzjs * current_account.gwxs for current_account in performancebonus_datas 
-                    if current_account.ywlx in gwxs_role_list]) #and u'绩效' in current_account.source_from])
-                jjzzj_bb += jblr_mul_gwxs_ae
+    
+
                 lrjj_be = jjzzj_bb * jjdj - sskcs
 
                 for i in performancegoal_datas:
                     if i.role == role and  i.role1 == role1:
-                        zqlxs = (1+(zql-i.zql_goal)*100)
-                        lhlxs = (1+(i.fql_goal - dhl))
-                        lrzlj_bk = zqlxs*lhlxs
-                        cal_process.append(str(lrzlj_bk)+","+str(zql)+","+str(i.zql_goal)+","+str(i.fql_goal)+","+str(dhl))
+                        zqlxs = (1 + (zql - i.zql_goal) * 100)
+                        lhlxs = (1 + (i.fql_goal - dhl))
+                        lrzlj_bk = zqlxs * lhlxs
+                        cal_process.append(str(i.zql_goal)+","+str(i.fql_goal)+","+str(zql)+","+str(dhl)+","+str(zqlxs)
+                            +","+str(lhlxs)+","+str(lrzlj_bk))
                         lrzlj_bk = (lrzlj_bk - 1) * lrjj_be
 
                 shjj_db = shywlxj_cy * sh_jjdj - sh_sskcs
 
+                
                 for p in performancebonus_datas:
+                    if not p.ywlx in all_roleinlurushenhe_set:
+                        if other_datas_dict.has_key(p.ywlx):
+                            other_datas_dict[p.ywlx] += p.zshzjs
+                        else:
+                            other_datas_dict[p.ywlx] = p.zshzjs
                     if not p.ywlx in except_list: # or not u'绩效' in p.source_from:
                         jj += p.zshzjs
 
                 jj += lrjj_be + lrzlj_bk + shjj_db
             else:
                 jj = sum([i.zshzjs for i in performancebonus_datas]) 
-                   
-
-            
+            other_datas_list = [k + ":  " + str(v) for k, v in other_datas_dict.items()]        
+            other_datas = "\n".join(other_datas_list) # p.ywlx + u": " + str(p.zshzjs) + "\n"
 
             performancebonustotal = self.env['hr.performancebonustotal'].create({ 'cal_process':' '.join(cal_process) ,'teller_num': teller_num,
                                                                                   'teller_name': teller_name, 'identity': '派遣', 'quarters': rd.quarters,
@@ -466,6 +486,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                   'jj':jj,'ranking':ranking,
                                                                                     'lrjjdj_bc':jjdj,'sskc_bd':sskcs,
                                                                                     'shjjdj_cz':sh_jjdj,'shsskc_da':sh_sskcs,
+                                                                                    'other_datas':other_datas,
                                                                                   })
 
             for p in performancebonus_datas:

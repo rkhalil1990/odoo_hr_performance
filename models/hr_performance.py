@@ -34,7 +34,7 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
     ccs = fields.Float(u'差错数')
     tjyxmh = fields.Float(u'提交影像模糊')
     cwl = fields.Float(u'错误率', digits=(5, 5))
-    zql = fields.Float(u'正确率', digits=(5, 5))
+    zql = fields.Float(u'正确率', digits=(7, 7))
     dhl = fields.Float(u'打回率', digits=(5, 5))
     # jbzjs = fields.Float(u'基本字节数')
     gwxs = fields.Float(u'岗位系数')
@@ -52,87 +52,87 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
     source_from = fields.Char(u'数据来源', readonly=True)
     performancebonustotal_id=fields.Many2one('hr.performancebonustotal', 'Hr Performance Bonus Total', ondelete='cascade')
 
-    def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
-        res = super(HrPerformanceBonus, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
-        _logger = logging.getLogger(__name__)
-        gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
-        lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
-        source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',u'双中心信用卡报表')
-        performancelurushenheparameter_datas_ids = self.pool['hr.performancelurushenheparameter'].search(cr, uid, [], context=context)
-        performancelurushenheparameter_datas = self.pool.get('hr.performancelurushenheparameter').browse(cr, uid, performancelurushenheparameter_datas_ids, context=context)
+    # def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
+    #     res = super(HrPerformanceBonus, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
+    #     _logger = logging.getLogger(__name__)
+    #     gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
+    #     lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
+    #     source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',u'双中心信用卡报表')
+    #     performancelurushenheparameter_datas_ids = self.pool['hr.performancelurushenheparameter'].search(cr, uid, [], context=context)
+    #     performancelurushenheparameter_datas = self.pool.get('hr.performancelurushenheparameter').browse(cr, uid, performancelurushenheparameter_datas_ids, context=context)
 
-        performancegoal_datas_ids = self.pool['hr.performancegoal'].search(cr, uid, [], context=context)
-        performancegoal_datas = self.pool.get('hr.performancegoal').browse(cr, uid, performancegoal_datas_ids, context=context)
-        if 'ywzhs' in fields:
-            for line in res:
-                if '__domain' in line:
-                    line['ywzhs'] = 0.0
-        if 'ywzl' in fields:
-            for line in res:
-                if '__domain' in line:
-                    line['ywzl'] = 0.0 
-        if 'hzs' in fields:
-            for line in res:
-                if '__domain' in line:
-                    line['hzs'] = 0.0
-        if 'zjs' in fields:
-            for line in res:
-                if '__domain' in line:
-                    line['zjs'] = 0.0
-        if 'ccs' in fields:
-            for line in res:
-                if '__domain' in line:
-                    line['ccs'] = 0.0
-        if 'tjyxmh' in fields:
-            for line in res:
-                if '__domain' in line:
-                    line['tjyxmh'] = 0.0
-        if 'cwl' in fields:
-            for line in res:
-                if '__domain' in line:
-                    lines = self.search(cr, uid, line['__domain'], context=context)
-                    pending_value = 0.0
-                    for current_account in self.browse(cr, uid, lines, context=context):
-                        if current_account.cwl != 0.0:
-                            pending_value = current_account.cwl
-                            break
-                    line['cwl'] = pending_value
-        if 'zql' in fields:
-            for line in res:
-                if '__domain' in line:
-                    lines = self.search(cr, uid, line['__domain'], context=context)
-                    pending_value = 0.0
-                    for current_account in self.browse(cr, uid, lines, context=context):
-                        if current_account.zql != 0.0:
-                            pending_value = current_account.zql
-                            break
-                    line['zql'] = pending_value
-        if 'dhl' in fields:
-            for line in res:
-                if '__domain' in line:
-                    lines = self.search(cr, uid, line['__domain'], context=context)
-                    pending_value = 0.0
-                    for current_account in self.browse(cr, uid, lines, context=context):
-                        if current_account.dhl != 0.0:
-                            pending_value = current_account.dhl
-                            break
-                    line['dhl'] = pending_value
-        if 'gwxs' in fields:
-            for line in res:
-                if '__domain' in line:
-                    line['gwxs'] = 0.0
-        if 'jjdj' in fields:
-            for line in res:
-                if '__domain' in line:
-                    line['jjdj'] = 0.0
-        if 'sskcs' in fields:
-            for line in res:
-                if '__domain' in line:
-                    line['sskcs'] = 0.0            
-        if 'sskcs' in fields:
-            for line in res:
-                if '__domain' in line:
-                    line['sskcs'] = 0.0                   
+    #     performancegoal_datas_ids = self.pool['hr.performancegoal'].search(cr, uid, [], context=context)
+    #     performancegoal_datas = self.pool.get('hr.performancegoal').browse(cr, uid, performancegoal_datas_ids, context=context)
+    #     if 'ywzhs' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 line['ywzhs'] = 0.0
+    #     if 'ywzl' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 line['ywzl'] = 0.0 
+    #     if 'hzs' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 line['hzs'] = 0.0
+    #     if 'zjs' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 line['zjs'] = 0.0
+    #     if 'ccs' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 line['ccs'] = 0.0
+    #     if 'tjyxmh' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 line['tjyxmh'] = 0.0
+    #     if 'cwl' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 lines = self.search(cr, uid, line['__domain'], context=context)
+    #                 pending_value = 0.0
+    #                 for current_account in self.browse(cr, uid, lines, context=context):
+    #                     if current_account.cwl != 0.0:
+    #                         pending_value = current_account.cwl
+    #                         break
+    #                 line['cwl'] = pending_value
+    #     if 'zql' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 lines = self.search(cr, uid, line['__domain'], context=context)
+    #                 pending_value = 0.0
+    #                 for current_account in self.browse(cr, uid, lines, context=context):
+    #                     if current_account.zql != 0.0:
+    #                         pending_value = current_account.zql
+    #                         break
+    #                 line['zql'] = pending_value
+    #     if 'dhl' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 lines = self.search(cr, uid, line['__domain'], context=context)
+    #                 pending_value = 0.0
+    #                 for current_account in self.browse(cr, uid, lines, context=context):
+    #                     if current_account.dhl != 0.0:
+    #                         pending_value = current_account.dhl
+    #                         break
+    #                 line['dhl'] = pending_value
+    #     if 'gwxs' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 line['gwxs'] = 0.0
+    #     if 'jjdj' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 line['jjdj'] = 0.0
+    #     if 'sskcs' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 line['sskcs'] = 0.0            
+    #     if 'sskcs' in fields:
+    #         for line in res:
+    #             if '__domain' in line:
+    #                 line['sskcs'] = 0.0                   
         # if 'jj' in fields:
         #     for line in res:
         #         if '__domain' in line:
@@ -237,7 +237,7 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
         #             for current_account in self.browse(cr, uid, lines, context=context):
         #                 payed_value += current_account.amount_payed
         #             line['amount_payed'] = payed_value
-        return res
+        # return res
 
 
 class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
@@ -277,7 +277,7 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     complete_changed_rate = fields.Float(u'调整后成率', digits=(5, 5))
     manual_jj = fields.Float(u'手加减奖金')
     performancebonusdetail_ids = fields.One2many('hr.performancebonus', 'performancebonustotal_id',"performancebonus")   
-
+    other_datas = fields.Text(u'其他奖金明细')
 # class HrPerformanceBonusTotalDetail(models.Model):  # 奖金计算new
 #     _name = 'hr.performancebonustotaldetail'
 #     _description = 'Hr Performance Bonus Total Detail'
