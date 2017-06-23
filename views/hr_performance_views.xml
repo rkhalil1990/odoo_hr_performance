@@ -115,16 +115,19 @@
                                 <field name="lrjjdj_bc"/>
                                 <field name="sskc_bd"/>
                                 <field name="lrjj_be"/>
-                        </group>
-                        <group>   
                                 <field name="lrzlj_bk"/>
                                 <field name="shywlxj_cy"/>
+                        </group>
+                        <group>   
                                 <field name="shjjdj_cz"/>
                                 <field name="shsskc_da"/>
                                 <field name="shjj_db"/>
                                 <field name="zyhgwjbzywzshs_dy"/>
                                 <field name="zyhgwbzj_dz"/>
                                 <field name="kj"/>
+                                <field name="bs"/>
+                                <field name="zyhywbzhs"/>
+                                <field name="jbzywzshs"/>
                                 <field name="jj"/>
                                 <field name="ranking"/>
                                 <field name="ratio"/>

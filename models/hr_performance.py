@@ -268,6 +268,9 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     shjj_db = fields.Float(u'审核奖金DB')
     zyhgwjbzywzshs_dy = fields.Float(u'专业标准折算耗时DY')
     zyhgwbzj_dz = fields.Float(u'专业化岗位标准奖DZ')
+    bs = fields.Float(u'补时')
+    zyhywbzhs = fields.Float(u'当月专业化业务总标准耗时')
+    jbzywzshs = fields.Float(u'兼标准业务折算耗时')
     kj = fields.Float(u'扣奖')
     jj = fields.Float(u'奖金')
     ranking = fields.Integer(u'排名')
@@ -500,7 +503,7 @@ class HrPerformanceGoal(models.Model):  # 正确放弃系数
     zql_goal = fields.Float(u'正确率目标',  digits=(5, 5))
     fql_goal = fields.Float(u'放弃率目标',  digits=(5, 5))
 
-
+# TODO: role field require only one
 class HrPerformanceParameter(models.Model):  # 计奖参数
     _name = 'hr.performanceparameter'
     _description = 'Hr Performance Parameter'

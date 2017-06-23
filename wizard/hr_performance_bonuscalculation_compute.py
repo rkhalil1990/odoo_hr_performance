@@ -53,9 +53,9 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 if rd.role1 != u'专业化岗位':
                     para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
                 else:
-                    para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
-                    if para == None:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+p.role)], limit=1)
+                    para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+p.role)], limit=1)
+                    if len(para) == 0:
+                        para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
                         
                 if para.jjfs == 'byByte':
                     zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
@@ -91,9 +91,9 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 if rd.role1 != u'专业化岗位':
                     para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
                 else:
-                    para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
-                    if para == None:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+p.role)], limit=1)
+                    para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+p.role)], limit=1)
+                    if len(para) == 0:
+                        para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
                 if para.jjfs == 'byByte':
                     zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
                 elif  para.jjfs == 'byQuantity':
@@ -128,9 +128,9 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     if rd.role1 != u'专业化岗位':
                         para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
                     else:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
-                        if para == None:
-                            para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        if len(para) == 0:
+                            para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
                     if para.jjfs == 'byByte':
                         zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
                     elif  para.jjfs == 'byQuantity':
@@ -157,9 +157,9 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     if rd.role1 != u'专业化岗位':
                         para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
                     else:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
-                        if para == None:
-                            para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        if len(para) == 0:
+                            para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
                     if para.jjfs == 'byByte':
                         zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
                     elif  para.jjfs == 'byQuantity':
@@ -185,9 +185,9 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     if rd.role1 != u'专业化岗位':
                         para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
                     else:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
-                        if para == None:
-                            para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        if len(para) == 0:
+                            para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
                     if para.jjfs == 'byByte':
                         zshzjs = p.ywzl * para.parameter_valuex
                     elif  para.jjfs == 'byQuantity':
@@ -196,6 +196,9 @@ class HrPerformanceBonusCompute(models.TransientModel):
                         zshzjs = p.ywzl * para.parameter_valuex
                     elif  para.jjfs == 'byTime':
                         zshzjs = p.ywzl * para.parameter_valuex
+                    elif p.ywlx == u'加减业务时间小计':
+                        zshzjs = p.ywzl * 60
+
 
                     performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
                                                                                      'teller_num': rd.teller_num,
@@ -214,9 +217,9 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     if rd.role1 != u'专业化岗位':
                         para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
                     else:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
-                        if para == None:
-                            para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        if len(para) == 0:
+                            para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
                     if para.jjfs == 'byByte':
                         zshzjs = p.btywlxj * para.parameter_valuex
                     elif  para.jjfs == 'byQuantity':
@@ -356,7 +359,11 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
     @api.multi
     def performanceprocalculation_compute(self):
-        
+        self.env.cr.execute('delete from hr_performanceproallowance where ywzl = 0')
+
+
+
+
         role_datas = self.env['hr.performanceroleori'].search([])
         gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
         lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
@@ -398,6 +405,11 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             shjj_db = 0.0
             zyhgwjbzywzshs_dy = 0.0
             zyhgwbzj_dz = 0.0
+            # pro
+            jbzywzshs = 0.0
+            zyhywbzhs = 0.0
+            bs = 0.0
+
             teller_num = performancebonus_datas[0].teller_num
             teller_name =performancebonus_datas[0].teller_name
             identity = performancebonus_datas[0].identity
@@ -466,10 +478,58 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
                 jj += lrjj_be + lrzlj_bk + shjj_db
             else:
-                jj = sum([i.zshzjs for i in performancebonus_datas]) 
-            other_datas_list = [k + ":  " + str(v) for k, v in other_datas_dict.items()]        
-            other_datas = "\n".join(other_datas_list) # p.ywlx + u": " + str(p.zshzjs) + "\n"
+                pro_para_list = [x.role for x in self.env['hr.performanceparameter'].search([('quarters', '=', u'专业化岗位')])]
+                for p in performancebonus_datas:
+                    if other_datas_dict.has_key(p.ywlx):
+                        other_datas_dict[p.ywlx] += p.zshzjs
+                    else:
+                        other_datas_dict[p.ywlx] = p.zshzjs
+                    if p.ywlx in pro_para_list:
+                        zyhywbzhs +=  p.zshzjs
+                    elif not p.ywlx in pro_para_list and not u'补时' in p.ywlx:
+                        jbzywzshs +=  p.zshzjs
+                    
+                jj = sum([i.zshzjs for i in performancebonus_datas])
 
+
+            # 组长
+            cap_basic_data = self.env['hr.performancecapbasic'].search(
+                    [('teller_name', '=', rd.name)])
+            cap_pro_data = self.env['hr.performancecappro'].search(
+                    [('teller_name', '=', rd.name)])
+            cap_bonus = 0.0
+            if len(cap_basic_data) > 0:
+                if cap_basic_data.cap_bonus > 0.0:
+                    cap_bonus = cap_basic_data.cap_bonus
+                elif cap_basic_data.actual_bonus == 0.0 or cap_basic_data.cap_bonus == 0.0:
+                    cap_bonus = (cap_basic_data.total_bonus - jj) if cap_basic_data.total_bonus > 0.0 else 0.0
+                    cap_basic_data.write({'actual_bonus': jj,'cap_bonus': cap_bonus})
+                other_datas_dict[u"组长考核奖"] = cap_bonus
+            elif len(cap_pro_data) > 0:
+                if cap_pro_data.cap_bonus > 0.0:
+                    cap_bonus = cap_pro_data.cap_bonus
+                elif cap_pro_data.actual_bonus == 0.0 or cap_pro_data.cap_bonus == 0.0:
+                    cap_bonus = (cap_pro_data.total_bonus - jj) if cap_pro_data.total_bonus > 0.0 else 0.0
+                    cap_pro_data.write({'actual_bonus': jj,'cap_bonus': cap_bonus})
+                other_datas_dict[u"组长考核奖"] = cap_bonus
+            jj += cap_bonus
+
+
+            # other_datas_list = [k + ":  " + str(v) for k, v in other_datas_dict.items()]
+            # other_datas = "\n".join(other_datas_list) # p.ywlx + u": " + str(p.zshzjs) + "\n"
+
+
+            if zyhywbzhs or jbzywzshs:
+                if other_datas_dict.has_key(u"专业化补时" + rd.role):
+                    bs = other_datas_dict[u"专业化补时" + rd.role]
+                    del(other_datas_dict[u"专业化补时" + rd.role])
+                other_datas_list = [k + ":  " + str(v) for k, v in other_datas_dict.items()]
+                other_datas = "\n".join(other_datas_list)
+                other_datas += "\n" + u"---------------------------------"  + "\n" + u"补时:  " + str(bs) + "\n" + \
+                u"当月专业化业务总标准耗时:  " + str(zyhywbzhs) + "\n" + u"兼标准业务折算耗时:  " + str(jbzywzshs) + "\n" 
+            else:
+                other_datas_list = [k + ":  " + str(v) for k, v in other_datas_dict.items()]
+                other_datas = "\n".join(other_datas_list)
             performancebonustotal = self.env['hr.performancebonustotal'].create({ 'cal_process':' '.join(cal_process) ,'teller_num': teller_num,
                                                                                   'teller_name': teller_name, 'identity': '派遣', 'quarters': rd.quarters,
                                                                                   'group': rd.work_group, 'role': rd.role,
@@ -477,8 +537,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                   'jjzzj_bb':jjzzj_bb,'lrjj_be':lrjj_be,
                                                                                   'lrzlj_bk':lrzlj_bk,'shywlxj_cy':shywlxj_cy,
                                                                                   'shjj_db':shjj_db,'zyhgwjbzywzshs_dy':zyhgwjbzywzshs_dy,
-                                                                                  'zyhgwbzj_dz':zyhgwbzj_dz,'kj':kj,
-                                                                                  'jj':jj,'ranking':ranking,
+                                                                                  'zyhgwbzj_dz':zyhgwbzj_dz,'kj':kj,'bs':bs,'zyhywbzhs':zyhywbzhs,
+                                                                                  'jbzywzshs':jbzywzshs,'jj':jj,'ranking':ranking,
                                                                                     'lrjjdj_bc':jjdj,'sskc_bd':sskcs,
                                                                                     'shjjdj_cz':sh_jjdj,'shsskc_da':sh_sskcs,
                                                                                     'other_datas':other_datas,
@@ -486,6 +546,10 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
             for p in performancebonus_datas:
                 p.write({'performancebonustotal_id': performancebonustotal.id})
+
+
+
+
 
 
         datas = self.env['hr.performancebonustotal'].search([('role1','=',u'专业化岗位')])
