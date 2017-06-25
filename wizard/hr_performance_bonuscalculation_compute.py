@@ -9,11 +9,10 @@ from operator import itemgetter, attrgetter
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+
 class HrPerformanceBonusCompute(models.TransientModel):
     _name = 'hr.performance.bonus.compute'
     _description = 'HR Performancebonus Compute'
-
-   
 
     @api.multi
     def performancebonus_compute(self):
@@ -23,8 +22,10 @@ class HrPerformanceBonusCompute(models.TransientModel):
         pro_prefix = u'专业化补时'
         gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
         lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
-        source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表', u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
-        performancelurushenheparameter_datas =self.env['hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数
+        source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',
+                       u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
+        performancelurushenheparameter_datas = self.env[
+            'hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数
         role_datas = self.env['hr.performanceroleori'].search([])
         for rd in role_datas:
             performancereportori_datas = self.env[
@@ -43,111 +44,127 @@ class HrPerformanceBonusCompute(models.TransientModel):
             performanceattendance_datas = self.env[
                 'hr.performanceattendance'].search([('teller_name', '=', rd.name)])
             jjcs = self.env['hr.performanceparameter'].search(
-                    [('role', '=', rd.role)])
+                [('role', '=', rd.role)])
             gwxs = self.env['hr.performanceglobalparameter'].search(
-                    [('parameter_name', '=', rd.role1)])
+                [('parameter_name', '=', rd.role1)])
 
             for p in performancereportori_datas:
                 zshzjs = 0.0
                 para = None
                 if rd.role1 != u'专业化岗位':
-                    para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                    para = self.env['hr.performanceparameter'].search(
+                        [('role', '=', p.role)], limit=1)
                 else:
-                    para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+p.role)], limit=1)
+                    para = self.env['hr.performanceparameter'].search(
+                        [('role', '=', standard_trans+p.role)], limit=1)
                     if len(para) == 0:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
-                        
+                        para = self.env['hr.performanceparameter'].search(
+                            [('role', '=', p.role)], limit=1)
+
                 if para.jjfs == 'byByte':
-                    zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
-                elif  para.jjfs == 'byQuantity':
+                    zshzjs = p.lrhzs * para.parameter_valuex + p.lrzjs
+                elif para.jjfs == 'byQuantity':
                     zshzjs = p.ywzl * para.parameter_valuex
-                elif  para.jjfs == 'byTime':
+                elif para.jjfs == 'byTime':
                     zshzjs = p.ywzl * para.parameter_valuex
 
                 if rd.role1 != u'专业化岗位' and p.role == u'影像定位':
-                    p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位账户激活')], limit=1)
-                    p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位其他')], limit=1)
+                    p1 = self.env['hr.performanceparameter'].search(
+                        [('parameter_name', '=', u'影像定位账户激活')], limit=1)
+                    p2 = self.env['hr.performanceparameter'].search(
+                        [('parameter_name', '=', u'影像定位其他')], limit=1)
                     zshzjs += p.yxdw_zhjh * p1.parameter_valuex
                     zshzjs += p.yxdw_qt * p2.parameter_valuex
                 elif rd.role1 == u'专业化岗位' and p.role == u'影像定位':
-                    p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', standard_trans+u'影像定位账户激活')], limit=1)
-                    p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', standard_trans+u'影像定位其他')], limit=1)
+                    p1 = self.env['hr.performanceparameter'].search(
+                        [('parameter_name', '=', standard_trans+u'影像定位账户激活')], limit=1)
+                    p2 = self.env['hr.performanceparameter'].search(
+                        [('parameter_name', '=', standard_trans+u'影像定位其他')], limit=1)
                     zshzjs += p.yxdw_zhjh * p1.parameter_valuex
                     zshzjs += p.yxdw_qt * p2.parameter_valuex
 
-
-                performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
-                                                                                 'teller_num': rd.teller_num,
-                                                                                 'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
-                                                                                 'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                 'ywlx': p.role, 'ywzhs': p.ywzhs, 'ywzl': p.ywzl,
-                                                                                 'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
-                                                                                 'tjyxmh': p.tjyxmh,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
-                                                                                 'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[0]
-                                                                                 })
+                performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
+                    'teller_num': rd.teller_num,
+                    'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+                    'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                    'ywlx': p.role, 'ywzhs': p.ywzhs, 'ywzl': p.ywzl,
+                    'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
+                    'tjyxmh': p.tjyxmh,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
+                    'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[0]
+                })
             for p in performancebranchreportori_datas:
                 zshzjs = 0.0
                 para = None
                 if rd.role1 != u'专业化岗位':
-                    para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                    para = self.env['hr.performanceparameter'].search(
+                        [('role', '=', p.role)], limit=1)
                 else:
-                    para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+p.role)], limit=1)
+                    para = self.env['hr.performanceparameter'].search(
+                        [('role', '=', standard_trans+p.role)], limit=1)
                     if len(para) == 0:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', p.role)], limit=1)
+                        para = self.env['hr.performanceparameter'].search(
+                            [('role', '=', p.role)], limit=1)
                 if para.jjfs == 'byByte':
-                    zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
-                elif  para.jjfs == 'byQuantity':
+                    zshzjs = p.lrhzs * para.parameter_valuex + p.lrzjs
+                elif para.jjfs == 'byQuantity':
                     zshzjs = p.ywzl * para.parameter_valuex
-                elif  para.jjfs == 'byTime':
+                elif para.jjfs == 'byTime':
                     zshzjs = p.ywzl * para.parameter_valuex
 
                 if rd.role1 != u'专业化岗位' and p.role == u'影像定位':
-                    p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位账户激活')], limit=1)
-                    p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', u'影像定位其他')], limit=1)
+                    p1 = self.env['hr.performanceparameter'].search(
+                        [('parameter_name', '=', u'影像定位账户激活')], limit=1)
+                    p2 = self.env['hr.performanceparameter'].search(
+                        [('parameter_name', '=', u'影像定位其他')], limit=1)
                     zshzjs += p.yxdw_zhjh * p1.parameter_valuex
                     zshzjs += p.yxdw_qt * p2.parameter_valuex
                 elif rd.role1 == u'专业化岗位' and p.role == u'影像定位':
-                    p1 = self.env['hr.performanceparameter'].search([('parameter_name', '=', standard_trans+u'影像定位账户激活')], limit=1)
-                    p2 = self.env['hr.performanceparameter'].search([('parameter_name', '=', standard_trans+u'影像定位其他')], limit=1)
+                    p1 = self.env['hr.performanceparameter'].search(
+                        [('parameter_name', '=', standard_trans+u'影像定位账户激活')], limit=1)
+                    p2 = self.env['hr.performanceparameter'].search(
+                        [('parameter_name', '=', standard_trans+u'影像定位其他')], limit=1)
                     zshzjs += p.yxdw_zhjh * p1.parameter_valuex
                     zshzjs += p.yxdw_qt * p2.parameter_valuex
-                performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
-                                                                                 'teller_num': rd.teller_num,
-                                                                                 'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
-                                                                                 'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                 'ywlx': p.role, 'ywzhs': p.ywzhs, 'ywzl': p.ywzl,
-                                                                                 'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
-                                                                                 'tjyxmh': p.tjyxmh,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
-                                                                                 'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[1]
-                                                                                 })
+                performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
+                    'teller_num': rd.teller_num,
+                    'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+                    'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                    'ywlx': p.role, 'ywzhs': p.ywzhs, 'ywzl': p.ywzl,
+                    'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
+                    'tjyxmh': p.tjyxmh,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
+                    'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[1]
+                })
             for p in performancemobilereportori_datas:
                 if not u'虚拟柜员' in p.teller_name:
                     zshzjs = 0.0
                     prole = mobile_prefix + p.role
                     para = None
                     if rd.role1 != u'专业化岗位':
-                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search(
+                            [('role', '=', prole)], limit=1)
                     else:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search(
+                            [('role', '=', standard_trans+prole)], limit=1)
                         if len(para) == 0:
-                            para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                            para = self.env['hr.performanceparameter'].search(
+                                [('role', '=', prole)], limit=1)
                     if para.jjfs == 'byByte':
-                        zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
-                    elif  para.jjfs == 'byQuantity':
+                        zshzjs = p.lrhzs * para.parameter_valuex + p.lrzjs
+                    elif para.jjfs == 'byQuantity':
                         zshzjs = p.ywbs * para.parameter_valuex
-                    elif  para.jjfs == 'bySub':
+                    elif para.jjfs == 'bySub':
                         zshzjs = p.zrwxzs * para.parameter_valuex
-                    elif  para.jjfs == 'byTime':
+                    elif para.jjfs == 'byTime':
                         zshzjs = p.ywzhs * para.parameter_valuex
-                    performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
-                                                                                     'teller_num': rd.teller_num,
-                                                                                     'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
-                                                                                     'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': prole, 'ywzhs': p.ywzhs, 'ywzl': p.ywbs,
-                                                                                     'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.ccs,
-                                                                                     'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
-                                                                                     'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[2]
-                                                                                     })
+                    performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
+                        'teller_num': rd.teller_num,
+                        'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+                        'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                        'ywlx': prole, 'ywzhs': p.ywzhs, 'ywzl': p.ywbs,
+                        'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.ccs,
+                        'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
+                        'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[2]
+                    })
 
             for p in performancebranchmobilereportori_datas:
                 if not u'虚拟柜员' in p.teller_name:
@@ -155,99 +172,102 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     prole = mobile_prefix + p.role
                     para = None
                     if rd.role1 != u'专业化岗位':
-                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search(
+                            [('role', '=', prole)], limit=1)
                     else:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search(
+                            [('role', '=', standard_trans+prole)], limit=1)
                         if len(para) == 0:
-                            para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                            para = self.env['hr.performanceparameter'].search(
+                                [('role', '=', prole)], limit=1)
                     if para.jjfs == 'byByte':
-                        zshzjs = p.lrhzs * para.parameter_valuex  + p.lrzjs
-                    elif  para.jjfs == 'byQuantity':
+                        zshzjs = p.lrhzs * para.parameter_valuex + p.lrzjs
+                    elif para.jjfs == 'byQuantity':
                         zshzjs = p.ywbs * para.parameter_valuex
-                    elif  para.jjfs == 'bySub':
+                    elif para.jjfs == 'bySub':
                         zshzjs = p.zrwxzs * para.parameter_valuex
-                    elif  para.jjfs == 'byTime':
+                    elif para.jjfs == 'byTime':
                         zshzjs = p.ywzhs * para.parameter_valuex
-                    performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
-                                                                                     'teller_num': rd.teller_num,
-                                                                                     'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
-                                                                                     'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': prole, 'ywzhs': p.ywzhs, 'ywzl': p.ywbs,
-                                                                                     'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
-                                                                                     'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
-                                                                                     'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[3]
-                                                                                       })
+                    performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
+                        'teller_num': rd.teller_num,
+                        'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+                        'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                        'ywlx': prole, 'ywzhs': p.ywzhs, 'ywzl': p.ywbs,
+                        'hzs': p.lrhzs, 'zjs': p.lrzjs, 'ccs': p.lrccs,
+                        'tjyxmh': p.tjyxmhs,  'dhl': 0.0, 'gwxs': gwxs.parameter_value,
+                        'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[3]
+                    })
 
             for p in performanceproallowance_datas:
                 if not u'虚拟柜员' in p.teller_name:
                     zshzjs = 0.0
                     prole = pro_prefix + p.role
                     if rd.role1 != u'专业化岗位':
-                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search(
+                            [('role', '=', prole)], limit=1)
                     else:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search(
+                            [('role', '=', standard_trans+prole)], limit=1)
                         if len(para) == 0:
-                            para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                            para = self.env['hr.performanceparameter'].search(
+                                [('role', '=', prole)], limit=1)
                     if para.jjfs == 'byByte':
                         zshzjs = p.ywzl * para.parameter_valuex
-                    elif  para.jjfs == 'byQuantity':
+                    elif para.jjfs == 'byQuantity':
                         zshzjs = p.ywzl * para.parameter_valuex
-                    elif  para.jjfs == 'bySub':
+                    elif para.jjfs == 'bySub':
                         zshzjs = p.ywzl * para.parameter_valuex
-                    elif  para.jjfs == 'byTime':
+                    elif para.jjfs == 'byTime':
                         zshzjs = p.ywzl * para.parameter_valuex
                     elif p.ywlx == u'加减业务时间小计':
                         zshzjs = p.ywzl * 60
 
-
-                    performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
-                                                                                     'teller_num': rd.teller_num,
-                                                                                     'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
-                                                                                     'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': prole, 'ywzhs': p.ywzl, 'ywzl': p.ywzl,
-                                                                                     'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
-                                                                                     'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
-                                                                                     'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[4]
-                                                                                       })
+                    performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
+                        'teller_num': rd.teller_num,
+                        'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+                        'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                        'ywlx': prole, 'ywzhs': p.ywzl, 'ywzl': p.ywzl,
+                        'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
+                        'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
+                        'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[4]
+                    })
 
             for p in performanceplusminus_datas:
                 if not u'虚拟柜员' in p.teller_name:
                     zshzjs = 0.0
                     prole = basic_prefix + p.role
                     if rd.role1 != u'专业化岗位':
-                        para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search(
+                            [('role', '=', prole)], limit=1)
                     else:
-                        para = self.env['hr.performanceparameter'].search([('role', '=', standard_trans+prole)], limit=1)
+                        para = self.env['hr.performanceparameter'].search(
+                            [('role', '=', standard_trans+prole)], limit=1)
                         if len(para) == 0:
-                            para = self.env['hr.performanceparameter'].search([('role', '=', prole)], limit=1)
+                            para = self.env['hr.performanceparameter'].search(
+                                [('role', '=', prole)], limit=1)
                     if para.jjfs == 'byByte':
                         zshzjs = p.btywlxj * para.parameter_valuex
-                    elif  para.jjfs == 'byQuantity':
+                    elif para.jjfs == 'byQuantity':
                         zshzjs = p.btywlxj * para.parameter_valuex
-                    elif  para.jjfs == 'bySub':
+                    elif para.jjfs == 'bySub':
                         zshzjs = p.btywlxj * para.parameter_valuex
-                    elif  para.jjfs == 'byTime':
+                    elif para.jjfs == 'byTime':
                         zshzjs = p.btywlxj * para.parameter_valuex
-                    performancebonusdetail = self.env['hr.performancebonus'].create({#'performancebonus_id': self.id,
-                                                                                     'teller_num': rd.teller_num,
-                                                                                     'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
-                                                                                     'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                                                                                     'ywlx': prole, 'ywzhs': p.btywlxj, 'ywzl': p.btywlxj,
-                                                                                     'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
-                                                                                     'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
-                                                                                     'zshzjs': zshzjs,'cwl': 0.0, 'zql': 0.0,'source_from': source_list[5]
-                                                                                       })
-
-
-
-
-
+                    performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
+                        'teller_num': rd.teller_num,
+                        'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+                        'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                        'ywlx': prole, 'ywzhs': p.btywlxj, 'ywzl': p.btywlxj,
+                        'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
+                        'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
+                        'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[5]
+                    })
 
         for rd in role_datas:
             if rd.role1 != u'专业化岗位':
                 # get cwl zql dhl，only related by lr
                 performancebonus_datas = self.env['hr.performancebonus'].search(
-                    [('teller_name', '=', rd.name),('ywlx', '=', u'录入')])
+                    [('teller_name', '=', rd.name), ('ywlx', '=', u'录入')])
                 tempccs = sum([i.ccs for i in performancebonus_datas])
                 tempywzl = sum([i.ywzl for i in performancebonus_datas])
                 temptjyxmh = sum([i.tjyxmh for i in performancebonus_datas])
@@ -310,6 +330,7 @@ class HrPerformanceBonusDelete(models.TransientModel):
         self.env.cr.execute("Delete  From hr_performancebonus")
         self.env.cr.execute("Delete  From hr_performancebonustotal")
 
+
 class HrPerformanceOriReportDelete(models.TransientModel):
     _name = 'hr.performance.orireport.delete'
     _description = 'HR Ori Report Delete'
@@ -324,7 +345,7 @@ class HrPerformanceOriReportDelete(models.TransientModel):
         performancemobilereportori_datas = self.env[
             'hr.performancemobilereportori'].search([])
         for r in performancemobilereportori_datas:
-            r.unlink()    
+            r.unlink()
         performancebranchreportori_datas = self.env[
             'hr.performancebranchreportori'].search([])
         for r in performancebranchreportori_datas:
@@ -332,7 +353,7 @@ class HrPerformanceOriReportDelete(models.TransientModel):
         performancebranchmobilereportori_datas = self.env[
             'hr.performancebranchmobilereportori'].search([])
         for r in performancebranchmobilereportori_datas:
-            r.unlink() 
+            r.unlink()
 
 
 class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
@@ -356,33 +377,30 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 break
         return t_unit_price[index], t_price_add_minus[index]
 
-
     @api.multi
     def performanceprocalculation_compute(self):
-        self.env.cr.execute('delete from hr_performanceproallowance where ywzl = 0')
-
-
-
+        self.env.cr.execute(
+            'delete from hr_performanceproallowance where ywzl = 0')
 
         role_datas = self.env['hr.performanceroleori'].search([])
         gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
         lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
-        source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表', u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
-        performancelurushenheparameter_datas = self.env['hr.performancelurushenheparameter'].search([])
+        source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',
+                       u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
+        performancelurushenheparameter_datas = self.env[
+            'hr.performancelurushenheparameter'].search([])
         performancegoal_datas = self.env['hr.performancegoal'].search([])
-
-
 
         for rd in role_datas:
             performancebonus_datas = self.env['hr.performancebonus'].search(
-                    [('teller_name', '=', rd.name)])
+                [('teller_name', '=', rd.name)])
             if not performancebonus_datas:
                 continue
 
-            performanceattendance_data= self.env['hr.performanceattendance'].search(
-                    [('teller_name', '=', rd.name)])
-            cal_process=[u'应出勤' + str(performanceattendance_data.attendance_basic), 
-                    u'出勤日' + str(performanceattendance_data.attendance_actual)]
+            performanceattendance_data = self.env['hr.performanceattendance'].search(
+                [('teller_name', '=', rd.name)])
+            cal_process = [u'应出勤' + str(performanceattendance_data.attendance_basic),
+                           u'出勤日' + str(performanceattendance_data.attendance_actual)]
             # paramater
             other_datas = u""
             other_datas_dict = {}
@@ -398,7 +416,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             kj = 0.0
 
             jblr_mul_gwxs_ae = 0.0
-            jjzzj_bb   = 0.0
+            jjzzj_bb = 0.0
             lrjj_be = 0.0
             lrzlj_bk = 0.0
             shywlxj_cy = 0.0
@@ -411,7 +429,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             bs = 0.0
 
             teller_num = performancebonus_datas[0].teller_num
-            teller_name =performancebonus_datas[0].teller_name
+            teller_name = performancebonus_datas[0].teller_name
             identity = performancebonus_datas[0].identity
             quarters = performancebonus_datas[0].quarters
             quarters_date = performancebonus_datas[0].quarters_date
@@ -420,15 +438,16 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             role1 = performancebonus_datas[0].role1
             all_roleinlurushenhe_set = set()
             if role1 != u'专业化岗位':
-                except_list=[]
+                except_list = []
 
-                jblr_mul_gwxs_ae = sum([current_account.zshzjs * current_account.gwxs for current_account in performancebonus_datas 
-                    if current_account.ywlx in gwxs_role_list]) #and u'绩效' in current_account.source_from])
+                jblr_mul_gwxs_ae = sum([current_account.zshzjs * current_account.gwxs for current_account in performancebonus_datas
+                                        if current_account.ywlx in gwxs_role_list])  # and u'绩效' in current_account.source_from])
                 jjzzj_bb += jblr_mul_gwxs_ae
-                
+
                 for plsp in performancelurushenheparameter_datas:
                     role_list = [i for i in plsp.role.split(',')]
-                    all_roleinlurushenhe_set  = all_roleinlurushenhe_set | set(role_list)
+                    all_roleinlurushenhe_set = all_roleinlurushenhe_set | set(
+                        role_list)
                     except_list.extend(role_list)
                     role_set = set(role_list) - set(gwxs_role_list)
                     if plsp.quarters == u'录入岗':
@@ -439,127 +458,129 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                 cwl = i.cwl if i.cwl != 0.0 else cwl
                                 zql = i.zql if i.zql != 0.0 else zql
                                 dhl = i.dhl if i.dhl != 0.0 else dhl
-                                jjdj, sskcs = self.get_lurushenheparameter(plsp.quarters, jjzzj_bb)
+                                jjdj, sskcs = self.get_lurushenheparameter(
+                                    plsp.quarters, jjzzj_bb)
                                 # jjdj = i.jjdj if i.jjdj != 0.0 else jjdj
                                 # sskcs = i.sskcs if i.sskcs != 0.0 else sskcs
                     elif plsp.quarters == u'审核岗':
                         for i in performancebonus_datas:
                             if i.ywlx in role_list:
                                 shywlxj_cy += i.zshzjs
-                                
+
                                 # sh_jjdj = i.jjdj
                                 # sh_sskcs = i.sskcs
-                            sh_jjdj, sh_sskcs = self.get_lurushenheparameter(plsp.quarters, shywlxj_cy)
-
-    
+                            sh_jjdj, sh_sskcs = self.get_lurushenheparameter(
+                                plsp.quarters, shywlxj_cy)
 
                 lrjj_be = jjzzj_bb * jjdj - sskcs
 
                 for i in performancegoal_datas:
-                    if i.role == role and  i.role1 == role1:
+                    if i.role == role and i.role1 == role1:
                         zqlxs = (1 + (zql - i.zql_goal) * 100)
                         lhlxs = (1 + (i.fql_goal - dhl))
                         lrzlj_bk = zqlxs * lhlxs
                         cal_process.append(str(i.zql_goal)+","+str(i.fql_goal)+","+str(zql)+","+str(dhl)+","+str(zqlxs)
-                            +","+str(lhlxs)+","+str(lrzlj_bk))
+                                           + ","+str(lhlxs)+","+str(lrzlj_bk))
                         lrzlj_bk = (lrzlj_bk - 1) * lrjj_be
 
                 shjj_db = shywlxj_cy * sh_jjdj - sh_sskcs
 
-                
                 for p in performancebonus_datas:
                     if not p.ywlx in all_roleinlurushenhe_set:
                         if other_datas_dict.has_key(p.ywlx):
                             other_datas_dict[p.ywlx] += p.zshzjs
                         else:
                             other_datas_dict[p.ywlx] = p.zshzjs
-                    if not p.ywlx in except_list: # or not u'绩效' in p.source_from:
+                    if not p.ywlx in except_list:  # or not u'绩效' in p.source_from:
                         jj += p.zshzjs
 
                 jj += lrjj_be + lrzlj_bk + shjj_db
             else:
-                pro_para_list = [x.role for x in self.env['hr.performanceparameter'].search([('quarters', '=', u'专业化岗位')])]
+                pro_para_list = [x.role for x in self.env[
+                    'hr.performanceparameter'].search([('quarters', '=', u'专业化岗位')])]
                 for p in performancebonus_datas:
                     if other_datas_dict.has_key(p.ywlx):
                         other_datas_dict[p.ywlx] += p.zshzjs
                     else:
                         other_datas_dict[p.ywlx] = p.zshzjs
                     if p.ywlx in pro_para_list:
-                        zyhywbzhs +=  p.zshzjs
+                        zyhywbzhs += p.zshzjs
                     elif not p.ywlx in pro_para_list and not u'补时' in p.ywlx:
-                        jbzywzshs +=  p.zshzjs
-                    
-                jj = sum([i.zshzjs for i in performancebonus_datas])
+                        jbzywzshs += p.zshzjs
 
+                jj = sum([i.zshzjs for i in performancebonus_datas])
 
             # 组长
             cap_basic_data = self.env['hr.performancecapbasic'].search(
-                    [('teller_name', '=', rd.name)])
+                [('teller_name', '=', rd.name)])
             cap_pro_data = self.env['hr.performancecappro'].search(
-                    [('teller_name', '=', rd.name)])
+                [('teller_name', '=', rd.name)])
             cap_bonus = 0.0
             if len(cap_basic_data) > 0:
                 if cap_basic_data.cap_bonus > 0.0:
                     cap_bonus = cap_basic_data.cap_bonus
                 elif cap_basic_data.actual_bonus == 0.0 or cap_basic_data.cap_bonus == 0.0:
-                    cap_bonus = (cap_basic_data.total_bonus - jj) if cap_basic_data.total_bonus > 0.0 else 0.0
-                    cap_basic_data.write({'actual_bonus': jj,'cap_bonus': cap_bonus})
+                    cap_bonus = (cap_basic_data.total_bonus -
+                                 jj) if cap_basic_data.total_bonus > 0.0 else 0.0
+                    cap_basic_data.write(
+                        {'actual_bonus': jj, 'cap_bonus': cap_bonus})
                 other_datas_dict[u"组长考核奖"] = cap_bonus
             elif len(cap_pro_data) > 0:
                 if cap_pro_data.cap_bonus > 0.0:
                     cap_bonus = cap_pro_data.cap_bonus
                 elif cap_pro_data.actual_bonus == 0.0 or cap_pro_data.cap_bonus == 0.0:
-                    cap_bonus = (cap_pro_data.total_bonus - jj) if cap_pro_data.total_bonus > 0.0 else 0.0
-                    cap_pro_data.write({'actual_bonus': jj,'cap_bonus': cap_bonus})
+                    cap_bonus = (cap_pro_data.total_bonus -
+                                 jj) if cap_pro_data.total_bonus > 0.0 else 0.0
+                    cap_pro_data.write(
+                        {'actual_bonus': jj, 'cap_bonus': cap_bonus})
                 other_datas_dict[u"组长考核奖"] = cap_bonus
             jj += cap_bonus
 
-
             # other_datas_list = [k + ":  " + str(v) for k, v in other_datas_dict.items()]
-            # other_datas = "\n".join(other_datas_list) # p.ywlx + u": " + str(p.zshzjs) + "\n"
-
+            # other_datas = "\n".join(other_datas_list) # p.ywlx + u": " +
+            # str(p.zshzjs) + "\n"
 
             if zyhywbzhs or jbzywzshs:
                 if other_datas_dict.has_key(u"专业化补时" + rd.role):
                     bs = other_datas_dict[u"专业化补时" + rd.role]
                     del(other_datas_dict[u"专业化补时" + rd.role])
-                other_datas_list = [k + ":  " + str(v) for k, v in other_datas_dict.items()]
+                other_datas_list = [
+                    k + ":  " + str(v) for k, v in other_datas_dict.items()]
                 other_datas = "\n".join(other_datas_list)
                 other_datas += "\n" + u"---------------------------------"  + "\n" + u"补时:  " + str(bs) + "\n" + \
-                u"当月专业化业务总标准耗时:  " + str(zyhywbzhs) + "\n" + u"兼标准业务折算耗时:  " + str(jbzywzshs) + "\n" 
+                    u"当月专业化业务总标准耗时:  " + \
+                    str(zyhywbzhs) + "\n" + \
+                    u"兼标准业务折算耗时:  " + str(jbzywzshs) + "\n"
             else:
-                other_datas_list = [k + ":  " + str(v) for k, v in other_datas_dict.items()]
+                other_datas_list = [
+                    k + ":  " + str(v) for k, v in other_datas_dict.items()]
                 other_datas = "\n".join(other_datas_list)
-            performancebonustotal = self.env['hr.performancebonustotal'].create({ 'cal_process':' '.join(cal_process) ,'teller_num': teller_num,
-                                                                                  'teller_name': teller_name, 'identity': '派遣', 'quarters': rd.quarters,
-                                                                                  'group': rd.work_group, 'role': rd.role,
-                                                                                  'role1': rd.role1, 'jblr_mul_gwxs_ae':jblr_mul_gwxs_ae,
-                                                                                  'jjzzj_bb':jjzzj_bb,'lrjj_be':lrjj_be,
-                                                                                  'lrzlj_bk':lrzlj_bk,'shywlxj_cy':shywlxj_cy,
-                                                                                  'shjj_db':shjj_db,'zyhgwjbzywzshs_dy':zyhgwjbzywzshs_dy,
-                                                                                  'zyhgwbzj_dz':zyhgwbzj_dz,'kj':kj,'bs':bs,'zyhywbzhs':zyhywbzhs,
-                                                                                  'jbzywzshs':jbzywzshs,'jj':jj,'ranking':ranking,
-                                                                                    'lrjjdj_bc':jjdj,'sskc_bd':sskcs,
-                                                                                    'shjjdj_cz':sh_jjdj,'shsskc_da':sh_sskcs,
-                                                                                    'other_datas':other_datas,
-                                                                                  })
+            performancebonustotal = self.env['hr.performancebonustotal'].create({'cal_process': ' '.join(cal_process), 'teller_num': teller_num,
+                                                                                 'teller_name': teller_name, 'identity': '派遣', 'quarters': rd.quarters,
+                                                                                 'group': rd.work_group, 'role': rd.role,
+                                                                                 'role1': rd.role1, 'jblr_mul_gwxs_ae': jblr_mul_gwxs_ae,
+                                                                                 'jjzzj_bb': jjzzj_bb, 'lrjj_be': lrjj_be,
+                                                                                 'lrzlj_bk': lrzlj_bk, 'shywlxj_cy': shywlxj_cy,
+                                                                                 'shjj_db': shjj_db, 'zyhgwjbzywzshs_dy': zyhgwjbzywzshs_dy,
+                                                                                 'zyhgwbzj_dz': zyhgwbzj_dz, 'kj': kj, 'bs': bs, 'zyhywbzhs': zyhywbzhs,
+                                                                                 'jbzywzshs': jbzywzshs, 'jj': jj, 'ranking': ranking,
+                                                                                 'lrjjdj_bc': jjdj, 'sskc_bd': sskcs,
+                                                                                 'shjjdj_cz': sh_jjdj, 'shsskc_da': sh_sskcs,
+                                                                                 'other_datas': other_datas,
+                                                                                 })
 
             for p in performancebonus_datas:
                 p.write({'performancebonustotal_id': performancebonustotal.id})
 
-
-
-
-
-
-        datas = self.env['hr.performancebonustotal'].search([('role1','=',u'专业化岗位')])
-        datas=datas.sorted(key=attrgetter('role', 'jj'), reverse=True)
+        datas = self.env['hr.performancebonustotal'].search(
+            [('role1', '=', u'专业化岗位')])
+        datas = datas.sorted(key=attrgetter('role', 'jj'), reverse=True)
         lastrole = ''
         rank = 0
-        lastjj=0.0
+        lastjj = 0.0
         samecount = 0
         for d in datas:
-            if lastrole=='' or d.role == lastrole:
+            if lastrole == '' or d.role == lastrole:
                 if lastjj == d.jj:
                     samecount += 1
                 else:
@@ -571,4 +592,4 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 rank = 1
                 # rank += 1
                 lastrole = d.role
-            d.write({'ranking':rank})
+            d.write({'ranking': rank})
