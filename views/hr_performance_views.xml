@@ -1363,7 +1363,47 @@
        </record>
 
 
-
+<record id="hr_performanceteleadditionreportori_form" model="ir.ui.view">
+        <field name="name">hr.performanceteleadditionreportori.form</field>
+        <field name="model">hr.performanceteleadditionreportori</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceteleadditionreportori Form">
+                <sheet>
+                    <group>
+                            <field name="teller_name"/>
+                            <field name="role"/>
+                            <field name="dhlxywzhs"/>
+                            <field name="zywl"/>
+                            <field name="yxdw"/>
+                            <field name="hzlzhjh"/>
+                            <field name="hcywl"/>
+                            <field name="hrywl"/>
+                            <field name="bjhshywl"/>
+                            <field name="dyhbjywhshywl"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performanceteleadditionreportori_tree" model="ir.ui.view">
+            <field name="name">hr.performanceteleadditionreportori.tree</field>
+            <field name="model">hr.performanceteleadditionreportori</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceteleadditionreportori">
+                            <field name="teller_name"/>
+                            <field name="role"/>
+                            <field name="dhlxywzhs"/>
+                            <field name="zywl"/>
+                            <field name="yxdw"/>
+                            <field name="hzlzhjh"/>
+                            <field name="hcywl"/>
+                            <field name="hrywl"/>
+                            <field name="bjhshywl"/>
+                            <field name="dyhbjywhshywl"/>
+                </tree>
+            </field>
+       </record>
 
 
 
@@ -1469,17 +1509,17 @@
             </field>
       </record> -->
 	  
-<!-- 	 <record id="act_hr_performancetele" model="ir.actions.act_window">
-            <field name="name">导入电联柜员业务量</field>
-            <field name="res_model">hr.performancetele</field>
+    <record id="act_hr_performanceteleadditionreportori" model="ir.actions.act_window">
+            <field name="name">导入外联附加报表</field>
+            <field name="res_model">hr.performanceteleadditionreportori</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field> 
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
-                导入电联柜员业务量.
+                导入外联附加报表.
               </p>
             </field>
-      </record> -->
+      </record>
 	  
 	 <record id="act_hr_performanceplusminus" model="ir.actions.act_window">
             <field name="name">导入基础作业岗工时补贴表</field>
@@ -1718,8 +1758,8 @@
          sequence="504"/>     
     <menuitem action="act_hr_performancebranchmobilereportori" name="导入双中心信移业务绩效考核报表" id="menu_act_hr_performancebranchmobilereportori" parent="menu_hr_performance_ori"
          sequence="505"/>     
-  <!--   <menuitem action="act_hr_performancetele" name="导入电联柜员业务量" id="menu_act_hr_performancetele" parent="menu_hr_performance_ori"
-         sequence="506"/>   -->   
+  <menuitem action="act_hr_performanceteleadditionreportori" name="导入外联附加报表" id="menu_act_hr_performanceteleadditionreportori" parent="menu_hr_performance_ori"
+         sequence="506"/>  
 	<menuitem action="act_hr_performanceplusminus" name="导入基础作业岗工时补贴表" id="menu_act_hr_performanceplusminus" parent="menu_hr_performance_ori"
          sequence="507"/> 	  
 

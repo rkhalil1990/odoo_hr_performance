@@ -857,3 +857,14 @@ class HrPerformanceTeleAdditionReportOri(models.Model):  # 外联附加报表
     _name = 'hr.performanceteleadditionreportori'
     _description = 'Hr Performance Tele Addition Report Ori'
     _order = 'id'
+
+    teller_name = fields.Char(u'柜员名')
+    role = fields.Char(u'角色')
+    dhlxywzhs = fields.Float(u'电话联系业务总耗时')
+    zywl = fields.Float(u'总业务量')
+    yxdw = fields.Float(u'影像定位')
+    hzlzhjh = fields.Float(u'核准类账户激活')
+    hcywl = fields.Float(u'呼出业务量')
+    hrywl = fields.Float(u'呼入业务量')
+    bjhshywl = fields.Float(u'补救核算后业务量')
+    dyhbjywhshywl  = fields.Float(u'待银行补件业务核算后业务量')
