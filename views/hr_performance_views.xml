@@ -1407,6 +1407,105 @@
 
 
 
+<record id="hr_performancebonus_withzero_form" model="ir.ui.view">
+        <field name="name">hr.performancebonus.form</field>
+        <field name="model">hr.performancebonus</field>
+        <field name="arch" type="xml">
+            <form string="hr performancebonus Form">
+                <sheet>
+                    <group>
+                            <field name="teller_num"/>
+                            <field name="teller_name"/>
+                            <field name="identity"/>
+                            <field name="quarters"/>
+                            <field name="quarters_date"/>
+                            <field name="group"/>
+                            <field name="role"/>
+                            <field name="role1"/>
+                            <field name="ywlx"/>
+                            <field name="ywzhs"/>
+                            <field name="ywzl"/>
+                            <field name="hzs"/>
+                            <field name="zjs"/>
+                            <field name="ccs"/>
+                            <field name="tjyxmh"/>
+                     </group>
+                     <group>
+                            <field name="cwl"/>
+                            <field name="zql"/>
+                            <field name="dhl"/>
+                            <field name="gwxs"/>
+                            <field name="zshzjs"/>
+                            <field name="jjdj"/>
+                            <field name="sskcs"/>
+                            <field name="khxs"/>
+                            <field name="kj"/>
+                            <field name="jj"/>
+                            <field name="ranking"/>
+                            <field name="ratio"/>
+                            <field name="manager_ratio"/>
+                            <field name="complete_rate"/>
+                            <field name="complete_changed_rate"/>
+                            <field name="source_from"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performancebonus_withzero_tree" model="ir.ui.view">
+            <field name="name">hr.performancebonus.tree</field>
+            <field name="model">hr.performancebonus</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancebonus">
+                   <field name="teller_num"/>
+                            <field name="teller_name"/>
+                            <!-- <field name="identity"/>
+                            <field name="quarters"/>
+                            <field name="quarters_date"/>
+                            <field name="group"/>-->
+                            <field name="role"/>
+                            <field name="role1"/> 
+                            <field name="ywlx"/>
+                            <field name="ywzhs"/>
+                            <field name="ywzl"/>
+                            <field name="hzs"/>
+                            <field name="zjs"/>
+                            <field name="ccs"/>
+                            <field name="tjyxmh"/>
+                            <field name="cwl"/>
+                            <field name="zql"/>
+                            <field name="dhl"/>
+                            <field name="gwxs"/>
+                            <field name="zshzjs"/>
+                            <field name="jjdj"/>
+                            <field name="sskcs"/>
+                            <field name="khxs"/>
+                            <field name="kj"/>
+                            <field name="jj"/>
+                            <field name="ranking"/>
+                            <field name="ratio"/>
+                            <field name="manager_ratio"/>
+                            <field name="complete_rate"/>
+                            <field name="complete_changed_rate"/>
+                            <field name="source_from"/>
+                </tree>
+            </field>
+       </record>
+
+
+        <record id="hr_performancebonus_withzero_search" model="ir.ui.view">
+            <field name='name'>hr.performancebonus.search</field>
+            <field name='model'>hr.performancebonus</field>
+            <field name='arch' type='xml'>
+                <search string="hr_performancebonus_search">
+                    <filter string="数字为零" name="zshzjs"  domain="[('zshzjs', '=', 0.0)]" />
+                </search> 
+            </field>
+        </record>
+
+
+
   <record id="hr_performancebonus_search" model="ir.ui.view">
             <field name='name'>hr.performancebonus.search</field>
             <field name='model'>hr.performancebonus</field>
@@ -1709,6 +1808,21 @@
             </field>
       </record>
 
+      <record id="act_hr_performancebonus_withzero" model="ir.actions.act_window">
+            <field name="name">未计算奖金明细</field>
+            <field name="res_model">hr.performancebonus</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="search_view_id" ref="hr_performancebonus_withzero_search"/>
+            <field name="context">{"search_default_zshzjs":1}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                未计算奖金明细.
+              </p>
+            </field>
+      </record>
+
+
 
 	<menuitem
         id="menu_performance_title"
@@ -1723,7 +1837,8 @@
         sequence="102"/>
 		<menuitem action="act_hr_performancebonustotal" name="奖金汇总" id="menu_act_hr_performancebonustotal" parent="menu_hr_performance"
         sequence="101"/>
-		
+		<menuitem action="act_hr_performancebonus_withzero" name="未计算奖金明细" id="menu_act_hr_performancebonus_withzero" parent="menu_hr_performance"
+        sequence="103"/>
 			 
 	<menuitem id="menu_hr_performance_operation" name="计算奖金" parent="menu_performance_title"
         sequence="200" />

@@ -23,7 +23,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
         gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
         lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
         source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',
-                       u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
+                       u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表', u'外联附加报表')
         performancelurushenheparameter_datas = self.env[
             'hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数
         role_datas = self.env['hr.performanceroleori'].search([])
@@ -40,6 +40,9 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 'hr.performanceplusminus'].search([('teller_name', '=', rd.name)])
             performanceproallowance_datas = self.env[
                 'hr.performanceproallowance'].search([('teller_name', '=', rd.name)])
+            performanceteleadditionreportori_datas = self.env[
+                'hr.performanceteleadditionreportori'].search([('teller_name', '=', rd.name)])
+
 
             performanceattendance_datas = self.env[
                 'hr.performanceattendance'].search([('teller_name', '=', rd.name)])
@@ -201,7 +204,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
             for p in performanceproallowance_datas:
                 if not u'虚拟柜员' in p.teller_name:
                     zshzjs = 0.0
-                    prole = pro_prefix + p.role
+                    prole = p.ywlx
                     if rd.role1 != u'专业化岗位':
                         para = self.env['hr.performanceparameter'].search(
                             [('role', '=', prole)], limit=1)
@@ -262,6 +265,45 @@ class HrPerformanceBonusCompute(models.TransientModel):
                         'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
                         'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[5]
                     })
+
+
+            # for p in performanceteleadditionreportori_datas:
+            #     if not u'虚拟柜员' in p.teller_name:
+            #         ywlx_dict = {0: u'呼出业务量', 1: u'呼入业务量',2: u'补救核算后业务量',3: u'待银行补件业务核算后业务量'}
+            #         zshzjs = 0.0
+            #         prole = basic_prefix + p.role
+            #         if rd.role1 != u'专业化岗位':
+            #             para = self.env['hr.performanceparameter'].search(
+            #                 [('role', '=', prole)], limit=1)
+            #         else:
+            #             para = self.env['hr.performanceparameter'].search(
+            #                 [('role', '=', standard_trans+prole)], limit=1)
+            #             if len(para) == 0:
+            #                 para = self.env['hr.performanceparameter'].search(
+            #                     [('role', '=', prole)], limit=1)
+            #         if para.jjfs == 'byByte':
+            #             zshzjs = p.btywlxj * para.parameter_valuex
+            #         elif para.jjfs == 'byQuantity':
+            #             zshzjs = p.btywlxj * para.parameter_valuex
+            #         elif para.jjfs == 'bySub':
+            #             zshzjs = p.btywlxj * para.parameter_valuex
+            #         elif para.jjfs == 'byTime':
+            #             zshzjs = p.btywlxj * para.parameter_valuex
+            #         performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
+            #             'teller_num': rd.teller_num,
+            #             'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+            #             'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+            #             'ywlx': prole, 'ywzhs': p.btywlxj, 'ywzl': p.btywlxj,
+            #             'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
+            #             'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
+            #             'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[6]
+            #         })
+
+
+
+
+
+
 
         for rd in role_datas:
             if rd.role1 != u'专业化岗位':
@@ -505,7 +547,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                         other_datas_dict[p.ywlx] = p.zshzjs
                     if p.ywlx in pro_para_list:
                         zyhywbzhs += p.zshzjs
-                    elif not p.ywlx in pro_para_list and not u'补时' in p.ywlx:
+                    elif not p.ywlx in pro_para_list and not u'补时' in p.ywlx and not u'加减业务时间小计' in p.ywlx:
                         jbzywzshs += p.zshzjs
 
                 jj = sum([i.zshzjs for i in performancebonus_datas])
@@ -541,9 +583,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             # str(p.zshzjs) + "\n"
 
             if zyhywbzhs or jbzywzshs:
-                if other_datas_dict.has_key(u"专业化补时" + rd.role):
-                    bs = other_datas_dict[u"专业化补时" + rd.role]
-                    del(other_datas_dict[u"专业化补时" + rd.role])
+                if other_datas_dict.has_key(u"加减业务时间小计"):
+                    bs = other_datas_dict[u"加减业务时间小计"]
+                    del(other_datas_dict[u"加减业务时间小计"])
                 other_datas_list = [
                     k + ":  " + str(v) for k, v in other_datas_dict.items()]
                 other_datas = "\n".join(other_datas_list)
