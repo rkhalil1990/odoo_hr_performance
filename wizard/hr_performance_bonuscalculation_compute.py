@@ -635,3 +635,10 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 # rank += 1
                 lastrole = d.role
             d.write({'ranking': rank})
+
+
+    def complete_rate(self, hr.performanceparameter)
+        role_averge_dict = {}
+        para = self.env['hr.performanceparameter'].search([])
+
+
