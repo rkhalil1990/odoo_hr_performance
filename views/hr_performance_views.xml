@@ -132,6 +132,7 @@
                                 <field name="ranking"/>
                                 <field name="ratio"/>
                                 <field name="manager_ratio"/>
+                                <field name="ywlwclkhywl"/>
                                 <field name="complete_rate"/>
                                 <field name="complete_changed_rate"/>
                         </group>
@@ -207,6 +208,7 @@
                             <field name="ranking"/>
                             <field name="ratio"/>
                             <field name="manager_ratio"/>
+                            <field name="ywlwclkhywl"/>
                             <field name="complete_rate"/>
                             <field name="complete_changed_rate"/>
                 </tree>

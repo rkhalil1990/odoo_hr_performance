@@ -274,6 +274,8 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     ranking = fields.Integer(u'排名')
     ratio = fields.Float(u'整体系数', digits=(5, 5))
     manager_ratio = fields.Float(u'作业经理系数', digits=(5, 5))
+    ywlwclkhywl = fields.Float(u'业务量完成率考核业务量')
+
     complete_rate = fields.Float(u'完成率', digits=(5, 5))  # 录入复核， 差错外联审核，专业化
     complete_changed_rate = fields.Float(u'调整后成率', digits=(5, 5))
     manual_jj = fields.Float(u'手加减奖金')

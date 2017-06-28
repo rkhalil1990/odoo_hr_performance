@@ -29,23 +29,22 @@ class HrPerformanceBonusCompute(models.TransientModel):
         role_datas = self.env['hr.performanceroleori'].search([])
         for rd in role_datas:
             performancereportori_datas = self.env[
-                'hr.performancereportori'].search([('teller_name', '=', rd.name)])
+                'hr.performancereportori'].search([('teller_num', '=', rd.teller_num)])
             performancemobilereportori_datas = self.env[
-                'hr.performancemobilereportori'].search([('teller_name', '=', rd.name)])
+                'hr.performancemobilereportori'].search([('teller_num', '=', rd.teller_num)])
             performancebranchreportori_datas = self.env[
-                'hr.performancebranchreportori'].search([('teller_name', '=', rd.name)])
+                'hr.performancebranchreportori'].search([('teller_num', '=', rd.teller_num)])
             performancebranchmobilereportori_datas = self.env[
-                'hr.performancebranchmobilereportori'].search([('teller_name', '=', rd.name)])
+                'hr.performancebranchmobilereportori'].search([('teller_num', '=', rd.teller_num)])
             performanceplusminus_datas = self.env[
-                'hr.performanceplusminus'].search([('teller_name', '=', rd.name)])
+                'hr.performanceplusminus'].search([('teller_num', '=', rd.teller_num)])
             performanceproallowance_datas = self.env[
-                'hr.performanceproallowance'].search([('teller_name', '=', rd.name)])
+                'hr.performanceproallowance'].search([('teller_num', '=', rd.teller_num)])
+            # TODO: need edit teller_name
             performanceteleadditionreportori_datas = self.env[
                 'hr.performanceteleadditionreportori'].search([('teller_name', '=', rd.name)])
-
-
             performanceattendance_datas = self.env[
-                'hr.performanceattendance'].search([('teller_name', '=', rd.name)])
+                'hr.performanceattendance'].search([('teller_num', '=', rd.teller_num)])
             jjcs = self.env['hr.performanceparameter'].search(
                 [('role', '=', rd.role)])
             gwxs = self.env['hr.performanceglobalparameter'].search(
@@ -433,6 +432,10 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             'hr.performancelurushenheparameter'].search([])
         performancegoal_datas = self.env['hr.performancegoal'].search([])
 
+
+
+
+
         for rd in role_datas:
             performancebonus_datas = self.env['hr.performancebonus'].search(
                 [('teller_name', '=', rd.name)])
@@ -456,7 +459,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             jj = 0.0
             ranking = 0
             kj = 0.0
-
+            jblr_mul_ac = 0.0
             jblr_mul_gwxs_ae = 0.0
             jjzzj_bb = 0.0
             lrjj_be = 0.0
@@ -484,6 +487,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
                 jblr_mul_gwxs_ae = sum([current_account.zshzjs * current_account.gwxs for current_account in performancebonus_datas
                                         if current_account.ywlx in gwxs_role_list])  # and u'绩效' in current_account.source_from])
+                jblr_mul_ac = sum([current_account.zshzjs  for current_account in performancebonus_datas
+                                        if current_account.ywlx in gwxs_role_list])
                 jjzzj_bb += jblr_mul_gwxs_ae
 
                 for plsp in performancelurushenheparameter_datas:
@@ -513,6 +518,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                 # sh_sskcs = i.sskcs
                             sh_jjdj, sh_sskcs = self.get_lurushenheparameter(
                                 plsp.quarters, shywlxj_cy)
+
+
 
                 lrjj_be = jjzzj_bb * jjdj - sskcs
 
@@ -637,8 +644,13 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             d.write({'ranking': rank})
 
 
-    def complete_rate(self, hr.performanceparameter)
-        role_averge_dict = {}
-        para = self.env['hr.performanceparameter'].search([])
+    def complete_rate(self, role, performancebonus_datas)
+        ywlwclkhywl = 0.0
+        if role == u'录入':
+            para = self.env['hr.performanceparameter'].search([])
 
+            for r in role_without_pro_set:
+                role_averge_dict[r] = avg([for])
+
+        return ywlwclkhywl
 
