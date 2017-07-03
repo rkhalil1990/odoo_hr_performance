@@ -750,6 +750,11 @@ class HrPerformanceAttendance(models.Model):  # 考勤
     leave_date = fields.Char(u'在职情况')
     attendance_basic = fields.Float(u'应出勤')
     attendance_actual = fields.Float(u'出勤日')
+    250648事假 = fields.Float(u'250648事假')
+    250649病假 = fields.Float(u'250649病假')
+    250647婚丧假 = fields.Float(u'250647婚丧假')
+
+
 
 
 class HrPerformanceMemberInfo(models.Model):  # 人员信息导入

@@ -96,10 +96,6 @@
 # a = [1, 2, 3, 4]
 # b = [1, 2]
 
-
-a = 1.248791212
-
-print a * 100
 # 
 # 
 # import re
@@ -126,3 +122,11 @@ print a * 100
 # # 输出 zen of python
 # print another
 # another()
+
+
+from itertools import permutations
+
+s = "HACK"
+n = 2
+
+print(*["".join(i) for i in permutations(sorted(s), int(n))],sep="\n")
