@@ -1083,7 +1083,17 @@
                             <field name="enter_date"/>
                             <field name="leave_date"/>
                             <field name="attendance_basic"/>
-                            <field name="attendance_actual"/>
+                            <field name="sj"/>
+                            <field name="bj"/>
+                            <field name="szj"/>
+                            <field name="cdzt"/>
+                            <field name="cdzt0502"/>
+                            <field name="kg"/>
+                            <field name="nxj"/>
+                            <field name="dx"/>
+                            <field name="cqj"/> 
+                            <field name="cj"/> 
+                            <field name="gj"/> 
                     </group>
                 </sheet>
             </form>
@@ -1110,6 +1120,17 @@
                             <field name="leave_date"/>
                             <field name="attendance_basic"/>
                             <field name="attendance_actual"/>
+                            <field name="sj"/>
+                            <field name="bj"/>
+                            <field name="szj"/>
+                            <field name="cdzt"/>
+                            <field name="cdzt0502"/>
+                            <field name="kg"/>
+                            <field name="nxj"/>
+                            <field name="dx"/>
+                            <field name="cqj"/> 
+                            <field name="cj"/> 
+                            <field name="gj"/> 
                 </tree>
             </field>
        </record>

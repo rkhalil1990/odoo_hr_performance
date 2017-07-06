@@ -750,9 +750,17 @@ class HrPerformanceAttendance(models.Model):  # 考勤
     leave_date = fields.Char(u'在职情况')
     attendance_basic = fields.Float(u'应出勤')
     attendance_actual = fields.Float(u'出勤日')
-    250648事假 = fields.Float(u'250648事假')
-    250649病假 = fields.Float(u'250649病假')
-    250647婚丧假 = fields.Float(u'250647婚丧假')
+    sj = fields.Float(u'250648事假')
+    bj = fields.Float(u'250649病假')
+    hzj = fields.Float(u'250647婚丧假')
+    cdzt = fields.Float(u'迟到早退')
+    cdzt0502 = fields.Float(u'迟到早退0502')
+    kg = fields.Float(u'250651旷工')
+    nxj = fields.Float(u'250651旷工')
+    dx = fields.Float(u'250651旷工')
+    cqj = fields.Float(u'250651旷工')
+    cj = fields.Float(u'250651旷工')
+    gj = fields.Float(u'250651旷工')
 
 
 
