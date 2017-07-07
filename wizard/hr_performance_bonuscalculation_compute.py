@@ -644,13 +644,13 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             d.write({'ranking': rank})
 
 
-    def complete_rate(self, role, performancebonus_datas)
-        ywlwclkhywl = 0.0
-        if role == u'录入':
-            para = self.env['hr.performanceparameter'].search([])
+    # def complete_rate(self, role, performancebonus_datas):
+    #     ywlwclkhywl = 0.0
+    #     if role == u'录入':
+    #         para = self.env['hr.performanceparameter'].search([])
 
-            for r in role_without_pro_set:
-                role_averge_dict[r] = avg([for])
+    #         for r in role_without_pro_set:
+    #             role_averge_dict[r] = avg([for])
 
-        return ywlwclkhywl
+    #     return ywlwclkhywl
 

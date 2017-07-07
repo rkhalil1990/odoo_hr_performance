@@ -756,11 +756,11 @@ class HrPerformanceAttendance(models.Model):  # 考勤
     cdzt = fields.Float(u'迟到早退')
     cdzt0502 = fields.Float(u'迟到早退0502')
     kg = fields.Float(u'250651旷工')
-    nxj = fields.Float(u'250651旷工')
-    dx = fields.Float(u'250651旷工')
-    cqj = fields.Float(u'250651旷工')
-    cj = fields.Float(u'250651旷工')
-    gj = fields.Float(u'250651旷工')
+    nxj = fields.Float(u'250651年休假')
+    dx = fields.Float(u'250651调休')
+    cqj = fields.Float(u'250651产前假')
+    cj = fields.Float(u'250653产假')
+    gj = fields.Float(u'250655公假')
 
 
 
@@ -883,3 +883,13 @@ class HrPerformanceTeleAdditionReportOri(models.Model):  # 外联附加报表
     hrywl = fields.Float(u'呼入业务量')
     bjhshywl = fields.Float(u'补救核算后业务量')
     dyhbjywhshywl  = fields.Float(u'待银行补件业务核算后业务量')
+
+
+class HrPerformanceRemoveMember(models.Model):  # 外联附加报表
+    _name = 'hr.performanceremovemember'
+    _description = 'Hr Performance Remove Member'
+    _order = 'id'
+
+    teller_num = fields.Char(u'柜员号')
+    teller_name = fields.Char(u'柜员名')
+

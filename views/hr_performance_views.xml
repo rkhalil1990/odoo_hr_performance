@@ -1013,8 +1013,8 @@
             <form string="hr performanceglobalparameter Form">
                 <sheet>
 					<group>
-							<field name="parameter_name"/>
-							<field name="parameter_value"/>
+						<field name="parameter_name"/>
+						<field name="parameter_value"/>
 					</group>
                 </sheet>
             </form>
@@ -1026,8 +1026,8 @@
             <field name="model">hr.performanceglobalparameter</field>
             <field name="arch" type="xml">
                 <tree string="Hr performanceglobalparameter">
-                            <field name="parameter_name"/>
-							<field name="parameter_value"/>
+                        <field name="parameter_name"/>
+						<field name="parameter_value"/>
                 </tree>
             </field>
        </record>
@@ -1085,7 +1085,7 @@
                             <field name="attendance_basic"/>
                             <field name="sj"/>
                             <field name="bj"/>
-                            <field name="szj"/>
+                            <field name="hzj"/>
                             <field name="cdzt"/>
                             <field name="cdzt0502"/>
                             <field name="kg"/>
@@ -1122,7 +1122,7 @@
                             <field name="attendance_actual"/>
                             <field name="sj"/>
                             <field name="bj"/>
-                            <field name="szj"/>
+                            <field name="hzj"/>
                             <field name="cdzt"/>
                             <field name="cdzt0502"/>
                             <field name="kg"/>
