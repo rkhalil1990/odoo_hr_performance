@@ -1229,6 +1229,33 @@
        </record>
 
 
+       <record id="hr_performanceremovemember_form" model="ir.ui.view">
+        <field name="name">hr.performanceremovemember.form</field>
+        <field name="model">hr.performanceremovemember</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceremovemember Form">
+                <sheet>
+                    <group>
+                            <field name="teller_num"/>
+                            <field name="teller_name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performanceremovemember_tree" model="ir.ui.view">
+            <field name="name">hr.performanceremovemember.tree</field>
+            <field name="model">hr.performanceremovemember</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceremovemember">
+                            <field name="teller_num"/>
+                            <field name="teller_name"/>
+                </tree>
+            </field>
+       </record>
+
+
 <record id="hr_performancecapbasic_form" model="ir.ui.view">
         <field name="name">hr.performancecapbasic.form</field>
         <field name="model">hr.performancecapbasic</field>
@@ -1846,6 +1873,19 @@
       </record>
 
 
+      <record id="act_hr_performanceremovemember" model="ir.actions.act_window">
+            <field name="name">排除人员</field>
+            <field name="res_model">hr.performanceremovemember</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                排除人员.
+              </p>
+            </field>
+      </record>
+
+
 
 	<menuitem
         id="menu_performance_title"
@@ -1920,8 +1960,10 @@
          sequence="602"/>
 <menuitem action="act_hr_performancecapbasic" name="标准业务组长考核" id="menu_act_hr_performancecapbasic" parent="menu_hr_performance_hr_ori"
          sequence="603"/>
-<menuitem action="act_hr_performancecappro" name="专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_hr_ori"
-         sequence="604"/>
+<menuitem action="act_hr_performancecappro" name="专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_hr_ori" sequence="604"/>
+
+<menuitem action="act_hr_performanceremovemember" name="排除人员" id="menu_act_hr_performanceremovemember" parent="menu_hr_performance_hr_ori" sequence="605"/>
+
 
    <!--   <menuitem id="menu_hr_performance_field" name="数据库" parent="menu_performance_title"
         sequence="700" />   -->  

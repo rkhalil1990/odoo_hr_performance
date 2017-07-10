@@ -444,8 +444,15 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
             performanceattendance_data = self.env['hr.performanceattendance'].search(
                 [('teller_name', '=', rd.name)])
+            performanceremovemember_data = self.env['hr.performanceremovemember'].search(
+                [('teller_name', '=', rd.name)])
             cal_process = [u'应出勤' + str(performanceattendance_data.attendance_basic),
                            u'出勤日' + str(performanceattendance_data.attendance_actual)]
+            if u'组长' in rd.quarters:
+                if len(performanceremovemember_data) < 1:
+                    self.env['hr.performanceremovemember_data'].create({
+                        'teller_num': rd.teller_num,'teller_name': rd.teller_name,})
+
             # paramater
             other_datas = u""
             other_datas_dict = {}
