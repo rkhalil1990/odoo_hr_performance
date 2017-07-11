@@ -892,4 +892,4 @@ class HrPerformanceRemoveMember(models.Model):  # 外联附加报表
 
     teller_num = fields.Char(u'柜员号')
     teller_name = fields.Char(u'柜员名')
-
+    
