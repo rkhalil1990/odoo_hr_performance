@@ -137,6 +137,8 @@
                                 <field name="complete_changed_rate"/>
                         </group>
                         <group>   
+                                <field name="attendance_basic"/>
+                                <field name="attendance_actual"/>
                                 <field name="other_datas"/>
                         </group>
                     </group>
@@ -211,6 +213,8 @@
                             <field name="ywlwclkhywl"/>
                             <field name="complete_rate"/>
                             <field name="complete_changed_rate"/>
+                            <field name="attendance_basic"/>
+                            <field name="attendance_actual"/>
                 </tree>
             </field>
        </record>

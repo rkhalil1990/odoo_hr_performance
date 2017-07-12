@@ -282,6 +282,8 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     performancebonusdetail_ids = fields.One2many(
         'hr.performancebonus', 'performancebonustotal_id', "performancebonus")
     other_datas = fields.Text(u'其他奖金明细')
+    attendance_basic = fields.Float(u'应出勤')
+    attendance_actual = fields.Float(u'出勤日')
 # class HrPerformanceBonusTotalDetail(models.Model):  # 奖金计算new
 #     _name = 'hr.performancebonustotaldetail'
 #     _description = 'Hr Performance Bonus Total Detail'
@@ -892,4 +894,4 @@ class HrPerformanceRemoveMember(models.Model):  # 外联附加报表
 
     teller_num = fields.Char(u'柜员号')
     teller_name = fields.Char(u'柜员名')
-    
+

@@ -8,7 +8,7 @@ from operator import itemgetter, attrgetter
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-
+NOTINCLUDEDAYS = 8
 
 class HrPerformanceBonusCompute(models.TransientModel):
     _name = 'hr.performance.bonus.compute'
@@ -37,14 +37,14 @@ class HrPerformanceBonusCompute(models.TransientModel):
             performancebranchmobilereportori_datas = self.env[
                 'hr.performancebranchmobilereportori'].search([('teller_num', '=', rd.teller_num)])
             performanceplusminus_datas = self.env[
-                'hr.performanceplusminus'].search([('teller_num', '=', rd.teller_num)])
+                'hr.performanceplusminus'].search([('teller_name', '=', rd.name)])
             performanceproallowance_datas = self.env[
-                'hr.performanceproallowance'].search([('teller_num', '=', rd.teller_num)])
+                'hr.performanceproallowance'].search([('teller_name', '=', rd.name)])
             # TODO: need edit teller_name
             performanceteleadditionreportori_datas = self.env[
                 'hr.performanceteleadditionreportori'].search([('teller_name', '=', rd.name)])
             performanceattendance_datas = self.env[
-                'hr.performanceattendance'].search([('teller_num', '=', rd.teller_num)])
+                'hr.performanceattendance'].search([('teller_name', '=', rd.name)])
             jjcs = self.env['hr.performanceparameter'].search(
                 [('role', '=', rd.role)])
             gwxs = self.env['hr.performanceglobalparameter'].search(
@@ -443,15 +443,21 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 continue
 
             performanceattendance_data = self.env['hr.performanceattendance'].search(
-                [('teller_name', '=', rd.name)])
+                [('teller_name', '=', rd.name)], limit=1)
             performanceremovemember_data = self.env['hr.performanceremovemember'].search(
                 [('teller_name', '=', rd.name)])
-            cal_process = [u'应出勤' + str(performanceattendance_data.attendance_basic),
-                           u'出勤日' + str(performanceattendance_data.attendance_actual)]
-            if u'组长' in rd.quarters:
+            cal_process = []
+            leave_days = sum([performanceattendance_data.sj, performanceattendance_data.bj, 
+                performanceattendance_data.hzj, performanceattendance_data.kg, performanceattendance_data.dx, 
+                performanceattendance_data.cqj, performanceattendance_data.cj, performanceattendance_data.gj])
+            attendance_basic = performanceattendance_data.attendance_basic        
+            attendance_actual = attendance_basic - leave_days     
+
+            global NOTINCLUDEDAYS
+            if u'组长' in rd.quarters or leave_days > NOTINCLUDEDAYS:
                 if len(performanceremovemember_data) < 1:
-                    self.env['hr.performanceremovemember_data'].create({
-                        'teller_num': rd.teller_num,'teller_name': rd.teller_name,})
+                    self.env['hr.performanceremovemember'].create({
+                        'teller_num': rd.teller_num,'teller_name': rd.name,})
 
             # paramater
             other_datas = u""
@@ -622,7 +628,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                  'jbzywzshs': jbzywzshs, 'jj': jj, 'ranking': ranking,
                                                                                  'lrjjdj_bc': jjdj, 'sskc_bd': sskcs,
                                                                                  'shjjdj_cz': sh_jjdj, 'shsskc_da': sh_sskcs,
-                                                                                 'other_datas': other_datas,
+                                                                                 'other_datas': other_datas,'attendance_basic': attendance_basic,
+                                                                                 'attendance_actual':attendance_actual,
                                                                                  })
 
             for p in performancebonus_datas:
