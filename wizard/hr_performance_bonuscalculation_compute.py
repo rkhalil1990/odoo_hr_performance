@@ -418,6 +418,13 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 break
         return t_unit_price[index], t_price_add_minus[index]
 
+
+    def set_attendance(self, performancebonustotal):
+        
+
+
+
+
     @api.multi
     def performanceprocalculation_compute(self):
         self.env.cr.execute(
@@ -431,9 +438,6 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         performancelurushenheparameter_datas = self.env[
             'hr.performancelurushenheparameter'].search([])
         performancegoal_datas = self.env['hr.performancegoal'].search([])
-
-
-
 
 
         for rd in role_datas:

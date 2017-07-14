@@ -132,8 +132,16 @@
 # print(*["".join(i) for i in permutations(sorted(s), int(n))],sep="\n")
 # 
 # 
-four_lists = [[] for __ in xrange(4)]
-x_lists = [[]]*4
-four_lists[0].append(1)
-x_lists[0].append(1)
-print four_lists, x_lists
+
+class Xyz(object):
+    def __init__(self):
+        self.name = "init"
+
+
+def change_xyz(xyz):
+    xyz.name = "changed"
+
+
+x = Xyz
+change_xyz(x)
+print x.name
