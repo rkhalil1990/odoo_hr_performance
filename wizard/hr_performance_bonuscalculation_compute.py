@@ -6,6 +6,8 @@ import logging
 import itertools
 from operator import itemgetter, attrgetter
 
+
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 NOTINCLUDEDAYS = 8
@@ -419,8 +421,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         return t_unit_price[index], t_price_add_minus[index]
 
 
-    def set_attendance(self, performancebonustotal):
-        
+    #def set_attendance(self, performancebonustotal):
+
 
 
 
@@ -435,6 +437,10 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
         source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',
                        u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
+        wailian_tuple = (u'电话联系', u'双中心绩效报表', u'信用卡报表',
+                       u'双中心信用卡报表')
+
+
         performancelurushenheparameter_datas = self.env[
             'hr.performancelurushenheparameter'].search([])
         performancegoal_datas = self.env['hr.performancegoal'].search([])
@@ -445,6 +451,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 [('teller_name', '=', rd.name)])
             if not performancebonus_datas:
                 continue
+
+
+
 
             performanceattendance_data = self.env['hr.performanceattendance'].search(
                 [('teller_name', '=', rd.name)], limit=1)
@@ -485,6 +494,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             shjj_db = 0.0
             zyhgwjbzywzshs_dy = 0.0
             zyhgwbzj_dz = 0.0
+            ywlwclkhywl = 0.0
             # pro
             jbzywzshs = 0.0
             zyhywbzhs = 0.0
@@ -536,6 +546,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                             sh_jjdj, sh_sskcs = self.get_lurushenheparameter(
                                 plsp.quarters, shywlxj_cy)
 
+                # 业务量完成率考核业务量
+                if jjzzj_bb:
+                    ywlwclkhywl += jjzzj_bb - jblr_mul_gwxs_ae + jblr_mul_ac
 
 
                 lrjj_be = jjzzj_bb * jjdj - sskcs
@@ -633,7 +646,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                  'lrjjdj_bc': jjdj, 'sskc_bd': sskcs,
                                                                                  'shjjdj_cz': sh_jjdj, 'shsskc_da': sh_sskcs,
                                                                                  'other_datas': other_datas,'attendance_basic': attendance_basic,
-                                                                                 'attendance_actual':attendance_actual,
+                                                                                 'attendance_actual':attendance_actual,'ywlwclkhywl':ywlwclkhywl,
                                                                                  })
 
             for p in performancebonus_datas:
