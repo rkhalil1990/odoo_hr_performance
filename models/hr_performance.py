@@ -53,7 +53,7 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
     source_from = fields.Char(u'数据来源', readonly=True)
     performancebonustotal_id = fields.Many2one(
         'hr.performancebonustotal', 'Hr Performance Bonus Total', ondelete='cascade')
-    jszd = fields.Float(u'折算原值')
+    zsyz = fields.Float(u'折算原值')
     # def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
     #     res = super(HrPerformanceBonus, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
     #     _logger = logging.getLogger(__name__)
