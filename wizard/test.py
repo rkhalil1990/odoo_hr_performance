@@ -133,15 +133,21 @@
 # 
 # 
 
-class Xyz(object):
-    def __init__(self):
-        self.name = "init"
+# class Xyz(object):
+#     def __init__(self):
+#         self.name = "init"
 
 
-def change_xyz(xyz):
-    xyz.name = "changed"
+# def change_xyz(xyz):
+#     xyz.name = "changed"
 
 
-x = Xyz
-change_xyz(x)
-print x.name
+# x = Xyz
+# change_xyz(x)
+# print x.name
+
+t_list = ['1212','22222']
+print(t_list[-1])
+
+
+

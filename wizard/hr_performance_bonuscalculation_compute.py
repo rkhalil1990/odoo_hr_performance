@@ -426,7 +426,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
 
 
-
+    # =AC69+AG69+AI69+AK69+AZ69+BA69+(BQ69+BV69+BX69+BY69+BZ69+CA69+BS69*计奖参数!$B$13/计奖参数!$B$9)*50
+    # =BE78+BK78+BR78+BT78+CB78+CI78+CN78+CP78+CQ78+DB78+DG78+DJ78+DM78+DU78+EB78+ED78+EF78+EG78
+    # 
     @api.multi
     def performanceprocalculation_compute(self):
         self.env.cr.execute(
@@ -439,6 +441,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                        u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
         wailian_tuple = (u'电话联系', u'双中心绩效报表', u'信用卡报表',
                        u'双中心信用卡报表')
+        khywl_byquantity_tuple = (u'录入', u'复核')
+        khywl_bysalary_tuple = (u'审核', u'信用卡外联')
 
 
         performancelurushenheparameter_datas = self.env[
@@ -547,7 +551,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                 plsp.quarters, shywlxj_cy)
 
                 # 业务量完成率考核业务量
-                if jjzzj_bb:
+                if role in khywl_byquantity_tuple:
                     ywlwclkhywl += jjzzj_bb - jblr_mul_gwxs_ae + jblr_mul_ac
 
 
@@ -572,6 +576,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                             other_datas_dict[p.ywlx] = p.zshzjs
                     if not p.ywlx in except_list:  # or not u'绩效' in p.source_from:
                         jj += p.zshzjs
+
+
 
                 jj += lrjj_be + lrzlj_bk + shjj_db
             else:
@@ -674,7 +680,19 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 lastrole = d.role
             d.write({'ranking': rank})
 
+        all_datas = self.env['hr.performancebonustotal'].search([])
+        role_ywlwclkhywl_dict = {}
+        import logging  
+        _logger = logging.getLogger(__name__)
+        _logger.info('1234567')
+        for m,n in itertools.groupby(all_datas,key = itemgetter('role')):
+            role_ywlwclkhywl_dict[m] = avg([x.ywlwclkhywl for x in list(n)])
 
+
+        for d in all_datas:
+            avg_num = role_ywlwclkhywl_dict[d.role]
+            if avg_num:
+                d.write({'complete_rate': d.ywlwclkhywl/avg_num,'other_datas':d.other_datas + "\n\n" + str(avg_num)})
     # def complete_rate(self, role, performancebonus_datas):
     #     ywlwclkhywl = 0.0
     #     if role == u'录入':
