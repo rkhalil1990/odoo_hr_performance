@@ -482,6 +482,11 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             'hr.performancelurushenheparameter'].search([])
         performancegoal_datas = self.env['hr.performancegoal'].search([])
 
+        b13 = self.env['hr.performanceparameter'].search(
+                        [('parameter_name', '=', u'运营业务资料复核')], limit=1)
+        b19 = (self.env['hr.performancelurushenheparameter'].search([], limit=1)[0]).work_day
+
+
 
         for rd in role_datas:
             performancebonus_datas = self.env['hr.performancebonus'].search(
@@ -583,9 +588,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                             sh_jjdj, sh_sskcs = self.get_lurushenheparameter(
                                 plsp.quarters, shywlxj_cy)
 
-                # 业务量完成率考核业务量
-                if role in khywl_byquantity_tuple:
-                    ywlwclkhywl += jjzzj_bb - jblr_mul_gwxs_ae + jblr_mul_ac
+                
 
 
                 lrjj_be = jjzzj_bb * jjdj - sskcs
@@ -609,8 +612,12 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                             other_datas_dict[p.ywlx] = p.zshzjs
                     if not p.ywlx in except_list:  # or not u'绩效' in p.source_from:
                         jj += p.zshzjs
+                        zsyz = p.zsyz * 50 if role != u'运营业务资料复核' else p.zsyz * 50 * b13 / b19
+                        ywlwclkhywl += zsyz
 
-
+                # 业务量完成率考核业务量
+                if role in khywl_byquantity_tuple:
+                    ywlwclkhywl += jjzzj_bb - jblr_mul_gwxs_ae + jblr_mul_ac
 
                 jj += lrjj_be + lrzlj_bk + shjj_db
             else:
@@ -717,13 +724,17 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         role_ywlwclkhywl_dict = {}
         import logging  
         _logger = logging.getLogger(__name__)
-        _logger.info('1234567')
         for m,n in itertools.groupby(all_datas,key = itemgetter('role')):
-            role_ywlwclkhywl_dict[m] = avg([x.ywlwclkhywl for x in list(n)])
-
-
+            x = list(n)
+            _logger.info(m)
+            if len(x):
+                role_ywlwclkhywl_dict[m] = sum([x.ywlwclkhywl for x in list(n)])/len(x)
+                _logger.info(role_ywlwclkhywl_dict[m])
+                
         for d in all_datas:
-            avg_num = role_ywlwclkhywl_dict[d.role]
+            _logger.info(d.role)
+            avg_num = role_ywlwclkhywl_dict[d.role] if role_ywlwclkhywl_dict.has_key(d.role) else 0
+            _logger.info(str(avg_num))
             if avg_num:
                 d.write({'complete_rate': d.ywlwclkhywl/avg_num,'other_datas':d.other_datas + "\n\n" + str(avg_num)})
     # def complete_rate(self, role, performancebonus_datas):
