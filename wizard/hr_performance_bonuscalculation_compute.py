@@ -413,23 +413,21 @@ class HrPerformanceOriReportDelete(models.TransientModel):
 
     @api.multi
     def performanceorireport_delete(self):
-        # TODO:delete ori report
-        performancereportori_datas = self.env[
-            'hr.performancereportori'].search([])
-        for r in performancereportori_datas:
-            r.unlink()
-        performancemobilereportori_datas = self.env[
-            'hr.performancemobilereportori'].search([])
-        for r in performancemobilereportori_datas:
-            r.unlink()
-        performancebranchreportori_datas = self.env[
-            'hr.performancebranchreportori'].search([])
-        for r in performancebranchreportori_datas:
-            r.unlink()
-        performancebranchmobilereportori_datas = self.env[
-            'hr.performancebranchmobilereportori'].search([])
-        for r in performancebranchmobilereportori_datas:
-            r.unlink()
+        self.env.cr.execute("Delete  From hr_performancereportori")
+        self.env.cr.execute("Delete  From hr_performancemobilereportori")
+        self.env.cr.execute("Delete  From hr_performancebranchreportori")
+        self.env.cr.execute("Delete  From hr_performancebranchmobilereportori")
+        self.env.cr.execute("Delete  From hr_performanceroleori")
+        self.env.cr.execute("Delete  From hr_performanceteleadditionreportori")
+        self.env.cr.execute("Delete  From hr_performanceplusminus")
+        self.env.cr.execute("Delete  From hr_performanceproallowance")
+        self.env.cr.execute("Delete  From hr_performanceattendance")
+        self.env.cr.execute("Delete  From hr_performancememberinfo")
+        self.env.cr.execute("Delete  From hr_performancecapbasic")
+        self.env.cr.execute("Delete  From hr_performancecappro")
+        self.env.cr.execute("Delete  From hr_performanceremovemember")
+
+
 
 
 class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成

@@ -149,5 +149,5 @@
 t_list = ['1212','22222']
 print(t_list[-1])
 
-
+print(sum([x for x in range(101)]))
 
