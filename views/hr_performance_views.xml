@@ -1930,20 +1930,35 @@
 	
 	<menuitem id="menu_hr_performance_ori" name="业务基础信息导入" parent="menu_performance_title"
         sequence="500" />	
-	<menuitem action="act_hr_performanceroleori" name="导入角色表" id="menu_act_hr_performanceroleori" parent="menu_hr_performance_ori"
-         sequence="501"/>          
-	<menuitem action="act_hr_performancereportori" name="导入总行数据处理中心绩效考核报表" id="menu_act_hr_performancereportori" parent="menu_hr_performance_ori"
+    <menuitem action="act_hr_performancememberinfo" name="1.人员信息表" id="menu_act_hr_performancememberinfo" parent="menu_performance_title"
+         sequence="501"/>
+	<menuitem action="act_hr_performanceroleori" name="2.角色表" id="menu_act_hr_performanceroleori" parent="menu_hr_performance_ori"
          sequence="502"/>
-    <menuitem action="act_hr_performancemobilereportori" name="导入信移业务绩效考核报表" id="menu_act_hr_performancemobilereportori" parent="menu_hr_performance_ori"
-         sequence="503"/>    
-    <menuitem action="act_hr_performancebranchreportori" name="导入双中心总行数据处理中心绩效考核报表" id="menu_act_hr_performancebranchreportori" parent="menu_hr_performance_ori"
-         sequence="504"/>     
-    <menuitem action="act_hr_performancebranchmobilereportori" name="导入双中心信移业务绩效考核报表" id="menu_act_hr_performancebranchmobilereportori" parent="menu_hr_performance_ori"
-         sequence="505"/>     
-  <menuitem action="act_hr_performanceteleadditionreportori" name="导入外联附加报表" id="menu_act_hr_performanceteleadditionreportori" parent="menu_hr_performance_ori"
-         sequence="506"/>  
-	<menuitem action="act_hr_performanceplusminus" name="导入基础作业岗工时补贴表" id="menu_act_hr_performanceplusminus" parent="menu_hr_performance_ori"
+
+	<menuitem action="act_hr_performancereportori" name="3.导入总行数据处理中心绩效考核报表" id="menu_act_hr_performancereportori" parent="menu_hr_performance_ori"
+         sequence="503"/>
+    <menuitem action="act_hr_performancebranchreportori" name="4.导入分中心总行数据处理中心绩效考核报表" id="menu_act_hr_performancebranchreportori" parent="menu_hr_performance_ori"
+         sequence="504"/>        
+    <menuitem action="act_hr_performancemobilereportori" name="5.导入信移业务绩效考核报表" id="menu_act_hr_performancemobilereportori" parent="menu_hr_performance_ori"
+         sequence="505"/>    
+    <menuitem action="act_hr_performancebranchmobilereportori" name="6.导入分中心信移业务绩效考核报表" id="menu_act_hr_performancebranchmobilereportori" parent="menu_hr_performance_ori"
+         sequence="506"/>     
+  <!-- <menuitem action="act_hr_performanceteleadditionreportori" name="导入外联附加报表" id="menu_act_hr_performanceteleadditionreportori" parent="menu_hr_performance_ori"
+         sequence="506"/> -->  
+	<menuitem action="act_hr_performanceplusminus" name="7.导入基础作业岗工时补贴表" id="menu_act_hr_performanceplusminus" parent="menu_hr_performance_ori"
          sequence="507"/> 	  
+    <menuitem action="act_hr_performanceproallowance" name="8.导入专业化岗业务量及工时补贴表" id="menu_act_hr_performanceproallowance" parent="menu_hr_performance_ori"
+         sequence="508"/>
+         <menuitem action="act_hr_performanceattendance" name="考勤记录" id="menu_act_hr_performanceattendance" parent="menu_hr_performance_ori"
+         sequence="509"/>
+         <menuitem action="act_hr_performancecapbasic" name="标准业务组长考核" id="menu_act_hr_performancecapbasic" parent="menu_hr_performance_ori"
+         sequence="510"/>
+    <menuitem action="act_hr_performancecappro" name="专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_ori" sequence="511"/>
+
+
+
+
+
 
 	<!-- <menuitem action="act_hr_performancebystandardori" name="导入按标准计奖岗考核" id="menu_act_hr_performancebystandardori" parent="menu_hr_performance_ori"
          sequence="509"/> -->
@@ -1951,11 +1966,10 @@
 <!-- 	<menuitem action="act_hr_performancebasicallowance" name="补业务量明细表" id="menu_act_hr_performancebasicallowance" parent="menu_hr_performance_ori"
          sequence="510"/>	--> 
 
-	<menuitem action="act_hr_performanceproallowance" name="导入专业化岗业务量及工时补贴表" id="menu_act_hr_performanceproallowance" parent="menu_hr_performance_ori"
-         sequence="512"/>
+	
 <!-- 	<menuitem action="act_hr_performanceproname" name="专业化业务名称" id="menu_act_hr_performanceproname" parent="menu_hr_performance_ori"
          sequence="513"/> -->
-		 
+	<!-- 	 
      <menuitem id="menu_hr_performance_hr_ori" name="导入人事基础信息" parent="menu_performance_title"
         sequence="600" />    
         <menuitem action="act_hr_performanceattendance" name="考勤记录" id="menu_act_hr_performanceattendance" parent="menu_hr_performance_hr_ori"
@@ -1966,13 +1980,13 @@
          sequence="603"/>
 <menuitem action="act_hr_performancecappro" name="专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_hr_ori" sequence="604"/>
 
-<menuitem action="act_hr_performanceremovemember" name="排除人员" id="menu_act_hr_performanceremovemember" parent="menu_hr_performance_hr_ori" sequence="605"/>
+<menuitem action="act_hr_performanceremovemember" name="排除人员" id="menu_act_hr_performanceremovemember" parent="menu_hr_performance_hr_ori" sequence="605"/> -->
 
 
    <!--   <menuitem id="menu_hr_performance_field" name="数据库" parent="menu_performance_title"
         sequence="700" />   -->  
        
-    <menuitem id="menu_hr_performance_report" name="报表" parent="menu_performance_title"
+    <menuitem id="menu_hr_performance_report" name="报表"parent="menu_performance_title"
         sequence="800" /> 
 		
 	<menuitem id="menu_hr_performance_del" name="删除数据慎重" parent="menu_performance_title"
