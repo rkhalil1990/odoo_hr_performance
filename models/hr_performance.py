@@ -455,6 +455,12 @@ class HrPerformanceRoleOri(models.Model):  # 角色表
     role1 = fields.Char(u'角色1')
     need_calculation = fields.Char(u'是否计算')
 
+    @api.one
+    def set_g_r(self):
+        records = self.env['hr.performancememberinfo'].search([])
+        for r in records:
+            if self.teller_num == r.member_num:
+                self.write({'work_group': r.group,'role': r.role}) 
 
 class HrPerformanceBonusCalculation(models.Model):  # 奖金计算
     _name = 'hr.performancebonuscalculation'
@@ -773,28 +779,49 @@ class HrPerformanceMemberInfo(models.Model):  # 人员信息导入
     _description = 'Hr Performance Member Information'
     _order = 'id'
 
-    teller_num = fields.Char(u'柜员号')
+    member_num = fields.Char(u'人员编号')
+    member_record = fields.Char(u'员工记录')
     work_num = fields.Char(u'工号')
-    teller_name = fields.Char(u'姓名')
+    teller_name = fields.Char(u'人员姓名')
+    hr_range = fields.Char(u'人事子范围')
+    card_num = fields.Char(u'考勤卡号')
+    ps_teller_num = fields.Char(u'人员管理系统人员编号')
     gender = fields.Char(u'性别')
-    orgnization = fields.Char(u'机构')
+    orgnization1 = fields.Char(u'所在机构')
+    orgnization2 = fields.Char(u'机构二')
+    orgnization3 = fields.Char(u'机构')
+    department = fields.Char(u'部门')
     quarters = fields.Char(u'岗位')
     quarters_date = fields.Char(u'当前岗位上岗日期')
+    teller_num = fields.Char(u'柜员号')
     role = fields.Char(u'柜员角色')
     group = fields.Char(u'组别')
     area_manager = fields.Char(u'区域负责人')
-    join_date = fields.Char(u'进中心日期')
-    adjusted_join_date = fields.Char(u'调整的进中心日期')
-    job_status = fields.Char(u'在职情况')
-    leave_date = fields.Char(u'离职日期')
-    leave_reason = fields.Char(u'离职原因')
-    age = fields.Integer(u'年龄')
-    adjusted_working_date = fields.Char(u'调整后的参加工作时间')
-    recruite_from = fields.Char(u'招聘来源')
-    degree = fields.Char(u'最高教育学历')
-    school = fields.Char(u'最高学历毕业院校')
-    job_nature = fields.Char(u'岗位性质')
-    job_importance = fields.Char(u'岗位重要度')
+    teller_type = fields.Char(u'员工类别')
+    teller_subtype = fields.Char(u'员工子类别')
+
+    # teller_num = fields.Char(u'柜员号')
+    # work_num = fields.Char(u'工号')
+    # teller_name = fields.Char(u'姓名')
+    # gender = fields.Char(u'性别')
+    # orgnization = fields.Char(u'机构')
+    # quarters = fields.Char(u'岗位')
+    # quarters_date = fields.Char(u'当前岗位上岗日期')
+    # role = fields.Char(u'柜员角色')
+    # group = fields.Char(u'组别')
+    # area_manager = fields.Char(u'区域负责人')
+    # join_date = fields.Char(u'进中心日期')
+    # adjusted_join_date = fields.Char(u'调整的进中心日期')
+    # job_status = fields.Char(u'在职情况')
+    # leave_date = fields.Char(u'离职日期')
+    # leave_reason = fields.Char(u'离职原因')
+    # age = fields.Integer(u'年龄')
+    # adjusted_working_date = fields.Char(u'调整后的参加工作时间')
+    # recruite_from = fields.Char(u'招聘来源')
+    # degree = fields.Char(u'最高教育学历')
+    # school = fields.Char(u'最高学历毕业院校')
+    # job_nature = fields.Char(u'岗位性质')
+    # job_importance = fields.Char(u'岗位重要度')
 
 
 class HrPerformanceProFixedBonus(models.Model):  # 专业化岗位标准奖金

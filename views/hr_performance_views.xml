@@ -1146,28 +1146,26 @@
             <form string="hr performancememberinfo Form">
                 <sheet>
                     <group>
-                            <field name="teller_num"/>
+                            <field name="member_num"/>
+                            <field name="member_record"/>
                             <field name="work_num"/>
                             <field name="teller_name"/>
+                            <field name="hr_range"/>
+                            <field name="card_num"/>
+                            <field name="ps_teller_num"/>
                             <field name="gender"/>
-                            <field name="orgnization"/>
+                            <field name="orgnization1"/>
+                            <field name="orgnization2"/>
+                            <field name="orgnization3"/>
+                            <field name="department"/>
                             <field name="quarters"/>
                             <field name="quarters_date"/>
+                            <field name="teller_num"/>
                             <field name="role"/>
                             <field name="group"/>
                             <field name="area_manager"/>
-                            <field name="join_date"/>
-                            <field name="adjusted_join_date"/>
-                            <field name="job_status"/>
-                            <field name="leave_date"/>
-                            <field name="leave_reason"/>
-                            <field name="age"/>
-                            <field name="adjusted_working_date"/>
-                            <field name="recruite_from"/>
-                            <field name="degree"/>
-                            <field name="school"/>
-                            <field name="job_nature"/>
-                            <field name="job_importance"/>
+                            <field name="teller_type"/>
+                            <field name="teller_subtype"/>
                     </group>
                 </sheet>
             </form>
@@ -1179,28 +1177,26 @@
             <field name="model">hr.performancememberinfo</field>
             <field name="arch" type="xml">
                 <tree string="Hr performancememberinfo">
-                            <field name="teller_num"/>
+                            <field name="member_num"/>
+                            <field name="member_record"/>
                             <field name="work_num"/>
                             <field name="teller_name"/>
+                            <field name="hr_range"/>
+                            <field name="card_num"/>
+                            <field name="ps_teller_num"/>
                             <field name="gender"/>
-                            <field name="orgnization"/>
+                            <field name="orgnization1"/>
+                            <field name="orgnization2"/>
+                            <field name="orgnization3"/>
+                            <field name="department"/>
                             <field name="quarters"/>
                             <field name="quarters_date"/>
+                            <field name="teller_num"/>
                             <field name="role"/>
                             <field name="group"/>
                             <field name="area_manager"/>
-                            <field name="join_date"/>
-                            <field name="adjusted_join_date"/>
-                            <field name="job_status"/>
-                            <field name="leave_date"/>
-                            <field name="leave_reason"/>
-                            <field name="age"/>
-                            <field name="adjusted_working_date"/>
-                            <field name="recruite_from"/>
-                            <field name="degree"/>
-                            <field name="school"/>
-                            <field name="job_nature"/>
-                            <field name="job_importance"/>
+                            <field name="teller_type"/>
+                            <field name="teller_subtype"/>
                 </tree>
             </field>
        </record>
@@ -1890,6 +1886,31 @@
       </record>
 
 
+      <record id="set_g_r" model="ir.actions.server">
+            <field name="name">set_g_r</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_hr_performanceroleori"/>
+            <field name="state">code</field>
+            <field name="code">
+                 self.set_g_r(cr, uid, context.get('active_ids', []), context=context)
+            </field>
+        </record>
+        
+        <record id="action_set_g_r" model="ir.values">
+            <field name="name">action_set_g_r_submit</field>
+            <field name="action_id" ref="set_g_r" />
+            <field name="value" eval="'ir.actions.server,' + str(ref('set_g_r'))" />
+            <field name="key">action</field>
+            <field name="model_id" ref="model_hr_performanceroleori"/>
+            <field name="model">hr.performanceroleori</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+
+
+
+
+
+
 
 	<menuitem
         id="menu_performance_title"
@@ -1930,9 +1951,9 @@
 	
 	<menuitem id="menu_hr_performance_ori" name="业务基础信息导入" parent="menu_performance_title"
         sequence="500" />	
-    <menuitem action="act_hr_performancememberinfo" name="1.人员信息表" id="menu_act_hr_performancememberinfo" parent="menu_performance_title"
+    <menuitem action="act_hr_performancememberinfo" name="1.人员信息表 A-T" id="menu_act_hr_performancememberinfo" parent="menu_hr_performance_ori"
          sequence="501"/>
-	<menuitem action="act_hr_performanceroleori" name="2.角色表" id="menu_act_hr_performanceroleori" parent="menu_hr_performance_ori"
+	<menuitem action="act_hr_performanceroleori" name="2.角色表 A-F 需生成" id="menu_act_hr_performanceroleori" parent="menu_hr_performance_ori"
          sequence="502"/>
 
 	<menuitem action="act_hr_performancereportori" name="3.导入总行数据处理中心绩效考核报表" id="menu_act_hr_performancereportori" parent="menu_hr_performance_ori"
@@ -1954,7 +1975,7 @@
          <menuitem action="act_hr_performancecapbasic" name="标准业务组长考核" id="menu_act_hr_performancecapbasic" parent="menu_hr_performance_ori"
          sequence="510"/>
     <menuitem action="act_hr_performancecappro" name="专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_ori" sequence="511"/>
-
+<menuitem action="act_hr_performanceremovemember" name="排除人员" id="menu_act_hr_performanceremovemember" parent="menu_hr_performance_ori" sequence="512"/>
 
 
 
@@ -1986,7 +2007,7 @@
    <!--   <menuitem id="menu_hr_performance_field" name="数据库" parent="menu_performance_title"
         sequence="700" />   -->  
        
-    <menuitem id="menu_hr_performance_report" name="报表"parent="menu_performance_title"
+    <menuitem id="menu_hr_performance_report" name="报表" parent="menu_performance_title"
         sequence="800" /> 
 		
 	<menuitem id="menu_hr_performance_del" name="删除数据慎重" parent="menu_performance_title"
