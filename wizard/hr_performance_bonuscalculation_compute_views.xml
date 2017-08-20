@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="view_hr_performance_bonus_check_wizard" model="ir.ui.view">
+        <field name="name">hr.performance.bonus.heck</field>
+        <field name="model">hr.performance.bonus.heck</field>
+        <field name="arch" type="xml">
+            <form string="Parameters">
+                <group>
+                    <label string="报表规范."/>
+                </group>
+                <footer>
+                    <button name="performancebonus_check" string="生成" type="object" class="btn-primary"/>
+                    <button string="取消" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
     <record id="view_hr_performance_bonus_compute_wizard" model="ir.ui.view">
         <field name="name">hr.performance.bonus.compute</field>
         <field name="model">hr.performance.bonus.compute</field>
@@ -66,6 +82,14 @@
     </record>
 
 
+    <record id="act_hr_performance_bonus_check" model="ir.actions.act_window">
+        <field name="name">hr.performance.bonus.check</field>
+        <field name="res_model">hr.performance.bonus.check</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
     <record id="act_hr_performance_bonus_compute" model="ir.actions.act_window">
         <field name="name">hr.performance.bonus.compute</field>
         <field name="res_model">hr.performance.bonus.compute</field>
@@ -99,13 +123,14 @@
         <field name="target">new</field>
     </record>
 	
+	   <menuitem action="act_hr_performance_bonus_check" name="1.报表规范" id="menu_act_hr_performance_bonus_check"  parent="menu_hr_performance_operation" 
+        sequence="201"/>
 	
-	
-		<menuitem action="act_hr_performance_bonus_compute" name="生成业务信息明细" id="menu_act_hr_performance_bonus_compute"  parent="menu_hr_performance_operation" 
-		sequence="201"/>
-		
-		<menuitem action="act_hr_performance_procalculation_compute" name="生成专业化岗位业务量计算表" id="menu_act_hr_performance_procalculation_compute"  parent="menu_hr_performance_operation" 
+		<menuitem action="act_hr_performance_bonus_compute" name="2.生成奖金明细" id="menu_act_hr_performance_bonus_compute"  parent="menu_hr_performance_operation" 
 		sequence="202"/>
+		
+		<menuitem action="act_hr_performance_procalculation_compute" name="3.生成奖金汇总" id="menu_act_hr_performance_procalculation_compute"  parent="menu_hr_performance_operation" 
+		sequence="203"/>
 
 		<menuitem action="act_hr_performance_bonus_delete" name="清空已生成数据" id="menu_act_hr_performance_bonus_delete"  parent="menu_hr_performance_del" 
 		sequence="901"/>

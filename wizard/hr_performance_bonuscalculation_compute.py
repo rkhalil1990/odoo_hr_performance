@@ -745,3 +745,32 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
     #     return ywlwclkhywl
 
+class HrPerformanceBonusCheck(models.TransientModel):
+    _name = 'hr.performance.bonus.check'
+    _description = 'HR Performancebonus Check'
+
+    @api.multi
+    def performancebonus_check(self):
+        # add role,group to performanceroleori
+        performancememberinfo = self.env['hr.performancememberinfo'].search([])
+        performanceroleori = self.env['hr.performanceroleori'].search([])
+        for d in performanceroleori:
+            for out in performancememberinfo:
+                if d.teller_num == out.member_num:
+                    d.write({'work_group': out.group,'role': out.role})
+
+        # replace () to （）
+        performanceplusminus = self.env['hr.performanceplusminus'].search([])
+        performanceproallowance = self.env['hr.performanceplusminus'].search([])
+        
+        for p in performanceplusminus:
+            if '(' in p.role or ')' in p.role:
+                result = p.role.replace('(', '（')
+                result = result.replace(')', '）')
+                p.write({'role':result})
+
+        for p in performanceproallowance:
+            if '(' in p.ywlx or ')' in p.ywlx:
+                result = p.ywlx.replace('(', '（')
+                result = result.replace(')', '）')
+                p.write({'ywlx':result})
