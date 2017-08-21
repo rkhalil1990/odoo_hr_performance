@@ -22,7 +22,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
         mobile_prefix = u'信用卡'
         basic_prefix = u'基础补时'
         pro_prefix = u'专业化补时'
-        gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
+        gwxs_role_list = (u'录入', u'行号选择', u'行号录入',u'英文信息录入')
         lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
         source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',
                        u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表', u'外联附加报表')
@@ -75,6 +75,11 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 elif para.jjfs == 'byTime':
                     zshzjs = p.ywzl * para.parameter_valuex
                     zsyz = p.ywzl
+                elif para.jjfs == 'byMulti':
+                    zshzjs = p.lrzjs * para.parameter_valuex
+                    zsyz = zshzjs
+
+
 
                 if rd.role1 != u'专业化岗位' and p.role == u'影像定位':
                     p1 = self.env['hr.performanceparameter'].search(
@@ -124,6 +129,9 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 elif para.jjfs == 'byTime':
                     zshzjs = p.ywzl * para.parameter_valuex
                     zsyz = p.ywzl
+                elif para.jjfs == 'byMulti':
+                    zshzjs = p.lrzjs * para.parameter_valuex
+                    zsyz = zshzjs
 
                 if rd.role1 != u'专业化岗位' and p.role == u'影像定位':
                     p1 = self.env['hr.performanceparameter'].search(
@@ -177,6 +185,8 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     elif para.jjfs == 'byTime':
                         zshzjs = p.ywzhs * para.parameter_valuex
                         zsyz = p.ywzhs
+
+
                     performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
                         'teller_num': rd.teller_num,'zsyz': zsyz,
                         'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
@@ -214,6 +224,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     elif para.jjfs == 'byTime':
                         zshzjs = p.ywzhs * para.parameter_valuex
                         zsyz = p.ywzhs
+
                     performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
                         'teller_num': rd.teller_num,'zsyz': zsyz,
                         'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
@@ -466,7 +477,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             'delete from hr_performanceproallowance where ywzl = 0')
 
         role_datas = self.env['hr.performanceroleori'].search([])
-        gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
+        gwxs_role_list = (u'录入', u'行号选择', u'行号录入',u'英文信息录入')
         lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
         source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',
                        u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
@@ -761,7 +772,7 @@ class HrPerformanceBonusCheck(models.TransientModel):
 
         # replace () to （）
         performanceplusminus = self.env['hr.performanceplusminus'].search([])
-        performanceproallowance = self.env['hr.performanceplusminus'].search([])
+        performanceproallowance = self.env['hr.performanceproallowance'].search([])
         
         for p in performanceplusminus:
             if '(' in p.role or ')' in p.role:

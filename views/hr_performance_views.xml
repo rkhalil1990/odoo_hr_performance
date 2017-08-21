@@ -1921,12 +1921,12 @@
 	
 	<menuitem id="menu_hr_performance" name="人员绩效相关" parent="menu_performance_title"
         sequence="100" />
-		<menuitem action="act_hr_performancebonus" name="奖金明细" id="menu_act_hr_performancebonus" parent="menu_hr_performance"
-        sequence="102"/>
-		<menuitem action="act_hr_performancebonustotal" name="奖金汇总" id="menu_act_hr_performancebonustotal" parent="menu_hr_performance"
-        sequence="101"/>
-		<menuitem action="act_hr_performancebonus_withzero" name="未计算奖金明细" id="menu_act_hr_performancebonus_withzero" parent="menu_hr_performance"
+		<menuitem action="act_hr_performancebonus" name="3.奖金明细" id="menu_act_hr_performancebonus" parent="menu_hr_performance"
         sequence="103"/>
+		<menuitem action="act_hr_performancebonustotal" name="2.奖金汇总" id="menu_act_hr_performancebonustotal" parent="menu_hr_performance"
+        sequence="102"/>
+		<menuitem action="act_hr_performancebonus_withzero" name="1.未计算奖金明细" id="menu_act_hr_performancebonus_withzero" parent="menu_hr_performance"
+        sequence="101"/>
 			 
 	<menuitem id="menu_hr_performance_operation" name="计算奖金" parent="menu_performance_title"
         sequence="200" />

@@ -524,7 +524,7 @@ class HrPerformanceParameter(models.Model):  # 计奖参数
     quarters = fields.Char(u'岗位')
     jjfs = fields.Selection(
         [('byTime', u'按时'), ('byByte', u'按字节'),
-         ('byQuantity', u'按笔数'), ('bySub', u'按子任务项')],
+         ('byQuantity', u'按笔数'), ('bySub', u'按子任务项'), ('byMulti', u'按字节乘系数')],
         string=u'计奖方式',
         required=True,
         default='byTime')
@@ -922,4 +922,21 @@ class HrPerformanceRemoveMember(models.Model):  # 外联附加报表
 
     teller_num = fields.Char(u'柜员号')
     teller_name = fields.Char(u'柜员名')
+
+
+class HrPerformanceProRatio(models.Model):  # 专业化绩效加扣报表
+    _name = 'hr.performanceproratio'
+    _description = 'Hr Performance Pro Ratio '
+    _order = 'id'
+
+    teller_num = fields.Char(u'柜员号')
+    teller_name = fields.Char(u'柜员名')
+    group = fields.Char(u'组别')
+    area = fields.Char(u'区域')
+    role = fields.Char(u'角色')
+    total_jk = fields.Float(u'加扣金额总计')
+    rank = fields.Float(u'专业化岗综合排名')
+    ratio = fields.Float(u'专业化岗绩效系数')
+
+
 

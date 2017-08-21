@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="view_hr_performance_bonus_check_wizard" model="ir.ui.view">
-        <field name="name">hr.performance.bonus.heck</field>
-        <field name="model">hr.performance.bonus.heck</field>
+        <field name="name">hr.performance.bonus.check</field>
+        <field name="model">hr.performance.bonus.check</field>
         <field name="arch" type="xml">
             <form string="Parameters">
                 <group>
