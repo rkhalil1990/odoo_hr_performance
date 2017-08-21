@@ -25,7 +25,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
         gwxs_role_list = (u'录入', u'行号选择', u'行号录入',u'英文信息录入')
         lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
         source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',
-                       u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表', u'外联附加报表')
+                       u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表', u'外联附加报表',u'外借等其他')
         performancelurushenheparameter_datas = self.env[
             'hr.performancelurushenheparameter'].search([])  # 录入审核计奖参数
         role_datas = self.env['hr.performanceroleori'].search([])
@@ -349,7 +349,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
 
 
 
-
+        name_list = [p.teller_name for p in self.env['hr.performancebonus'].search([])]
         for rd in role_datas:
             if rd.role1 != u'专业化岗位':
                 # get cwl zql dhl，only related by lr
@@ -364,6 +364,15 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     dhl = temptjyxmh/tempywzl
                     for pd in performancebonus_datas:
                         pd.write({'zql': zql, 'cwl': cwl, 'dhl': dhl})
+
+            if not rd.name in name_list:
+                performancebonusdetail = self.env['hr.performancebonus'].create({
+                    'teller_num': rd.teller_num,'zsyz': 0,
+                    'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+                    'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                    'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[7]
+                })
+
 
                 # # get jjdj sskcs
                 # performancebonus_datas_byname = self.env['hr.performancebonus'].search(
