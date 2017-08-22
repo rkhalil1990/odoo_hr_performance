@@ -1383,6 +1383,44 @@
        </record>
   
 
+<record id="hr_performanceproratio_form" model="ir.ui.view">
+        <field name="name">hr.performanceproratio.form</field>
+        <field name="model">hr.performanceproratio</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceproratio Form">
+                <sheet>
+                    <group>
+                        <field name="teller_num"/>
+                        <field name="teller_name"/>
+                        <field name="group"/>
+                        <field name="area"/>
+                        <field name="role"/>
+                        <field name="total_jk"/>
+                        <field name="rank"/>
+                        <field name="ratio"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performanceproratio_tree" model="ir.ui.view">
+            <field name="name">hr.performanceproratio.tree</field>
+            <field name="model">hr.performanceproratio</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceproratio">
+                        <field name="teller_num"/>
+                        <field name="teller_name"/>
+                        <field name="group"/>
+                        <field name="area"/>
+                        <field name="role"/>
+                        <field name="total_jk"/>
+                        <field name="rank"/>
+                        <field name="ratio"/>
+                </tree>
+            </field>
+       </record>
+
 
 <record id="hr_performancetelepara_form" model="ir.ui.view">
         <field name="name">hr.performancetelepara.form</field>
@@ -1908,7 +1946,17 @@
 
 
 
-
+        <record id="act_hr_performanceproratio" model="ir.actions.act_window">
+            <field name="name">绩效加扣金额明细</field>
+            <field name="res_model">hr.performanceproratio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                绩效加扣金额明细.
+              </p>
+            </field>
+      </record>
 
 
 
@@ -1970,12 +2018,18 @@
          sequence="507"/> 	  
     <menuitem action="act_hr_performanceproallowance" name="8.导入专业化岗业务量及工时补贴表" id="menu_act_hr_performanceproallowance" parent="menu_hr_performance_ori"
          sequence="508"/>
+
+     <menuitem action="act_hr_performanceproratio" name="9.导入绩效加扣金额明细" id="menu_act_hr_performanceproratio" parent="menu_hr_performance_ori"
+         sequence="508"/>    
+
+
+
          <menuitem action="act_hr_performanceattendance" name="考勤记录" id="menu_act_hr_performanceattendance" parent="menu_hr_performance_ori"
-         sequence="509"/>
-         <menuitem action="act_hr_performancecapbasic" name="标准业务组长考核" id="menu_act_hr_performancecapbasic" parent="menu_hr_performance_ori"
          sequence="510"/>
-    <menuitem action="act_hr_performancecappro" name="专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_ori" sequence="511"/>
-<menuitem action="act_hr_performanceremovemember" name="排除人员" id="menu_act_hr_performanceremovemember" parent="menu_hr_performance_ori" sequence="512"/>
+         <menuitem action="act_hr_performancecapbasic" name="标准业务组长考核" id="menu_act_hr_performancecapbasic" parent="menu_hr_performance_ori"
+         sequence="511"/>
+    <menuitem action="act_hr_performancecappro" name="专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_ori" sequence="512"/>
+<menuitem action="act_hr_performanceremovemember" name="排除人员" id="menu_act_hr_performanceremovemember" parent="menu_hr_performance_ori" sequence="513"/>
 
 
 

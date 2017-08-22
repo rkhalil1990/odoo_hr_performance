@@ -51,6 +51,8 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 [('role', '=', rd.role)])
             gwxs = self.env['hr.performanceglobalparameter'].search(
                 [('parameter_name', '=', rd.role1)])
+            performanceproratio = self.env['hr.performanceproratio'].search(
+                [('teller_num', '=', rd.teller_num)], limit=1)
 
             for p in performancereportori_datas:
                 zshzjs = 0.0
@@ -311,7 +313,8 @@ class HrPerformanceBonusCompute(models.TransientModel):
                         'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[5]
                     })
 
-
+            if not performanceproratio:
+                self.write({'ratio': performanceproratio.ratio})
             # for p in performanceteleadditionreportori_datas:
             #     if not u'虚拟柜员' in p.teller_name:
             #         ywlx_dict = {0: u'呼出业务量', 1: u'呼入业务量',2: u'补救核算后业务量',3: u'待银行补件业务核算后业务量'}
@@ -472,11 +475,6 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         return t_unit_price[index], t_price_add_minus[index]
 
 
-    #def set_attendance(self, performancebonustotal):
-
-
-
-
     # =AC69+AG69+AI69+AK69+AZ69+BA69+(BQ69+BV69+BX69+BY69+BZ69+CA69+BS69*计奖参数!$B$13/计奖参数!$B$9)*50
     # =BE78+BK78+BR78+BT78+CB78+CI78+CN78+CP78+CQ78+DB78+DG78+DJ78+DM78+DU78+EB78+ED78+EF78+EG78
     # 
@@ -512,7 +510,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             if not performancebonus_datas:
                 continue
 
-
+            if not performancebonus_datas[0].ywlx:
+                continue
 
 
             performanceattendance_data = self.env['hr.performanceattendance'].search(
@@ -641,15 +640,21 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             else:
                 pro_para_list = [x.role for x in self.env[
                     'hr.performanceparameter'].search([('quarters', '=', u'专业化岗位')])]
+                import logging  
+                _logger = logging.getLogger(__name__)
                 for p in performancebonus_datas:
-                    if other_datas_dict.has_key(p.ywlx):
-                        other_datas_dict[p.ywlx] += p.zshzjs
-                    else:
-                        other_datas_dict[p.ywlx] = p.zshzjs
-                    if p.ywlx in pro_para_list:
-                        zyhywbzhs += p.zshzjs
-                    elif not p.ywlx in pro_para_list and not u'补时' in p.ywlx and not u'加减业务时间小计' in p.ywlx:
-                        jbzywzshs += p.zshzjs
+                    
+                    _logger.info(p.ywlx)
+                    _logger.info(p.teller_name)
+                    if  p.ywlx:
+                        if other_datas_dict.has_key(p.ywlx):
+                            other_datas_dict[p.ywlx] += p.zshzjs
+                        else:
+                            other_datas_dict[p.ywlx] = p.zshzjs
+                        if p.ywlx in pro_para_list:
+                            zyhywbzhs += p.zshzjs
+                        elif not p.ywlx in pro_para_list and not u'补时' in p.ywlx and not u'加减业务时间小计' in p.ywlx:
+                            jbzywzshs += p.zshzjs
 
                 jj = sum([i.zshzjs for i in performancebonus_datas])
 
@@ -713,9 +718,14 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                  'attendance_actual':attendance_actual,'ywlwclkhywl':ywlwclkhywl,
                                                                                  })
 
+
+
+
             for p in performancebonus_datas:
                 p.write({'performancebonustotal_id': performancebonustotal.id})
-
+        # for end
+        
+        
         datas = self.env['hr.performancebonustotal'].search(
             [('role1', '=', u'专业化岗位')])
         datas = datas.sorted(key=attrgetter('role', 'jj'), reverse=True)
