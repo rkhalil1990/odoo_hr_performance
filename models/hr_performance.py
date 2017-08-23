@@ -271,6 +271,7 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     jbzywzshs = fields.Float(u'兼标准业务折算耗时')
     kj = fields.Float(u'扣奖')
     jj = fields.Float(u'奖金')
+    pro_zhs = fields.Float(u'排名用专业总耗时')
     ranking = fields.Integer(u'排名')
     ratio = fields.Float(u'整体系数', digits=(5, 5))
     manager_ratio = fields.Float(u'作业经理系数', digits=(5, 5))

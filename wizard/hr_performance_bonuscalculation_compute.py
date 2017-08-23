@@ -53,6 +53,8 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 [('parameter_name', '=', rd.role1)])
             performanceproratio = self.env['hr.performanceproratio'].search(
                 [('teller_num', '=', rd.teller_num)], limit=1)
+            
+
 
             for p in performancereportori_datas:
                 zshzjs = 0.0
@@ -507,17 +509,22 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         for rd in role_datas:
             performancebonus_datas = self.env['hr.performancebonus'].search(
                 [('teller_name', '=', rd.name)])
+            
             if not performancebonus_datas:
                 continue
-
             if not performancebonus_datas[0].ywlx:
                 continue
 
-
+            performanceprofixedbonus = self.env['hr.performanceprofixedbonus'].search(
+                [('role', '=', rd.role)], limit=1)
+            performanceproratio = self.env['hr.performanceproratio'].search(
+                [('teller_num', '=', rd.teller_num)], limit=1)
             performanceattendance_data = self.env['hr.performanceattendance'].search(
                 [('teller_name', '=', rd.name)], limit=1)
             performanceremovemember_data = self.env['hr.performanceremovemember'].search(
                 [('teller_name', '=', rd.name)])
+            performanceproallowance_data= self.env['hr.performanceproallowance'].search(
+                [('teller_num', '=', rd.teller_num)], limit=1)
             cal_process = []
             leave_days = sum([performanceattendance_data.sj, performanceattendance_data.bj, 
                 performanceattendance_data.hzj, performanceattendance_data.kg, performanceattendance_data.dx, 
@@ -530,6 +537,15 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 if len(performanceremovemember_data) < 1:
                     self.env['hr.performanceremovemember'].create({
                         'teller_num': rd.teller_num,'teller_name': rd.name,})
+
+            zyhgwbzj_dz = performanceprofixedbonus.zyhgwbzj_dz
+            ratio = performanceproratio.ratio
+            kfts = leave_days if leave_days>2 else 0
+            kj = -(zyhgwbzj_dz*ratio)/attendance_basic*(kfts+performanceproallowance_data.minus_date)
+
+
+
+
 
             # paramater
             other_datas = u""
@@ -552,7 +568,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             shywlxj_cy = 0.0
             shjj_db = 0.0
             zyhgwjbzywzshs_dy = 0.0
-            zyhgwbzj_dz = 0.0
+            
             ywlwclkhywl = 0.0
             # pro
             jbzywzshs = 0.0
@@ -640,7 +656,6 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             else:
                 pro_para_list = [x.role for x in self.env[
                     'hr.performanceparameter'].search([('quarters', '=', u'专业化岗位')])]
-                import logging  
                 _logger = logging.getLogger(__name__)
                 for p in performancebonus_datas:
                     
@@ -656,7 +671,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                         elif not p.ywlx in pro_para_list and not u'补时' in p.ywlx and not u'加减业务时间小计' in p.ywlx:
                             jbzywzshs += p.zshzjs
 
-                jj = sum([i.zshzjs for i in performancebonus_datas])
+                pro_zhs = sum([i.zshzjs for i in performancebonus_datas])
+                jj = zyhgwbzj_dz*ratio
 
             # 组长
             cap_basic_data = self.env['hr.performancecapbasic'].search(
@@ -703,6 +719,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 other_datas_list = [
                     k + ":  " + str(v) for k, v in other_datas_dict.items()]
                 other_datas = "\n".join(other_datas_list)
+            jj += kj
             performancebonustotal = self.env['hr.performancebonustotal'].create({'cal_process': ' '.join(cal_process), 'teller_num': teller_num,
                                                                                  'teller_name': teller_name, 'identity': '派遣', 'quarters': rd.quarters,
                                                                                  'group': rd.work_group, 'role': rd.role,
@@ -710,9 +727,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                  'jjzzj_bb': jjzzj_bb, 'lrjj_be': lrjj_be,
                                                                                  'lrzlj_bk': lrzlj_bk, 'shywlxj_cy': shywlxj_cy,
                                                                                  'shjj_db': shjj_db, 'zyhgwjbzywzshs_dy': zyhgwjbzywzshs_dy,
-                                                                                 'zyhgwbzj_dz': zyhgwbzj_dz, 'kj': kj, 'bs': bs, 'zyhywbzhs': zyhywbzhs,
-                                                                                 'jbzywzshs': jbzywzshs, 'jj': jj, 'ranking': ranking,
-                                                                                 'lrjjdj_bc': jjdj, 'sskc_bd': sskcs,
+                                                                                 'kj': kj, 'bs': bs, 'zyhywbzhs': zyhywbzhs,
+                                                                                 'jbzywzshs': jbzywzshs, 'jj': jj, 'ranking': ranking,'pro_zhs':pro_zhs,
+                                                                                 'lrjjdj_bc': jjdj, 'sskc_bd': sskcs,'zyhgwbzj_dz':zyhgwbzj_dz,
                                                                                  'shjjdj_cz': sh_jjdj, 'shsskc_da': sh_sskcs,
                                                                                  'other_datas': other_datas,'attendance_basic': attendance_basic,
                                                                                  'attendance_actual':attendance_actual,'ywlwclkhywl':ywlwclkhywl,
@@ -725,7 +742,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 p.write({'performancebonustotal_id': performancebonustotal.id})
         # for end
         
-        
+        #rank pro
         datas = self.env['hr.performancebonustotal'].search(
             [('role1', '=', u'专业化岗位')])
         datas = datas.sorted(key=attrgetter('role', 'jj'), reverse=True)
@@ -735,29 +752,30 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         samecount = 0
         for d in datas:
             if lastrole == '' or d.role == lastrole:
-                if lastjj == d.jj:
+                if lastjj == d.pro_zhs:
                     samecount += 1
                 else:
                     rank = rank + 1 if samecount == 0 else rank+samecount
                     samecount = 0
                 lastrole = d.role
-                lastjj = d.jj
+                lastjj = d.pro_zhs
             else:
                 rank = 1
                 # rank += 1
                 lastrole = d.role
             d.write({'ranking': rank})
 
+
         all_datas = self.env['hr.performancebonustotal'].search([])
         role_ywlwclkhywl_dict = {}
-        import logging  
+ 
         _logger = logging.getLogger(__name__)
         for m,n in itertools.groupby(all_datas,key = itemgetter('role')):
             x = list(n)
-            _logger.info(m)
+            # _logger.info(m)
             if len(x):
                 role_ywlwclkhywl_dict[m] = sum([x.ywlwclkhywl for x in list(n)])/len(x)
-                _logger.info(role_ywlwclkhywl_dict[m])
+                # _logger.info(role_ywlwclkhywl_dict[m])
                 
         for d in all_datas:
             _logger.info(d.role)

@@ -1982,17 +1982,17 @@
 			 
 	<menuitem id="menu_hr_performance_setup" name="设置" parent="menu_performance_title"
         sequence="400" />
-	<menuitem action="act_hr_performanceglobalparameter" name="设置岗位系数" id="menu_act_hr_performanceglobalparameter" parent="menu_hr_performance_setup"
+	<menuitem action="act_hr_performanceglobalparameter" name="3.设置岗位系数" id="menu_act_hr_performanceglobalparameter" parent="menu_hr_performance_setup"
              sequence="403"/>	
-	<menuitem action="act_hr_performancelurushenheparameter" name="录入审核计奖参数" id="menu_act_hr_performancelurushenheparameter" parent="menu_hr_performance_setup"
+	<menuitem action="act_hr_performancelurushenheparameter" name="2.录入审核计奖参数" id="menu_act_hr_performancelurushenheparameter" parent="menu_hr_performance_setup"
              sequence="402"/>	
-	<menuitem action="act_hr_performanceparameter" name="计奖参数" id="menu_act_hr_performanceparameter" parent="menu_hr_performance_setup"
+	<menuitem action="act_hr_performanceparameter" name="1.计奖参数" id="menu_act_hr_performanceparameter" parent="menu_hr_performance_setup"
              sequence="401"/> 
-    <menuitem action="act_hr_performancegoal" name="正确放弃参数" id="menu_act_hr_performancegoal" parent="menu_hr_performance_setup"
+    <menuitem action="act_hr_performancegoal" name="4.正确放弃参数" id="menu_act_hr_performancegoal" parent="menu_hr_performance_setup"
              sequence="404"/>
-<menuitem action="act_hr_performanceprofixedbonus" name="专业化岗位标准奖金" id="menu_act_hr_performanceprofixedbonus" parent="menu_hr_performance_setup"
+<menuitem action="act_hr_performanceprofixedbonus" name="5.专业化岗位标准奖金" id="menu_act_hr_performanceprofixedbonus" parent="menu_hr_performance_setup"
              sequence="405"/>
-<menuitem action="act_hr_performancetelepara" name="外联临时系数" id="menu_act_hr_performancetelepara" parent="menu_hr_performance_setup"
+<menuitem action="act_hr_performancetelepara" name="6.外联临时系数" id="menu_act_hr_performancetelepara" parent="menu_hr_performance_setup"
              sequence="406"/>
 
 
@@ -2024,11 +2024,11 @@
 
 
 
-         <menuitem action="act_hr_performanceattendance" name="考勤记录" id="menu_act_hr_performanceattendance" parent="menu_hr_performance_ori"
+         <menuitem action="act_hr_performanceattendance" name="10.考勤记录" id="menu_act_hr_performanceattendance" parent="menu_hr_performance_ori"
          sequence="510"/>
-         <menuitem action="act_hr_performancecapbasic" name="标准业务组长考核" id="menu_act_hr_performancecapbasic" parent="menu_hr_performance_ori"
+         <menuitem action="act_hr_performancecapbasic" name="11.标准业务组长考核" id="menu_act_hr_performancecapbasic" parent="menu_hr_performance_ori"
          sequence="511"/>
-    <menuitem action="act_hr_performancecappro" name="专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_ori" sequence="512"/>
+    <menuitem action="act_hr_performancecappro" name="12.专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_ori" sequence="512"/>
 <menuitem action="act_hr_performanceremovemember" name="排除人员" id="menu_act_hr_performanceremovemember" parent="menu_hr_performance_ori" sequence="513"/>
 
 
