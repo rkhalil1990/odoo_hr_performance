@@ -700,7 +700,7 @@ class HrPerformanceProAllowance(models.Model):  # 专业化岗业务量及工时
     ywlx = fields.Char(u'角色')
     ywzl = fields.Float(u'业务总量')
     join_date = fields.Char(u'当月上岗时间')
-    minus_date = fields.Char(u'新上岗员工当月应扣发天数')
+    minus_date = fields.Integer(u'新上岗员工当月应扣发天数')
     # jjywsj1 = fields.Float(u'加减业务时间作业经理')
     # jjywsj2 = fields.Float(u'加减业务时间管理组')
     # jjywsj3 = fields.Float(u'加减业务时间调度及流程管理组')
