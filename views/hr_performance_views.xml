@@ -1238,6 +1238,7 @@
                     <group>
                             <field name="teller_num"/>
                             <field name="teller_name"/>
+                            <field name="quarters_date"/>
                     </group>
                 </sheet>
             </form>
@@ -1251,6 +1252,7 @@
                 <tree string="Hr performanceremovemember">
                             <field name="teller_num"/>
                             <field name="teller_name"/>
+                            <field name="quarters_date"/>
                 </tree>
             </field>
        </record>
@@ -1266,6 +1268,7 @@
                             <field name="work_num"/>
                             <field name="teller_name"/>
                             <field name="quarters"/>
+                            <field name="role"/>
                             <field name="group"/>
                             <field name="manager"/>
                             <field name="salary_level"/>
@@ -1301,6 +1304,7 @@
                             <field name="work_num"/>
                             <field name="teller_name"/>
                             <field name="quarters"/>
+                            <field name="role"/>
                             <field name="group"/>
                             <field name="manager"/>
                             <field name="salary_level"/>
@@ -1336,6 +1340,7 @@
                             <field name="work_num"/>
                             <field name="teller_name"/>
                             <field name="quarters"/>
+                            <field name="role"/>
                             <field name="group"/>
                             <field name="manager"/>
                             <field name="salary_level"/>
@@ -1364,6 +1369,7 @@
                             <field name="work_num"/>
                             <field name="teller_name"/>
                             <field name="quarters"/>
+                            <field name="role"/>
                             <field name="group"/>
                             <field name="manager"/>
                             <field name="salary_level"/>

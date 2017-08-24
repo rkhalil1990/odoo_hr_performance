@@ -54,190 +54,7 @@ class HrPerformanceBonus(models.Model):  # 奖金计算new
     performancebonustotal_id = fields.Many2one(
         'hr.performancebonustotal', 'Hr Performance Bonus Total', ondelete='cascade')
     zsyz = fields.Float(u'折算原值')
-    # def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
-    #     res = super(HrPerformanceBonus, self).read_group(cr, uid, domain, fields, groupby, offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
-    #     _logger = logging.getLogger(__name__)
-    #     gwxs_role_list = (u'录入', u'行号选择', u'行号录入')
-    #     lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
-    #     source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',u'双中心信用卡报表')
-    #     performancelurushenheparameter_datas_ids = self.pool['hr.performancelurushenheparameter'].search(cr, uid, [], context=context)
-    #     performancelurushenheparameter_datas = self.pool.get('hr.performancelurushenheparameter').browse(cr, uid, performancelurushenheparameter_datas_ids, context=context)
-
-    #     performancegoal_datas_ids = self.pool['hr.performancegoal'].search(cr, uid, [], context=context)
-    #     performancegoal_datas = self.pool.get('hr.performancegoal').browse(cr, uid, performancegoal_datas_ids, context=context)
-    #     if 'ywzhs' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 line['ywzhs'] = 0.0
-    #     if 'ywzl' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 line['ywzl'] = 0.0
-    #     if 'hzs' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 line['hzs'] = 0.0
-    #     if 'zjs' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 line['zjs'] = 0.0
-    #     if 'ccs' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 line['ccs'] = 0.0
-    #     if 'tjyxmh' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 line['tjyxmh'] = 0.0
-    #     if 'cwl' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 lines = self.search(cr, uid, line['__domain'], context=context)
-    #                 pending_value = 0.0
-    #                 for current_account in self.browse(cr, uid, lines, context=context):
-    #                     if current_account.cwl != 0.0:
-    #                         pending_value = current_account.cwl
-    #                         break
-    #                 line['cwl'] = pending_value
-    #     if 'zql' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 lines = self.search(cr, uid, line['__domain'], context=context)
-    #                 pending_value = 0.0
-    #                 for current_account in self.browse(cr, uid, lines, context=context):
-    #                     if current_account.zql != 0.0:
-    #                         pending_value = current_account.zql
-    #                         break
-    #                 line['zql'] = pending_value
-    #     if 'dhl' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 lines = self.search(cr, uid, line['__domain'], context=context)
-    #                 pending_value = 0.0
-    #                 for current_account in self.browse(cr, uid, lines, context=context):
-    #                     if current_account.dhl != 0.0:
-    #                         pending_value = current_account.dhl
-    #                         break
-    #                 line['dhl'] = pending_value
-    #     if 'gwxs' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 line['gwxs'] = 0.0
-    #     if 'jjdj' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 line['jjdj'] = 0.0
-    #     if 'sskcs' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 line['sskcs'] = 0.0
-    #     if 'sskcs' in fields:
-    #         for line in res:
-    #             if '__domain' in line:
-    #                 line['sskcs'] = 0.0
-    # if 'jj' in fields:
-    #     for line in res:
-    #         if '__domain' in line:
-    #             lines = self.search(cr, uid, line['__domain'], context=context)
-    #             # paramater
-    #             cwl = 0.00000
-    #             zql = 0.00000
-    #             dhl = 0.00000
-    #             jjdj, sskcs = 0.0, 0.0
-    #             sh_jjdj = 0.0
-    #             sh_sskcs = 0.0
-    #             # zj
-    #             jblr_mul_gwxs_ae = 0.0
-    #             jjzzj_bb = 0.0
-    #             shywlxj_cy = 0.0
-
-    #             # jj
-    #             pending_value = 0.0 # total jj
-    #             lrjj_be = 0.0
-    #             lrzlj_bk = 0.0
-    #             shjj_db = 0.0
-
-    #             datas = self.browse(cr, uid, lines, context=context)
-    #             teller_num = datas[0].teller_num
-    #             teller_name =datas[0].teller_name
-    #             identity = datas[0].identity
-    #             quarters = datas[0].quarters
-    #             quarters_date = datas[0].quarters_date
-    #             group = datas[0].group
-    #             role = datas[0].role
-    #             role1 = datas[0].role1
-    #             # 基础岗位
-    #             if role1 != u'专业化岗位':
-    #                 # get jblr_mul_gwxs_ae
-    #                 for current_account in datas:
-    #                     if current_account.ywlx in gwxs_role_list and u'绩效' in current_account.source_from:
-    #                         jblr_mul_gwxs_ae += current_account.zshzjs * current_account.gwxs
-
-    #                 # get jjzzj_bb
-    #                 except_list=[]
-    #                 for plsp in performancelurushenheparameter_datas:
-    #                     role_list = [i for i in plsp.role.split(',')]
-    #                     except_list.extend(role_list)
-    #                     role_set = set(role_list) - set(gwxs_role_list)
-    #                     if plsp.quarters == u'录入岗':
-    #                         for i in datas:
-    #                             if i.ywlx in role_set:
-    #                                 jjzzj_bb += i.zshzjs
-    #                             cwl = i.cwl if i.cwl != 0.0 else cwl
-    #                             zql = i.zql if i.zql != 0.0 else zql
-    #                             dhl = i.dhl if i.dhl != 0.0 else dhl
-    #                             jjdj = i.jjdj if i.jjdj != 0.0 else jjdj
-    #                             sskcs = i.sskcs if i.sskcs != 0.0 else sskcs
-    #                     elif plsp.quarters == u'审核岗':
-    #                         for i in datas:
-    #                             if i.ywlx in role_list:
-    #                                 shywlxj_cy += i.zshzjs
-    #                                 sh_jjdj = i.jjdj
-    #                                 sh_sskcs = i.sskcs
-    #                 _logger = logging.getLogger(__name__)
-
-    #                 jjzzj_bb += jblr_mul_gwxs_ae
-    #                 lrjj_be = jjzzj_bb * jjdj - sskcs
-
-    #                 for i in performancegoal_datas:
-    #                     if i.role == role and  i.role1 == role1:
-    #                         zqlxs = (1+(zql-i.zql_goal)*100)
-    #                         lhlxs = (1+(i.fql_goal - dhl))
-    #                         lrzlj_bk = zqlxs*lhlxs
-    #                         lrzlj_bk = (lrzlj_bk - 1) * lrjj_be
-
-    #                 shjj_db = shywlxj_cy * sh_jjdj - sh_sskcs
-
-    #                 for i in datas:
-    #                     if i.ywlx not in except_list:
-    #                         pending_value += i.zshzjs
-
-    #                 pending_value += lrjj_be + lrzlj_bk + shjj_db
-
-    #             else:
-    #                 # 专业化
-    #                 # performanceparameter_datas_ids = self.pool['hr.performanceparameter'].search(cr, uid, [('quarters', '=', u'专业化岗位')], context=context)
-    #                 # performanceparameter_datas = self.pool.get('hr.performanceparameter').browse(cr, uid, performanceparameter_datas_ids, context=context)
-    #                 # standard_trans = u'标准化业务-'
-    #                 # for i in datas:
-    #                 #     for para in performanceparameter_datas:
-    #                 #         role = para.role
-    #                 #         if standard_trans in para.role:
-    #                 #             role = para.role.replace(standard_trans,'')
-    #                 #         if role == i.ywlx:
-    #                 #             pending_value += i.zshzjs * para.parameter_valuex
-    #                 pending_value = sum([i.zshzjs for i in datas])
-    #             line['jj'] = pending_value
-    # if 'amount_payed' in fields:
-    #     for line in res:
-    #         if '__domain' in line:
-    #             lines = self.search(cr, uid, line['__domain'], context=context)
-    #             payed_value = 0.0
-    #             for current_account in self.browse(cr, uid, lines, context=context):
-    #                 payed_value += current_account.amount_payed
-    #             line['amount_payed'] = payed_value
-    # return res
-
+ 
 
 class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     _name = 'hr.performancebonustotal'
@@ -285,45 +102,6 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     other_datas = fields.Text(u'其他奖金明细')
     attendance_basic = fields.Float(u'应出勤')
     attendance_actual = fields.Float(u'出勤日')
-
-# class HrPerformanceBonusTotalDetail(models.Model):  # 奖金计算new
-#     _name = 'hr.performancebonustotaldetail'
-#     _description = 'Hr Performance Bonus Total Detail'
-#     _order = 'id'
-
-#     performancebonustotal_id=fields.Many2one('hr.performancebonustotal', 'Hr Performance Bonus Total', ondelete='cascade', required=True)
-#     teller_num = fields.Char(u'柜员号')
-#     teller_name = fields.Char(u'柜员名')
-#     identity = fields.Char(u'身份')
-#     quarters = fields.Char(u'岗位')
-#     quarters_date = fields.Date(u'当前岗位上岗日期')
-#     group = fields.Char(u'组别')
-#     role = fields.Char(u'角色')
-#     role1 = fields.Char(u'角色1')
-#     ywlx = fields.Char(u'业务类型')
-#     ywzhs = fields.Float(u'业务总耗时')
-#     ywzl = fields.Float(u'业务总量')
-#     hzs = fields.Float(u'汉字数')
-#     zjs = fields.Float(u'字节数')
-#     ccs = fields.Float(u'差错数')
-#     tjyxmh = fields.Float(u'提交影像模糊')
-#     cwl = fields.Float(u'错误率', digits=(5, 5))
-#     zql = fields.Float(u'正确率', digits=(5, 5))
-#     dhl = fields.Float(u'打回率', digits=(5, 5))
-#     # jbzjs = fields.Float(u'基本字节数')
-#     gwxs = fields.Float(u'岗位系数')
-#     zshzjs = fields.Float(u'折算后字节数')
-#     jjdj = fields.Float(u'计奖单价', digits=(5, 5))
-#     sskcs = fields.Float(u'速算扣除数')
-#     khxs = fields.Float(u'考核系数')
-#     kj = fields.Float(u'扣奖')
-#     jj = fields.Float(u'奖金')
-#     ranking = fields.Integer(u'排名')
-#     ratio = fields.Float(u'整体系数')
-#     manager_ratio = fields.Float(u'作业经理系数')
-#     complete_rate = fields.Float(u'完成率')
-#     complete_changed_rate = fields.Float(u'调整后成率')
-#     source_from = fields.Char(u'数据来源', readonly=True)
 
 
 class HrPerformanceReportOri(models.Model):  # 总行数据处理中心绩效考核报表
@@ -551,44 +329,6 @@ class HrPerformanceLuRuShenHeParameter(models.Model):  # 录入审核计奖参�
     unit_price = fields.Char(u'单价', digits=(5, 5))
     price_add_minus = fields.Char(u'速算扣除')
 
-    # @api.onchange('work_day')
-    # def _onchange_work_day(self):
-    # for record in self.env['hr.performancelurushenheparameter'].search([]):
-    # record.write({'work_day': self.work_day})
-    # @api.one
-    # @api.depends('daily_quantity')
-    # def _compute_quantity(self):
-    #     work_day=self.env['hr.performanceglobalparameter'].search([('parameter_name','=','工作日')])
-    #     self.quantity=int(self.daily_quantity)*int(work_day.parameter_value)
-
-    # @api.one
-    # @api.depends('quarters','quantity','unit_price')
-    # def _compute_price_add_minus(self):
-    #     if self.quarters==u"录入岗":
-    #         if self.quantity==0:
-    #             self.price_add_minus=0.00
-    #         else:
-    #             performancelurushenheparameters=self.env['hr.performancelurushenheparameter'].search([('quarters','=','录入岗')])
-    #             l1=[]
-    #             for p in performancelurushenheparameters:
-    #                 l1.append([p.daily_quantity,p.quantity,p.unit_price])
-    #                 self.price_add_minus=p.daily_quantity
-    #             l1.sort(lambda x,y:cmp(x[0],y[0]))
-    #             if self.daily_quantity==l1[1][0]:
-    #                 self.price_add_minus= float(l1[1][1])* float(l1[1][2]-l1[0][2])
-    #             else:
-    #                 self.price_add_minus=float(l1[1][1]-l1[0][1])* float(l1[2][2]-l1[0][2])+float(l1[2][1]-l1[1][1])* float(l1[2][2]-l1[1][2])
-    #     elif self.quarters==u"审核岗":
-    #         if self.quantity==0:
-    #             self.price_add_minus=0.00
-    #         else:
-    #             performancelurushenheparameters=self.env['hr.performancelurushenheparameter'].search([('quarters','=','审核岗')])
-    #             l1=[]
-    #             for p in performancelurushenheparameters:
-    #                 l1.append([p.daily_quantity,p.quantity,p.unit_price])
-    #             l1.sort(lambda x,y:cmp(x[0],y[0]))
-    #             self.price_add_minus= float(l1[1][1])* float(l1[1][2]-l1[0][2])
-
 
 class HrPerformanceTele(models.Model):  # 电联
     _name = 'hr.performancetele'
@@ -630,63 +370,6 @@ class HrPerformanceByStandardOri(models.Model):  # 按标准计奖岗考核
     remark = fields.Char(u'备注')
 
 
-# class HrPerformanceBonusTotal(models.Model):  # 奖金汇总
-#     _name = 'hr.performancebonustotal'
-#     _description = 'Hr Performance Bonus Total'
-#     _order = 'id'
-
-#     teller_num = fields.Char(u'柜员号')
-#     work_num = fields.Char(u'工号')
-#     teller_name = fields.Char(u'姓名')
-#     quarters = fields.Char(u'聘用岗位')
-#     role = fields.Char(u'柜员角色')
-#     group = fields.Char(u'组别')
-#     identity = fields.Char(u'员工身份')
-#     jjjsz = fields.Float(u'奖金计算值')
-#     qttz = fields.Float(u'其他调整')
-#     jxjjxj = fields.Float(u'绩效奖金小计', compute='_compute_jxjjxj', store=True)
-#     jljkzj = fields.Float(u'经理加扣总计')
-#     jljkbz = fields.Char(u'经理加扣备注')
-#     jljkzj = fields.Float(u'经理加扣总计')
-#     sfjj = fields.Float(u'实发奖金', compute='_compute_sfjj', store=True)
-#     remark = fields.Char(u'备注')
-#     yjj = fields.Float(u'原奖金')
-#     bc = fields.Float(u'补差', compute='_compute_bc', store=True)
-
-#     @api.depends('jjjsz', 'qttz')
-#     def _compute_jxjjxj(self):
-#         self.jxjjxj = self.jjjsz+self.qttz
-
-#     @api.depends('jjjsz', 'qttz', 'jljkzj')
-#     def _compute_sfjj(self):
-#         self.sfjj = self.jjjsz+self.qttz+self.jljkzj
-
-#     @api.depends('jjjsz', 'qttz', 'jljkzj', 'yjj')
-#     def _compute_bc(self):
-#         self.bc = self.jjjsz+self.qttz+self.jljkzj-self.yjj
-
-
-# class HrPerformanceBasicAllowance(models.Model):  # 基础补业务量明细表
-#     _name = 'hr.performancebasicallowance'
-#     _description = 'Hr Performance Basic Allowance'
-#     _order = 'id'
-
-#     work_num = fields.Char(u'工号')
-#     teller_name = fields.Char(u'姓名')
-#     group = fields.Char(u'组别')
-#     area = fields.Char(u'区域')
-#     role = fields.Char(u'柜员角色')
-#     jjywsj1 = fields.Float(u'加减业务时间（作业经理）')
-#     jjywsj2 = fields.Float(u'加减业务时间（管理组）')
-#     jjywsj3 = fields.Float(u'加减业务时间（调度及流程管理组）')
-#     jjywsj4 = fields.Float(u'加减业务时间（人事组）')
-#     jjywsj5 = fields.Float(u'加减业务时间（IT行政组）')
-#     jjywsjxj = fields.Float(u'加减业务时间小计')
-#     mxsbtywl = fields.Float(u'每小时补贴业务量')
-#     btywlxj = fields.Float(u'补贴业务量小计')
-#     remark = fields.Char(u'备注')
-
-
 class HrPerformanceProAllowance(models.Model):  # 专业化岗业务量及工时补贴表
     _name = 'hr.performanceproallowance'
     _description = 'Hr Performance Pro Allowance'
@@ -701,12 +384,6 @@ class HrPerformanceProAllowance(models.Model):  # 专业化岗业务量及工时
     ywzl = fields.Float(u'业务总量')
     join_date = fields.Char(u'当月上岗时间')
     minus_date = fields.Integer(u'新上岗员工当月应扣发天数')
-    # jjywsj1 = fields.Float(u'加减业务时间作业经理')
-    # jjywsj2 = fields.Float(u'加减业务时间管理组')
-    # jjywsj3 = fields.Float(u'加减业务时间调度及流程管理组')
-    # jjywsj4 = fields.Float(u'加减业务时间人事组')
-    # jjywsj5 = fields.Float(u'加减业务时间IT行政组')
-    # total_time = fields.Float(u'总业务时间')
 
 
 class HrPerformancePlusMinus(models.Model):  # 基础作业岗工时补贴表-
@@ -801,29 +478,6 @@ class HrPerformanceMemberInfo(models.Model):  # 人员信息导入
     teller_type = fields.Char(u'员工类别')
     teller_subtype = fields.Char(u'员工子类别')
 
-    # teller_num = fields.Char(u'柜员号')
-    # work_num = fields.Char(u'工号')
-    # teller_name = fields.Char(u'姓名')
-    # gender = fields.Char(u'性别')
-    # orgnization = fields.Char(u'机构')
-    # quarters = fields.Char(u'岗位')
-    # quarters_date = fields.Char(u'当前岗位上岗日期')
-    # role = fields.Char(u'柜员角色')
-    # group = fields.Char(u'组别')
-    # area_manager = fields.Char(u'区域负责人')
-    # join_date = fields.Char(u'进中心日期')
-    # adjusted_join_date = fields.Char(u'调整的进中心日期')
-    # job_status = fields.Char(u'在职情况')
-    # leave_date = fields.Char(u'离职日期')
-    # leave_reason = fields.Char(u'离职原因')
-    # age = fields.Integer(u'年龄')
-    # adjusted_working_date = fields.Char(u'调整后的参加工作时间')
-    # recruite_from = fields.Char(u'招聘来源')
-    # degree = fields.Char(u'最高教育学历')
-    # school = fields.Char(u'最高学历毕业院校')
-    # job_nature = fields.Char(u'岗位性质')
-    # job_importance = fields.Char(u'岗位重要度')
-
 
 class HrPerformanceProFixedBonus(models.Model):  # 专业化岗位标准奖金
     _name = 'hr.performanceprofixedbonus'
@@ -842,6 +496,7 @@ class HrPerformanceCapBasic(models.Model):  # 标准业务组长考核
     work_num = fields.Char(u'工号')
     teller_name = fields.Char(u'姓名')
     quarters = fields.Char(u'岗位')
+    role = fields.Char(u'考核角色')
     group = fields.Char(u'组别')
     manager = fields.Char(u'区域负责人')
     salary_level = fields.Char(u'薪资等级')
@@ -873,6 +528,7 @@ class HrPerformanceCapPro(models.Model):  # 专业化业务组长考核
     work_num = fields.Char(u'工号')
     teller_name = fields.Char(u'姓名')
     quarters = fields.Char(u'岗位')
+    role = fields.Char(u'考核角色')
     group = fields.Char(u'组别')
     manager = fields.Char(u'区域负责人')
     salary_level = fields.Char(u'薪资等级')
@@ -923,6 +579,7 @@ class HrPerformanceRemoveMember(models.Model):  # 外联附加报表
 
     teller_num = fields.Char(u'柜员号')
     teller_name = fields.Char(u'柜员名')
+    quarters_date = fields.Date(u'当前岗位上岗日期')
 
 
 class HrPerformanceProRatio(models.Model):  # 专业化绩效加扣报表

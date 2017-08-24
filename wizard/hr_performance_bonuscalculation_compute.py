@@ -319,42 +319,6 @@ class HrPerformanceBonusCompute(models.TransientModel):
                 xxx = [p.ratio for p in performanceproratio]
                 if  len(xxx):
                     self.write({'ratio': max(xxx)})
-            # for p in performanceteleadditionreportori_datas:
-            #     if not u'虚拟柜员' in p.teller_name:
-            #         ywlx_dict = {0: u'呼出业务量', 1: u'呼入业务量',2: u'补救核算后业务量',3: u'待银行补件业务核算后业务量'}
-            #         zshzjs = 0.0
-            #         prole = basic_prefix + p.role
-            #         if rd.role1 != u'专业化岗位':
-            #             para = self.env['hr.performanceparameter'].search(
-            #                 [('role', '=', prole)], limit=1)
-            #         else:
-            #             para = self.env['hr.performanceparameter'].search(
-            #                 [('role', '=', standard_trans+prole)], limit=1)
-            #             if len(para) == 0:
-            #                 para = self.env['hr.performanceparameter'].search(
-            #                     [('role', '=', prole)], limit=1)
-            #         if para.jjfs == 'byByte':
-            #             zshzjs = p.btywlxj * para.parameter_valuex
-            #         elif para.jjfs == 'byQuantity':
-            #             zshzjs = p.btywlxj * para.parameter_valuex
-            #         elif para.jjfs == 'bySub':
-            #             zshzjs = p.btywlxj * para.parameter_valuex
-            #         elif para.jjfs == 'byTime':
-            #             zshzjs = p.btywlxj * para.parameter_valuex
-            #         performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
-            #             'teller_num': rd.teller_num,
-            #             'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
-            #             'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-            #             'ywlx': prole, 'ywzhs': p.btywlxj, 'ywzl': p.btywlxj,
-            #             'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
-            #             'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
-            #             'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[6]
-            #         })
-
-
-
-
-
 
         name_list = [p.teller_name for p in self.env['hr.performancebonus'].search([])]
         for rd in role_datas:
@@ -379,49 +343,6 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
                     'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[7]
                 })
-
-
-                # # get jjdj sskcs
-                # performancebonus_datas_byname = self.env['hr.performancebonus'].search(
-                #     [('teller_name', '=', rd.name)])
-                # # if rd.role1 in lurushenhe_role1_group:
-                # for plsp in performancelurushenheparameter_datas:
-                #     rolelist = [i for i in plsp.role.split(',')]
-                #     quantity = sum([i.zshzjs for i in performancebonus_datas_byname if i.ywlx in rolelist and not i.ywlx in gwxs_role_list])
-                #     quantity += sum([i.zshzjs * gwxs.parameter_value for i in performancebonus_datas_byname if i.ywlx in gwxs_role_list])
-                #     jjdj, sskcs = self.get_lurushenheparameter(plsp.quarters, quantity)
-                #     for pd in performancebonus_datas_byname:
-                #         if pd.ywlx in rolelist:
-                #             pd.write({'jjdj': jjdj, 'sskcs': sskcs})
-            # else:
-            #     performancebonus_datas_byname_byrole1 = self.env['hr.performancebonus'].search(
-            #         [('teller_name', '=', rd.name),('role1', '=', u'专业化岗')])
-
-# =AE2+AG2+AI2+AK2+AZ2+BA2
-# "基本录入总字节*岗位系数
-# (6)=(4)*(5)"
-# 资料录入折合字节（7）
-# 影像定位折合字节(8-1)
-# 影像定位折合字节(8-2)
-
-# 信用卡录入总字节
-# 录入补业务量字节
-
-
-# class HrPerformanceBonuscalculationCompute(models.TransientModel):
-    # _name = 'hr.performance.bonuscalculation.compute'
-    # _description = 'HR Performancebonuscalculation Compute'
-
-    # @api.multi
-    # def performancebonuscalculation_compute(self):
-        # role_datas=self.env['hr.performanceroleori'].search([])
-        # for rd in role_datas:
-            # recruitmentmodeldetail=self.env['hr.performancebonuscalculation'].create({'performancebonuscalculation_id': self.id,
-                # 'teller_num': rd.teller_num,
-                # 'teller_name':rd.name,'identity':'派遣','quarters':rd.quarters,
-                # 'group':rd.work_group,'role':rd.role,
-                # 'role1':rd.role1
-                # })
 
 
 class HrPerformanceBonusDelete(models.TransientModel):
@@ -828,3 +749,5 @@ class HrPerformanceBonusCheck(models.TransientModel):
                 result = p.ywlx.replace('(', '（')
                 result = result.replace(')', '）')
                 p.write({'ywlx':result})
+
+        # insert absent>=8, dimission, captain, quarters_date>this month 1st into performanceremovemember
