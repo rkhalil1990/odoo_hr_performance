@@ -429,8 +429,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         b13 = self.env['hr.performanceparameter'].search(
                         [('parameter_name', '=', u'运营业务资料复核')], limit=1)
         b19 = (self.env['hr.performancelurushenheparameter'].search([], limit=1)[0]).work_day
-
-
+        performanceremovemember_datas = self.env['hr.performanceremovemember'].search([])
+        
+        remove_member_set = set([x.teller_num for x in performanceremovemember_datas])
 
         for rd in role_datas:
             performancebonus_datas = self.env['hr.performancebonus'].search(
@@ -447,8 +448,6 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 [('teller_num', '=', rd.teller_num)])
             performanceattendance_data = self.env['hr.performanceattendance'].search(
                 [('teller_name', '=', rd.name)], limit=1)
-            performanceremovemember_data = self.env['hr.performanceremovemember'].search(
-                [('teller_name', '=', rd.name)])
             performanceproallowance_data= self.env['hr.performanceproallowance'].search(
                 [('work_num', '=', rd.teller_num)], limit=1)
 
@@ -460,11 +459,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             attendance_actual = attendance_basic - leave_days
 
             kj = 0.0
-            global NOTINCLUDEDAYS
-            if u'组长' in rd.quarters or leave_days > NOTINCLUDEDAYS:
-                if len(performanceremovemember_data) < 1:
-                    self.env['hr.performanceremovemember'].create({
-                        'teller_num': rd.teller_num,'teller_name': rd.name,})
+            
 
             zyhgwbzj_dz = performanceprofixedbonus.jj/b19*attendance_basic
             xxx = [p.ratio for p in performanceproratio]
@@ -607,7 +602,18 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             cap_pro_data = self.env['hr.performancecappro'].search(
                 [('teller_name', '=', rd.name)])
             cap_bonus = 0.0
+            temp_cap_bzjxj_list = [0 , 0] 
+            cap_bzjxj = 0.0
             if len(cap_basic_data) > 0:
+                for r in cap_basic_data.role.split('/'):
+                    performancecapbasic_caps = self.env['hr.performancecapbasic'].search(
+                [('role', '=', r)])
+                    l = [for x in performancecapbasic_caps if not in remove_member_set]
+                    temp_cap_bzjxj_list[0]+=sum(l)
+                    temp_cap_bzjxj_list[1]+=len(l)
+
+                cap_bzjxj = temp_cap_bzjxj_list[0]/temp_cap_bzjxj_list[1]
+
                 if cap_basic_data.cap_bonus > 0.0:
                     cap_bonus = cap_basic_data.cap_bonus
                 elif cap_basic_data.actual_bonus == 0.0 or cap_basic_data.cap_bonus == 0.0:
@@ -617,6 +623,11 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                         {'actual_bonus': jj, 'cap_bonus': cap_bonus})
                 other_datas_dict[u"组长考核奖"] = cap_bonus
             elif len(cap_pro_data) > 0:
+
+
+
+
+
                 if cap_pro_data.cap_bonus > 0.0:
                     cap_bonus = cap_pro_data.cap_bonus
                 elif cap_pro_data.actual_bonus == 0.0 or cap_pro_data.cap_bonus == 0.0:
@@ -726,28 +737,58 @@ class HrPerformanceBonusCheck(models.TransientModel):
 
     @api.multi
     def performancebonus_check(self):
-        # add role,group to performanceroleori
-        performancememberinfo = self.env['hr.performancememberinfo'].search([])
-        performanceroleori = self.env['hr.performanceroleori'].search([])
-        for d in performanceroleori:
-            for out in performancememberinfo:
+        # add role, group to performanceroleori
+        performancemonth = self.env['hr.performancemonth'].search([], limit=1)
+        performancememberinfo_datas = self.env['hr.performancememberinfo'].search([])
+        performanceroleori_datas = self.env['hr.performanceroleori'].search([])
+        for d in performanceroleori_datas:
+            for out in performancememberinfo_datas:
                 if d.teller_num == out.member_num:
                     d.write({'work_group': out.group,'role': out.role})
 
-        # replace () to （）
-        performanceplusminus = self.env['hr.performanceplusminus'].search([])
-        performanceproallowance = self.env['hr.performanceproallowance'].search([])
+        # replace () to （）, insert captain into performanceremovemember
+        performanceplusminus_datas = self.env['hr.performanceplusminus'].search([])
+        performanceproallowance_datas = self.env['hr.performanceproallowance'].search([])
         
-        for p in performanceplusminus:
+        for p in performanceplusminus_datas:
             if '(' in p.role or ')' in p.role:
-                result = p.role.replace('(', '（')
-                result = result.replace(')', '）')
+                result = p.role.replace('(', '（').replace(')', '）')
+                # result = result.replace(')', '）')
                 p.write({'role':result})
 
-        for p in performanceproallowance:
+        for p in performanceproallowance_datas:
             if '(' in p.ywlx or ')' in p.ywlx:
-                result = p.ywlx.replace('(', '（')
-                result = result.replace(')', '）')
+                result = p.ywlx.replace('(', '（').replace(')', '）')
+                # result = result.replace(')', '）')
                 p.write({'ywlx':result})
 
         # insert absent>=8, dimission, captain, quarters_date>this month 1st into performanceremovemember
+        performancecapbasic_datas = self.env['hr.performancecapbasic'].search([])
+        performancecappro_datas = self.env['hr.performancecappro'].search([])
+        performanceattendance_datas = self.env['hr.performanceattendance'].search([])
+
+        for p in performancecapbasic_datas:
+            self.env['hr.performanceremovemember'].create({
+                        'teller_num': p.work_num,'teller_name': p.teller_name,
+                    })
+
+        for p in performancecappro_datas:
+            self.env['hr.performanceremovemember'].create({
+                        'teller_num': p.work_num,'teller_name': p.teller_name,
+                    })
+
+
+
+        global NOTINCLUDEDAYS
+        for performanceattendance_data in performanceattendance_datas:
+            leave_days = sum([performanceattendance_data.sj, performanceattendance_data.bj, 
+                    performanceattendance_data.hzj, performanceattendance_data.kg, performanceattendance_data.dx, 
+                    performanceattendance_data.cqj, performanceattendance_data.cj, performanceattendance_data.gj])
+            if leave_days >= NOTINCLUDEDAYS:
+                self.env['hr.performanceremovemember'].create({
+                    'teller_num': performanceattendance_data.sap_num,'teller_name': performanceattendance_data.teller_name,})
+        m = performancemonth.report_date
+        performancememberinfo_filter_datas = self.env['hr.performancememberinfo'].search([('teller_type','=',u'4-已离行人员'),('quarters_date','>',m)])
+        for p in performancememberinfo_filter_datas:
+            self.env['hr.performanceremovemember'].create({
+                    'teller_num': p.member_num,'teller_name': p.teller_name,'quarters_date': p.quarters_date})

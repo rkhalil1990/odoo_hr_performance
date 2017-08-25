@@ -1500,6 +1500,30 @@
        </record>
 
 
+<record id="hr_performancemonth_form" model="ir.ui.view">
+        <field name="name">hr.performancemonth.form</field>
+        <field name="model">hr.performancemonth</field>
+        <field name="arch" type="xml">
+            <form string="hr performancemonth Form">
+                <sheet>
+                    <group>
+                            <field name="report_date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performancemonth_tree" model="ir.ui.view">
+            <field name="name">hr.performancemonth.tree</field>
+            <field name="model">hr.performancemonth</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancemonth">
+                            <field name="report_date"/>
+                </tree>
+            </field>
+       </record>
+
 
 <record id="hr_performancebonus_withzero_form" model="ir.ui.view">
         <field name="name">hr.performancebonus.form</field>
@@ -1964,6 +1988,17 @@
             </field>
       </record>
 
+      <record id="act_hr_performancemonth" model="ir.actions.act_window">
+            <field name="name">报表计算月份</field>
+            <field name="res_model">hr.performancemonth</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                报表计算月份.
+              </p>
+            </field>
+      </record>
 
 
 	<menuitem
@@ -1975,12 +2010,14 @@
 	
 	<menuitem id="menu_hr_performance" name="人员绩效相关" parent="menu_performance_title"
         sequence="100" />
+        <menuitem action="act_hr_performancebonus_withzero" name="1.未计算奖金明细" id="menu_act_hr_performancebonus_withzero" parent="menu_hr_performance"
+        sequence="101"/>
+        <menuitem action="act_hr_performancebonustotal" name="2.奖金汇总" id="menu_act_hr_performancebonustotal" parent="menu_hr_performance"
+        sequence="102"/>
 		<menuitem action="act_hr_performancebonus" name="3.奖金明细" id="menu_act_hr_performancebonus" parent="menu_hr_performance"
         sequence="103"/>
-		<menuitem action="act_hr_performancebonustotal" name="2.奖金汇总" id="menu_act_hr_performancebonustotal" parent="menu_hr_performance"
-        sequence="102"/>
-		<menuitem action="act_hr_performancebonus_withzero" name="1.未计算奖金明细" id="menu_act_hr_performancebonus_withzero" parent="menu_hr_performance"
-        sequence="101"/>
+		
+		
 			 
 	<menuitem id="menu_hr_performance_operation" name="计算奖金" parent="menu_performance_title"
         sequence="200" />
@@ -1988,18 +2025,20 @@
 			 
 	<menuitem id="menu_hr_performance_setup" name="设置" parent="menu_performance_title"
         sequence="400" />
-	<menuitem action="act_hr_performanceglobalparameter" name="3.设置岗位系数" id="menu_act_hr_performanceglobalparameter" parent="menu_hr_performance_setup"
-             sequence="403"/>	
-	<menuitem action="act_hr_performancelurushenheparameter" name="2.录入审核计奖参数" id="menu_act_hr_performancelurushenheparameter" parent="menu_hr_performance_setup"
-             sequence="402"/>	
-	<menuitem action="act_hr_performanceparameter" name="1.计奖参数" id="menu_act_hr_performanceparameter" parent="menu_hr_performance_setup"
-             sequence="401"/> 
-    <menuitem action="act_hr_performancegoal" name="4.正确放弃参数" id="menu_act_hr_performancegoal" parent="menu_hr_performance_setup"
-             sequence="404"/>
-<menuitem action="act_hr_performanceprofixedbonus" name="5.专业化岗位标准奖金" id="menu_act_hr_performanceprofixedbonus" parent="menu_hr_performance_setup"
+     <menuitem action="act_hr_performancemonth" name="1.报表计算月份" id="menu_act_hr_performancemonth" parent="menu_hr_performance_setup"
+             sequence="401"/>    
+    <menuitem action="act_hr_performanceparameter" name="2.计奖参数" id="menu_act_hr_performanceparameter" parent="menu_hr_performance_setup"
+             sequence="402"/> 
+    <menuitem action="act_hr_performancelurushenheparameter" name="3.录入审核计奖参数" id="menu_act_hr_performancelurushenheparameter" parent="menu_hr_performance_setup"
+             sequence="403"/>
+	<menuitem action="act_hr_performanceglobalparameter" name="4.设置岗位系数" id="menu_act_hr_performanceglobalparameter" parent="menu_hr_performance_setup"
+             sequence="404"/>	
+    <menuitem action="act_hr_performancegoal" name="5.正确放弃参数" id="menu_act_hr_performancegoal" parent="menu_hr_performance_setup"
              sequence="405"/>
-<menuitem action="act_hr_performancetelepara" name="6.外联临时系数" id="menu_act_hr_performancetelepara" parent="menu_hr_performance_setup"
-             sequence="406"/>
+    <menuitem action="act_hr_performanceprofixedbonus" name="6.专业化岗位标准奖金" id="menu_act_hr_performanceprofixedbonus" parent="menu_hr_performance_setup"
+                 sequence="406"/>
+    <menuitem action="act_hr_performancetelepara" name="7.外联临时系数" id="menu_act_hr_performancetelepara" parent="menu_hr_performance_setup"
+             sequence="407"/>
 
 
 	

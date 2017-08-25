@@ -597,4 +597,9 @@ class HrPerformanceProRatio(models.Model):  # 专业化绩效加扣报表
     ratio = fields.Float(u'专业化岗绩效系数')
 
 
+class HrPerformanceMonth(models.Model):  # 专业化绩效加扣报表
+    _name = 'hr.performancemonth'
+    _description = 'Hr Performance Month '
+    _order = 'id'
 
+    report_date = fields.Date(u'报表月份')
