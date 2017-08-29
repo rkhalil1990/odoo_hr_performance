@@ -1166,6 +1166,17 @@
                             <field name="area_manager"/>
                             <field name="teller_type"/>
                             <field name="teller_subtype"/>
+                            <field name="enter_date"/>
+                            <field name="adjusted_enter_date"/>
+                            <field name="company_work_age"/>
+                            <field name="contract_1st_date"/>
+                            <field name="contract_try_end_date"/>
+                            <field name="contract_start_date"/>
+                            <field name="contract_1st_end_date"/>
+                            <field name="contract_count"/>
+                            <field name="company_count"/>
+                            <field name="incumbency"/>
+                            <field name="leave_date"/>     
                     </group>
                 </sheet>
             </form>
@@ -1197,6 +1208,17 @@
                             <field name="area_manager"/>
                             <field name="teller_type"/>
                             <field name="teller_subtype"/>
+                            <field name="enter_date"/>
+                            <field name="adjusted_enter_date"/>
+                            <field name="company_work_age"/>
+                            <field name="contract_1st_date"/>
+                            <field name="contract_try_end_date"/>
+                            <field name="contract_start_date"/>
+                            <field name="contract_1st_end_date"/>
+                            <field name="contract_count"/>
+                            <field name="company_count"/>
+                            <field name="incumbency"/>
+                            <field name="leave_date"/> 
                 </tree>
             </field>
        </record>
@@ -2044,7 +2066,7 @@
 	
 	<menuitem id="menu_hr_performance_ori" name="业务基础信息导入" parent="menu_performance_title"
         sequence="500" />	
-    <menuitem action="act_hr_performancememberinfo" name="1.人员信息表 A-T" id="menu_act_hr_performancememberinfo" parent="menu_hr_performance_ori"
+    <menuitem action="act_hr_performancememberinfo" name="1.人员信息表 A-AE" id="menu_act_hr_performancememberinfo" parent="menu_hr_performance_ori"
          sequence="501"/>
 	<menuitem action="act_hr_performanceroleori" name="2.角色表 A-F 需生成" id="menu_act_hr_performanceroleori" parent="menu_hr_performance_ori"
          sequence="502"/>

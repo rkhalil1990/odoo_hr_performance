@@ -477,6 +477,17 @@ class HrPerformanceMemberInfo(models.Model):  # 人员信息导入
     area_manager = fields.Char(u'区域负责人')
     teller_type = fields.Char(u'员工类别')
     teller_subtype = fields.Char(u'员工子类别')
+    enter_date = fields.Date(u'进中心日期')
+    adjusted_enter_date = fields.Date(u'调整的进中心日期')
+    company_work_age = fields.Char(u'本中心工龄')
+    contract_1st_date = fields.Char(u'首次合同签订日期')
+    contract_try_end_date = fields.Date(u'首次合同试用期到期日')
+    contract_start_date = fields.Date(u'本次合同开始日期')
+    contract_1st_end_date = fields.Date(u'派遣合同到期日')
+    contract_count = fields.Char(u'合同累计签订次数')
+    company_count = fields.Char(u'当前派遣公司签订次数')
+    incumbency = fields.Char(u'在职情况')
+    leave_date = fields.Date(u'离职日期')
 
 
 class HrPerformanceProFixedBonus(models.Model):  # 专业化岗位标准奖金
@@ -579,6 +590,7 @@ class HrPerformanceRemoveMember(models.Model):  # 外联附加报表
 
     teller_num = fields.Char(u'柜员号')
     teller_name = fields.Char(u'柜员名')
+    role = fields.Char(u'角色')
     quarters_date = fields.Date(u'当前岗位上岗日期')
 
 
