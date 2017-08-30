@@ -453,8 +453,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
             cal_process = []
             leave_days = sum([performanceattendance_data.sj, performanceattendance_data.bj, 
-                performanceattendance_data.hzj, performanceattendance_data.kg, performanceattendance_data.dx, 
-                performanceattendance_data.cqj, performanceattendance_data.cj, performanceattendance_data.gj])
+                 performanceattendance_data.kg, 
+                performanceattendance_data.cqj, performanceattendance_data.cj])
             attendance_basic = performanceattendance_data.attendance_basic        
             attendance_actual = attendance_basic - leave_days
 
@@ -764,23 +764,29 @@ class HrPerformanceBonusCheck(models.TransientModel):
             [('incumbency','=',u'在职'),('teller_type','!=',u'1-正式员工'),('role','!=',u'管理')])
 
 
+        role_set = (u'培训（复核）', u'培训（审核）')
+        pro_role_set = (u'专职讲师',u'授权')
         teller_list = [x.teller_num for x in performanceroleori_datas]
         for p in performancememberinfo_filter_datas1:
             if not p.member_num in teller_list:
+                role1 = u'专业化岗位' if not p.role in role_set else u''
                 self.env['hr.performanceroleori'].create({
                         'work_num': p.work_num,'teller_num': p.member_num,'name': p.teller_name,'work_center': u'上海' if u'上海' in p.orgnization3 else u'合肥',
-                        'work_group': p.group,'quarters': p.quarters,'role': p.role,'role1': u'专业化岗位'})
+                        'work_group': p.group,'quarters': p.quarters,'role': p.role,'role1': role1})
 
         for p in performancememberinfo_filter_datas3:
             if not p.member_num in teller_list and len(self.env['hr.performanceroleori'].search([('teller_num','=', p.member_num)]))<1:
+                role1 = u'专业化岗位' if not p.role in role_set else u''
                 self.env['hr.performanceroleori'].create({
                         'work_num': p.work_num,'teller_num': p.member_num,'name': p.teller_name,'work_center': u'上海' if u'上海' in p.orgnization3 else u'合肥',
-                        'work_group': p.group,'quarters': p.quarters,'role': p.role,'role1': u'专业化岗位'})
+                        'work_group': p.group,'quarters': p.quarters,'role': p.role,'role1': role1})
 
         for d in performanceroleori_datas:
             for out in performancememberinfo_datas:
                 if d.teller_num == out.member_num:
                     d.write({'work_group': out.group,'role': out.role})
+                    if d.role in pro_role_set:
+                        d.write({'role1': u'专业化岗位'})
 
         # replace () to （）, insert captain into performanceremovemember
         performanceplusminus_datas = self.env['hr.performanceplusminus'].search([])
@@ -814,8 +820,8 @@ class HrPerformanceBonusCheck(models.TransientModel):
         global NOTINCLUDEDAYS
         for performanceattendance_data in performanceattendance_datas:
             leave_days = sum([performanceattendance_data.sj, performanceattendance_data.bj, 
-                    performanceattendance_data.hzj, performanceattendance_data.kg, performanceattendance_data.dx, 
-                    performanceattendance_data.cqj, performanceattendance_data.cj, performanceattendance_data.gj])
+                    performanceattendance_data.kg, 
+                    performanceattendance_data.cqj, performanceattendance_data.cj])
             if leave_days >= NOTINCLUDEDAYS:
                 self.env['hr.performanceremovemember'].create({
                     'teller_num': performanceattendance_data.sap_num,'teller_name': performanceattendance_data.teller_name,'role': performanceattendance_data.role})
