@@ -1653,16 +1653,12 @@
                 <search string="hr_performancebonus_search">
                     <field name="teller_num"/>
                     <field name="teller_name"/>
-                    <group expand="0" string="Group By">
-                        <filter name="group_by_user" string="By teller_name" context="{'group_by':'teller_name'}"/>
-                    </group>
-		</search> 
+		      </search> 
             </field>
         </record>
   
-  
- 
-  
+    
+
 		<record id="act_hr_performanceglobalparameter" model="ir.actions.act_window">
             <field name="name">设置岗位系数(</field>
             <field name="res_model">hr.performanceglobalparameter</field>
@@ -1785,11 +1781,24 @@
             </field>
       </record>
 	  
+      <record model="ir.ui.view" id="hr_performanceparameter_search">
+            <field name="name">hr.performanceparameter.search</field>
+            <field name="model">hr.performanceparameter</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="role"/>
+                    <field name="parameter_name"/>
+                </search>
+            </field>
+        </record>
+
+
 	  <record id="act_hr_performanceparameter" model="ir.actions.act_window">
             <field name="name">计奖参数</field>
             <field name="res_model">hr.performanceparameter</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field> 
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="hr_performanceparameter_search"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 计奖参数.
@@ -1816,7 +1825,6 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field> 
 			<field name="search_view_id" ref="hr_performancebonus_search"/>
-            <field name="context">{"search_default_group_by_user":1}</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 奖金计算.
@@ -1824,11 +1832,29 @@
             </field>
       </record>
 
+
+      <record model="ir.ui.view" id="hr_performancebonustotal_search">
+            <field name="name">hr.performancebonustotal.search</field>
+            <field name="model">hr.performancebonustotal</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="teller_name"/>
+                    <field name="teller_num"/>
+                    <field name="quarters"/>
+                    <field name="group"/>
+                    <field name="role"/>
+                    <field name="role1"/>
+                </search>
+            </field>
+        </record>
+
+
 		<record id="act_hr_performancebonustotal" model="ir.actions.act_window">
             <field name="name">奖金汇总</field>
             <field name="res_model">hr.performancebonustotal</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field> 
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="hr_performancebonustotal_search"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 奖金汇总.
@@ -1962,12 +1988,23 @@
             </field>
       </record>
 
+      <record model="ir.ui.view" id="hr_performanceremovemember_search">
+            <field name="name">hr.performanceremovemember.search</field>
+            <field name="model">hr.performanceremovemember</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="teller_name"/>
+                    <field name="teller_num"/>
+                </search>
+            </field>
+        </record>
 
       <record id="act_hr_performanceremovemember" model="ir.actions.act_window">
             <field name="name">排除人员</field>
             <field name="res_model">hr.performanceremovemember</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field> 
+            <field name="search_view_id" ref="hr_performanceremovemember_search"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 排除人员.
@@ -1981,9 +2018,9 @@
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_hr_performanceroleori"/>
             <field name="state">code</field>
-            <field name="code">
+<!--             <field name="code">
                  self.set_g_r(cr, uid, context.get('active_ids', []), context=context)
-            </field>
+            </field> -->
         </record>
         
         <record id="action_set_g_r" model="ir.values">
