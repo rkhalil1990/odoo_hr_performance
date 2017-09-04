@@ -1521,6 +1521,46 @@
             </field>
        </record>
 
+<record id="hr_performanceavgquarters_form" model="ir.ui.view">
+        <field name="name">hr.performanceavgquarters.form</field>
+        <field name="model">hr.performanceavgquarters</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceavgquarters Form">
+                <sheet>
+                    <group>
+                            <field name="role"/>
+                            <field name="role1"/>
+                            <field name="avg_jjzzj"/>
+                            <field name="total_ywl"/>
+                            <field name="total_ccs"/>
+                            <field name="total_mhs"/>
+                            <field name="ccl"/>
+                            <field name="zql"/>
+                            <field name="dhl"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performanceavgquarters_tree" model="ir.ui.view">
+            <field name="name">hr.performanceavgquarters.tree</field>
+            <field name="model">hr.performanceavgquarters</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceavgquarters">
+                            <field name="role"/>
+                            <field name="role1"/>
+                            <field name="avg_jjzzj"/>
+                            <field name="total_ywl"/>
+                            <field name="total_ccs"/>
+                            <field name="total_mhs"/>
+                            <field name="ccl"/>
+                            <field name="zql"/>
+                            <field name="dhl"/>
+                </tree>
+            </field>
+       </record>
+
 
 <record id="hr_performancemonth_form" model="ir.ui.view">
         <field name="name">hr.performancemonth.form</field>
@@ -1732,17 +1772,6 @@
             </field>
       </record>
 
-<!-- 	<record id="act_hr_performancebystandardori" model="ir.actions.act_window">
-            <field name="name">导入按标准计奖岗考核</field>
-            <field name="res_model">hr.performancebystandardori</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field> 
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                导入按标准计奖岗考核.
-              </p>
-            </field>
-      </record> -->
 	  
     <record id="act_hr_performanceteleadditionreportori" model="ir.actions.act_window">
             <field name="name">导入外联附加报表</field>
@@ -1858,6 +1887,20 @@
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 奖金汇总.
+              </p>
+            </field>
+      </record>
+
+
+      <record id="act_hr_performanceavgquarters" model="ir.actions.act_window">
+            <field name="name">业务量统计</field>
+            <field name="res_model">hr.performanceavgquarters</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="search_view_id" ref="hr_performancebonustotal_search"/> -->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                业务量统计.
               </p>
             </field>
       </record>
@@ -2075,7 +2118,8 @@
         sequence="102"/>
 		<menuitem action="act_hr_performancebonus" name="3.奖金明细" id="menu_act_hr_performancebonus" parent="menu_hr_performance"
         sequence="103"/>
-		
+		<menuitem action="act_hr_performanceavgquarters" name="4.业务量统计" id="menu_act_hr_performanceavgquarters" parent="menu_hr_performance"
+        sequence="104"/>
 		
 			 
 	<menuitem id="menu_hr_performance_operation" name="计算奖金" parent="menu_performance_title"

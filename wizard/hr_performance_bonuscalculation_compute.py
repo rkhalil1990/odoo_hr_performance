@@ -5,7 +5,7 @@ import threading
 import logging
 import itertools
 from operator import itemgetter, attrgetter
-
+import math
 
 
 reload(sys)
@@ -908,3 +908,41 @@ class HrPerformanceCapCalculate(models.TransientModel):
             #                  jj) if rd.total_bonus > 0.0 else 0.0
             rd.write({'standard_bonus':standard_bonus,'bonus':bonus,
                 'total_bonus':total_bonus,'actual_bonus': jj, 'cap_bonus': cap_bonus,})
+
+
+class HrPerformanceAvgQuartersCalculate(models.TransientModel):
+    _name = 'hr.performanceavgquarters.calculate'
+    _description = 'HR Performance Avg Quarters Calculate'
+
+    @api.multi
+    def performanceavgquarterscalculate_check(self):
+        _logger = logging.getLogger(__name__)
+        role_set = set([x.role + ',' + x.role1 for x in  self.env['hr.performancebonustotal'].search([])])
+        
+        for role12 in role_set:
+            avg_jjzzj = 0.0
+            total_ywl = 0.0
+            total_ccs = 0.0
+            total_mhs = 0.0
+            ccl = 0.0
+            zql = 0.0
+            dhl = 0.0
+            role,role1 = role12.split(',')
+            datas = performancebonustotal = self.env['hr.performancebonustotal'].search(
+                [('role', '=', role),('role1', '=', role1)])
+            data_details = performancebonustotal = self.env['hr.performancebonus'].search(
+                [('role', '=', role),('role1', '=', role1)])
+            temp_list = [data.jjzzj_bb for data in datas]
+            if len(temp_list)>0:
+                avg_jjzzj = sum(temp_list)/len(temp_list)
+                total_ywl = sum([data.ywzl for data in data_details])
+                if total_ywl>0:
+                    total_ccs = sum([data.ccs for data in data_details])
+                    total_mhs = sum([data.tjyxmh for data in data_details])
+                    ccl = total_ccs/total_ywl
+                    zql = 1- ccl
+                    dhl = total_mhs/total_ywl
+
+                    self.env['hr.performanceremovemember'].create({
+                    'role': role,'role1': role1,'avg_jjzzj': avg_jjzzj,'total_ywl': total_ywl,
+                    'total_ccs': total_ccs,'ccl': ccl,'zql': zql,'dhl': dhl})

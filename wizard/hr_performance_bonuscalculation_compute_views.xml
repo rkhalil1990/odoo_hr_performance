@@ -48,6 +48,23 @@
         </field>
     </record>
 	
+    <record id="view_hr_performanceavgquarterscalculate_check_wizard" model="ir.ui.view">
+        <field name="name">hr.performanceavgquarters.calculate</field>
+        <field name="model">hr.performanceavgquarters.calculate</field>
+        <field name="arch" type="xml">
+            <form string="Parameters">
+                <group>
+                    <label string="生成业务量统计."/>
+                </group>
+                <footer>
+                    <button name="performanceavgquarterscalculate_check" string="生成" type="object" class="btn-primary"/>
+                    <button string="取消" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
     <record id="view_hr_performance_cap_calculate_check_wizard" model="ir.ui.view">
         <field name="name">hr.performance.cap.calculate</field>
         <field name="model">hr.performance.cap.calculate</field>
@@ -97,6 +114,7 @@
     </record>
 
 
+
     <record id="act_hr_performance_bonus_check" model="ir.actions.act_window">
         <field name="name">hr.performance.bonus.check</field>
         <field name="res_model">hr.performance.bonus.check</field>
@@ -113,7 +131,15 @@
         <field name="target">new</field>
     </record>
 	
-	<record id="act_hr_performance_procalculation_compute" model="ir.actions.act_window">
+	<record id="act_hr_performanceavgquarters_calculate" model="ir.actions.act_window">
+        <field name="name">hr.performanceavgquarters.calculate</field>
+        <field name="res_model">hr.performanceavgquarters.calculate</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="act_hr_performance_procalculation_compute" model="ir.actions.act_window">
         <field name="name">hr.performance.procalculation.compute</field>
         <field name="res_model">hr.performance.procalculation.compute</field>
         <field name="view_type">form</field>
@@ -154,8 +180,11 @@
 		<menuitem action="act_hr_performance_procalculation_compute" name="3.生成奖金汇总" id="menu_act_hr_performance_procalculation_compute"  parent="menu_hr_performance_operation" 
 		sequence="203"/>
 
-        <menuitem action="act_hr_performance_cap_calculate_check" name="4.生成组长考核" id="menu_act_hr_performance_cap_calculate_check"  parent="menu_hr_performance_operation" 
+        <menuitem action="act_hr_performanceavgquarters_calculate" name="4.生成业务量统计" id="menu_act_hr_performanceavgquarters_calculate"  parent="menu_hr_performance_operation" 
         sequence="204"/>
+
+        <menuitem action="act_hr_performance_cap_calculate_check" name="6.生成组长考核" id="menu_act_hr_performance_cap_calculate_check"  parent="menu_hr_performance_operation" 
+        sequence="206"/>
 
 		<menuitem action="act_hr_performance_bonus_delete" name="清空已生成数据" id="menu_act_hr_performance_bonus_delete"  parent="menu_hr_performance_del" 
 		sequence="901"/>

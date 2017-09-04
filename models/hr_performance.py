@@ -615,3 +615,27 @@ class HrPerformanceMonth(models.Model):  # 专业化绩效加扣报表
     _order = 'id'
 
     report_date = fields.Date(u'报表月份')
+
+
+class HrPerformanceAvgQuarters(models.Model):  # 
+    _name = 'hr.performanceavgquarters'
+    _description = 'Hr Performance Avg Quarters'
+    _order = 'id'
+
+    role = fields.Char(u'角色')
+    role1 = fields.Char(u'角色1')
+    avg_jjzzj = fields.Float(u'平均值计奖总字节')
+    total_ywl = fields.Float(u'总业务量')
+    total_ccs = fields.Float(u'总差错数')
+    total_mhs = fields.Float(u'总模糊数')
+    ccl = fields.Float(u'差错率', digits=(5, 5))
+    zql = fields.Float(u'正确率', digits=(5, 5))
+    dhl = fields.Float(u'打回率', digits=(5, 5))
+
+
+class HrPerformanceAvgGroup(models.Model):  # 
+    _name = 'hr.performanceavggroup'
+    _description = 'Hr Performance Avg Group'
+    _order = 'id'
+
+    report_date = fields.Date(u'报表月份')
