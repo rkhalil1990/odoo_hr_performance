@@ -180,15 +180,16 @@
 		<menuitem action="act_hr_performance_procalculation_compute" name="3.生成奖金汇总" id="menu_act_hr_performance_procalculation_compute"  parent="menu_hr_performance_operation" 
 		sequence="203"/>
 
-        <menuitem action="act_hr_performanceavgquarters_calculate" name="4.生成业务量统计" id="menu_act_hr_performanceavgquarters_calculate"  parent="menu_hr_performance_operation" 
+        <menuitem action="act_hr_performanceavgquarters_calculate" name="4.生成业务量统计与业务量组统计" id="menu_act_hr_performanceavgquarters_calculate"  parent="menu_hr_performance_operation" 
         sequence="204"/>
 
-        <menuitem action="act_hr_performance_cap_calculate_check" name="6.生成组长考核" id="menu_act_hr_performance_cap_calculate_check"  parent="menu_hr_performance_operation" 
+
+        <menuitem action="act_hr_performance_cap_calculate_check" name="5.生成组长考核" id="menu_act_hr_performance_cap_calculate_check"  parent="menu_hr_performance_operation" 
         sequence="206"/>
 
-		<menuitem action="act_hr_performance_bonus_delete" name="清空已生成数据" id="menu_act_hr_performance_bonus_delete"  parent="menu_hr_performance_del" 
+		<menuitem action="act_hr_performance_bonus_delete" name="1.清空已生成数据" id="menu_act_hr_performance_bonus_delete"  parent="menu_hr_performance_del" 
 		sequence="901"/>
 		
-		<menuitem action="act_hr_performance_orireport_delete" name="清空原始报表" id="menu_act_hr_performance_orireport_delete"  parent="menu_hr_performance_del" 
+		<menuitem action="act_hr_performance_orireport_delete" name="2.清空原始报表" id="menu_act_hr_performance_orireport_delete"  parent="menu_hr_performance_del" 
 		sequence="902"/>
 </odoo>

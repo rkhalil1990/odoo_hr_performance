@@ -917,6 +917,9 @@ class HrPerformanceAvgQuartersCalculate(models.TransientModel):
     @api.multi
     def performanceavgquarterscalculate_check(self):
         _logger = logging.getLogger(__name__)
+        self.env.cr.execute("Delete From hr_performanceavgquarters")
+        self.env.cr.execute("Delete From hr_performanceavggroup")
+
         role_set = set([x.role + ',' + x.role1 for x in  self.env['hr.performancebonustotal'].search([])])
         
         for role12 in role_set:
@@ -931,7 +934,7 @@ class HrPerformanceAvgQuartersCalculate(models.TransientModel):
             datas = performancebonustotal = self.env['hr.performancebonustotal'].search(
                 [('role', '=', role),('role1', '=', role1)])
             data_details = performancebonustotal = self.env['hr.performancebonus'].search(
-                [('role', '=', role),('role1', '=', role1)])
+                [('role', '=', role),('role1', '=', role1),('ywlx', '=', u'录入')])
             temp_list = [data.jjzzj_bb for data in datas]
             if len(temp_list)>0:
                 avg_jjzzj = sum(temp_list)/len(temp_list)
@@ -943,6 +946,38 @@ class HrPerformanceAvgQuartersCalculate(models.TransientModel):
                     zql = 1- ccl
                     dhl = total_mhs/total_ywl
 
-                    self.env['hr.performanceremovemember'].create({
+                    self.env['hr.performanceavgquarters'].create({
                     'role': role,'role1': role1,'avg_jjzzj': avg_jjzzj,'total_ywl': total_ywl,
-                    'total_ccs': total_ccs,'ccl': ccl,'zql': zql,'dhl': dhl})
+                    'total_mhs': total_mhs,'total_ccs': total_ccs,'ccl': ccl,'zql': zql,'dhl': dhl})
+
+
+        role_group_set = set([x.role + ',' + x.group for x in  self.env['hr.performancebonustotal'].search([]) if x.role and x.group])
+        performanceremovemember_datas = self.env['hr.performanceremovemember'].search([])
+        remove_member_set = set([x.teller_num for x in performanceremovemember_datas])
+        for role12 in role_group_set:
+            avg_jjzzj = 0.0
+            total_ywl = 0.0
+            total_ccs = 0.0
+            total_mhs = 0.0
+            ccl = 0.0
+            zql = 0.0
+            dhl = 0.0
+            role,group = role12.split(',')
+            datas = performancebonustotal = self.env['hr.performancebonustotal'].search(
+                [('role', '=', role),('group', '=', group)])
+            data_details = performancebonustotal = self.env['hr.performancebonus'].search(
+                [('role', '=', role),('group', '=', group),('ywlx', '=', u'录入')])
+            temp_list = [data.jjzzj_bb for data in datas if not data.teller_num in remove_member_set]
+            if len(temp_list)>0:
+                avg_jjzzj = sum(temp_list)/len(temp_list)
+                total_ywl = sum([data.ywzl for data in data_details if not data.teller_num in remove_member_set])
+                if total_ywl>0:
+                    total_ccs = sum([data.ccs for data in data_details if not data.teller_num in remove_member_set])
+                    total_mhs = sum([data.tjyxmh for data in data_details if not data.teller_num in remove_member_set])
+                    ccl = total_ccs/total_ywl
+                    zql = 1- ccl
+                    dhl = total_mhs/total_ywl
+
+                    self.env['hr.performanceavggroup'].create({
+                    'role': role,'group': group,'avg_jjzzj': avg_jjzzj,'total_ywl': total_ywl,
+                    'total_mhs': total_mhs,'total_ccs': total_ccs,'ccl': ccl,'zql': zql,'dhl': dhl})

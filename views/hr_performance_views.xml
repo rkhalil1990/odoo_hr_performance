@@ -1547,9 +1547,49 @@
             <field name="name">hr.performanceavgquarters.tree</field>
             <field name="model">hr.performanceavgquarters</field>
             <field name="arch" type="xml">
-                <tree string="Hr performanceavgquarters">
+                <tree string="Hr performanceavgquarters" default_order="role,role1">
                             <field name="role"/>
                             <field name="role1"/>
+                            <field name="avg_jjzzj"/>
+                            <field name="total_ywl"/>
+                            <field name="total_ccs"/>
+                            <field name="total_mhs"/>
+                            <field name="ccl"/>
+                            <field name="zql"/>
+                            <field name="dhl"/>
+                </tree>
+            </field>
+       </record>
+
+<record id="hr_performanceavggroup_form" model="ir.ui.view">
+        <field name="name">hr.performanceavggroup.form</field>
+        <field name="model">hr.performanceavggroup</field>
+        <field name="arch" type="xml">
+            <form string="hr performanceavggroup Form">
+                <sheet>
+                    <group>
+                            <field name="role"/>
+                            <field name="group"/>
+                            <field name="avg_jjzzj"/>
+                            <field name="total_ywl"/>
+                            <field name="total_ccs"/>
+                            <field name="total_mhs"/>
+                            <field name="ccl"/>
+                            <field name="zql"/>
+                            <field name="dhl"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performanceavggroup_tree" model="ir.ui.view">
+            <field name="name">hr.performanceavggroup.tree</field>
+            <field name="model">hr.performanceavggroup</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performanceavggroup"  default_order="role,group">
+                            <field name="role"/>
+                            <field name="group"/>
                             <field name="avg_jjzzj"/>
                             <field name="total_ywl"/>
                             <field name="total_ccs"/>
@@ -1904,6 +1944,19 @@
               </p>
             </field>
       </record>
+
+      <record id="act_hr_performanceavggroup" model="ir.actions.act_window">
+            <field name="name">业务量组统计</field>
+            <field name="res_model">hr.performanceavggroup</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="search_view_id" ref="hr_performancebonustotal_search"/> -->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                业务量组统计.
+              </p>
+            </field>
+      </record>
       
 <!--       <record id="act_hr_performancebasicallowance" model="ir.actions.act_window">
             <field name="name">补业务量明细表</field>
@@ -2120,7 +2173,8 @@
         sequence="103"/>
 		<menuitem action="act_hr_performanceavgquarters" name="4.业务量统计" id="menu_act_hr_performanceavgquarters" parent="menu_hr_performance"
         sequence="104"/>
-		
+		<menuitem action="act_hr_performanceavggroup" name="5.业务量组统计" id="menu_act_hr_performanceavggroup" parent="menu_hr_performance"
+        sequence="105"/>
 			 
 	<menuitem id="menu_hr_performance_operation" name="计算奖金" parent="menu_performance_title"
         sequence="200" />
