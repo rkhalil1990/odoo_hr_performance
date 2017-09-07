@@ -701,6 +701,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         # for end
         
         #rank pro
+        remove_member_set = set([x.teller_num for x in self.env['hr.performanceremovemember'].search([])])
         datas = self.env['hr.performancebonustotal'].search(
             [('role1', '=', u'专业化岗位')])
         datas = datas.sorted(key=attrgetter('role', 'jj'), reverse=True)
