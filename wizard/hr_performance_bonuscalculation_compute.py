@@ -597,7 +597,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                         elif not p.ywlx in pro_para_list and not u'补时' in p.ywlx and not u'加减业务时间小计' in p.ywlx:
                             jbzywzshs += p.zshzjs
 
-                pro_zhs = sum([i.zshzjs for i in performancebonus_datas])
+                #pro_zhs = sum([i.zshzjs for i in performancebonus_datas])
                 jj = zyhgwbzj_dz*ratio
 
             # 组长
@@ -672,7 +672,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             if rd.teller_num in cap_list:
                 pass
 
-
+            pro_zhs = zyhywbzhs + jbzywzshs
             if jj == 0.0 and len(self.env['hr.performanceremovemember'].search([('teller_num','=', rd.teller_num)]))<1:
                 self.env['hr.performanceremovemember'].create({
                         'teller_num': rd.teller_num,'teller_name': rd.name,'role': rd.role
