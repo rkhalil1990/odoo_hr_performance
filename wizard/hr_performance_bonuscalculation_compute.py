@@ -18,6 +18,10 @@ class HrPerformanceBonusCompute(models.TransientModel):
 
     @api.multi
     def performancebonus_compute(self):
+
+        self.env.cr.execute("Delete  From hr_performancebonus")
+
+
         standard_trans = u'标准化业务-'
         mobile_prefix = u'信用卡'
         basic_prefix = u'基础补时'
@@ -268,16 +272,16 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     elif p.ywlx == u'加减业务时间小计':
                         zshzjs = p.ywzl * 60
                         zsyz = p.ywzl
-
-                    performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
-                        'teller_num': rd.teller_num,'zsyz': zsyz,
-                        'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
-                        'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
-                        'ywlx': prole, 'ywzhs': p.ywzl, 'ywzl': p.ywzl,
-                        'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
-                        'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
-                        'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[4]
-                    })
+                    if p.ywzl > 0:
+                        performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
+                            'teller_num': rd.teller_num,'zsyz': zsyz,
+                            'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
+                            'group': rd.work_group, 'role': rd.role, 'role1': rd.role1,
+                            'ywlx': prole, 'ywzhs': p.ywzl, 'ywzl': p.ywzl,
+                            'hzs': 0.0, 'zjs': 0.0, 'ccs': 0.0,
+                            'tjyxmh': 0.0,  'dhl': 0.0, 'gwxs': 0.0,
+                            'zshzjs': zshzjs, 'cwl': 0.0, 'zql': 0.0, 'source_from': source_list[4]
+                        })
 
             for p in performanceplusminus_datas:
                 if not u'虚拟柜员' in p.teller_name:
@@ -408,9 +412,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         _logger = logging.getLogger(__name__)
 
 
-        self.env.cr.execute(
-            'delete from hr_performanceproallowance where ywzl = 0')
-
+        # self.env.cr.execute(
+        #     'delete from hr_performanceproallowance where ywzl = 0')
+        self.env.cr.execute("Delete  From hr_performancebonustotal")
         cap_list = [x.work_num for x in self.env['hr.performancecapbasic'].search([])]
         cap_list.extend([x.work_num for x in self.env['hr.performancecappro'].search([])])
         role_datas = self.env['hr.performanceroleori'].search([])
@@ -672,8 +676,8 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             if rd.teller_num in cap_list:
                 pass
 
-            pro_zhs = zyhywbzhs + jbzywzshs
-            if jj == 0.0 and len(self.env['hr.performanceremovemember'].search([('teller_num','=', rd.teller_num)]))<1:
+            pro_zhs = zyhywbzhs + jbzywzshs + bs
+            if jj == 0.0 and pro_zhs == 0.0 and len(self.env['hr.performanceremovemember'].search([('teller_num','=', rd.teller_num)]))<1:
                 self.env['hr.performanceremovemember'].create({
                         'teller_num': rd.teller_num,'teller_name': rd.name,'role': rd.role
                     })
