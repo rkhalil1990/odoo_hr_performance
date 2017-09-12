@@ -839,7 +839,29 @@
             </field>
        </record>
   
- 
+ <record id="hr_performancenotremoverole_form" model="ir.ui.view">
+        <field name="name">hr.performancenotremoverole.form</field>
+        <field name="model">hr.performancenotremoverole</field>
+        <field name="arch" type="xml">
+            <form string="hr performancenotremoverole Form">
+                <sheet>
+                    <group>
+                            <field name="role"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performancenotremoverole_tree" model="ir.ui.view">
+            <field name="name">hr.performancenotremoverole.tree</field>
+            <field name="model">hr.performancenotremoverole</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancenotremoverole">
+                            <field name="role"/>
+                </tree>
+            </field>
+       </record>
   
   <!-- <record id="hr_performancebonustotal_form" model="ir.ui.view">
         <field name="name">hr.performancebonustotal.form</field>
@@ -1626,6 +1648,29 @@
             </field>
        </record>
 
+<record id="hr_performancegwxs_form" model="ir.ui.view">
+        <field name="name">hr.performancegwxs.form</field>
+        <field name="model">hr.performancegwxs</field>
+        <field name="arch" type="xml">
+            <form string="hr performancegwxs Form">
+                <sheet>
+                    <group>
+                            <field name="GWXS_YW"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+  
+      <record id="hr_performancegwxs_tree" model="ir.ui.view">
+            <field name="name">hr.performancegwxs.tree</field>
+            <field name="model">hr.performancegwxs</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancegwxs">
+                            <field name="GWXS_YW"/>
+                </tree>
+            </field>
+       </record>
 
 <record id="hr_performancebonus_withzero_form" model="ir.ui.view">
         <field name="name">hr.performancebonus.form</field>
@@ -1883,6 +1928,30 @@
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 正确放弃参数.
+              </p>
+            </field>
+      </record>
+
+      <record id="act_hr_performancenotremoverole" model="ir.actions.act_window">
+            <field name="name">强制不排除角色</field>
+            <field name="res_model">hr.performancenotremoverole</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                强制不排除角色.
+              </p>
+            </field>
+      </record>
+
+      <record id="act_hr_performancegwxs" model="ir.actions.act_window">
+            <field name="name">岗位系数业务</field>
+            <field name="res_model">hr.performancegwxs</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                岗位系数业务.
               </p>
             </field>
       </record>
@@ -2196,8 +2265,10 @@
                  sequence="406"/>
     <menuitem action="act_hr_performancetelepara" name="7.外联临时系数" id="menu_act_hr_performancetelepara" parent="menu_hr_performance_setup"
              sequence="407"/>
-
-
+    <menuitem action="act_hr_performancenotremoverole" name="8.强制不排除角色" id="menu_act_hr_performancenotremoverole" parent="menu_hr_performance_setup"
+             sequence="408"/>
+    <menuitem action="act_hr_performancegwxs" name="9.岗位系数业务" id="menu_act_hr_performancegwxs" parent="menu_hr_performance_setup"
+             sequence="409"/>
 	
 	<menuitem id="menu_hr_performance_ori" name="业务基础信息导入" parent="menu_performance_title"
         sequence="500" />	

@@ -26,7 +26,12 @@ class HrPerformanceBonusCompute(models.TransientModel):
         mobile_prefix = u'信用卡'
         basic_prefix = u'基础补时'
         pro_prefix = u'专业化补时'
-        gwxs_role_list = (u'录入', u'行号选择', u'行号录入',u'英文信息录入')
+
+        performancegwxs = self.env['hr.performancegwxs'].search([], limit=1)
+        gwxs_role_list = eval(
+            performancegwxs.GWXS_YW)#(u'录入', u'行号选择', u'行号录入',u'英文信息录入')
+
+        
         lurushenhe_role1_group = (u'A', u'B', u'E', u'F')
         source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',
                        u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表', u'外联附加报表',u'外借等其他')
@@ -414,11 +419,15 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
         # self.env.cr.execute(
         #     'delete from hr_performanceproallowance where ywzl = 0')
-        self.env.cr.execute("Delete  From hr_performancebonustotal")
+        self.env.cr.execute("Delete From hr_performancebonustotal")
         cap_list = [x.work_num for x in self.env['hr.performancecapbasic'].search([])]
         cap_list.extend([x.work_num for x in self.env['hr.performancecappro'].search([])])
         role_datas = self.env['hr.performanceroleori'].search([])
-        gwxs_role_list = (u'录入', u'行号选择', u'行号录入',u'英文信息录入')
+        # gwxs_role_list = (u'录入', u'行号选择', u'行号录入',u'英文信息录入')
+
+        performancegwxs = self.env['hr.performancegwxs'].search([], limit=1)
+        gwxs_role_list = eval(performancegwxs.GWXS_YW)#(u'录入', u'行号选择', u'行号录入',u'英文信息录入')
+
         lurushenhe_role1_list = (u'A', u'B', u'E', u'F')
         source_list = (u'绩效报表', u'双中心绩效报表', u'信用卡报表',
                        u'双中心信用卡报表', u'专业化补时报表', u'基础补时报表')
@@ -427,7 +436,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         khywl_byquantity_tuple = (u'录入', u'复核')
         khywl_bysalary_tuple = (u'审核', u'信用卡外联')
 
-
+        notremoverole_set = set([x.role for x in self.env['hr.performancenotremoverole'].search([])])
         performancelurushenheparameter_datas = self.env[
             'hr.performancelurushenheparameter'].search([])
         performancegoal_datas = self.env['hr.performancegoal'].search([])
@@ -540,19 +549,12 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                 dhl = i.dhl if i.dhl != 0.0 else dhl
                                 jjdj, sskcs = self.get_lurushenheparameter(
                                     plsp.quarters, jjzzj_bb)
-                                # jjdj = i.jjdj if i.jjdj != 0.0 else jjdj
-                                # sskcs = i.sskcs if i.sskcs != 0.0 else sskcs
                     elif plsp.quarters == u'审核岗':
                         for i in performancebonus_datas:
                             if i.ywlx in role_list:
                                 shywlxj_cy += i.zshzjs
-
-                                # sh_jjdj = i.jjdj
-                                # sh_sskcs = i.sskcs
                             sh_jjdj, sh_sskcs = self.get_lurushenheparameter(
                                 plsp.quarters, shywlxj_cy)
-
-                
 
 
                 lrjj_be = jjzzj_bb * jjdj - sskcs
@@ -604,62 +606,11 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 #pro_zhs = sum([i.zshzjs for i in performancebonus_datas])
                 jj = zyhgwbzj_dz*ratio
 
-            # 组长
-            # cap_basic_data = self.env['hr.performancecapbasic'].search(
-            #     [('teller_name', '=', rd.name)])
-            # cap_pro_data = self.env['hr.performancecappro'].search(
-            #     [('teller_name', '=', rd.name)])
-            # cap_bonus = 0.0
-            # temp_cap_bzjxj_list = [0 , 0] 
-            # standard_bonus = 0.0 
-            # if len(cap_basic_data) > 0:
-            #     for r in cap_basic_data.role.split('/'):
-            #         performancecapbasic_caps = self.env['hr.performancecapbasic'].search(
-            #     [('role', '=', r)])
-            #         l = [x.jj for x in performancecapbasic_caps if not x.work_num in remove_member_set]
-            #         _logger.info(rd.name)
-            #         _logger.info(l)
-            #         temp_cap_bzjxj_list[0]+=sum(l)
-            #         temp_cap_bzjxj_list[1]+=len(l)
-            #     if  temp_cap_bzjxj_list[1] != 0:
-            #         standard_bonus = temp_cap_bzjxj_list[0]/temp_cap_bzjxj_list[1]
+            if other_datas_dict.has_key(u"加减业务时间小计"):
+                bs += other_datas_dict[u"加减业务时间小计"]
+                del other_datas_dict[u"加减业务时间小计"]
 
-            #     if cap_basic_data.cap_bonus > 0.0:
-            #         cap_bonus = cap_basic_data.cap_bonus
-            #     elif cap_basic_data.actual_bonus == 0.0 or cap_basic_data.cap_bonus == 0.0:
-            #         cap_bonus = (cap_basic_data.total_bonus -
-            #                      jj) if cap_basic_data.total_bonus > 0.0 else 0.0
-            #     cap_basic_data.write(
-            #             {'actual_bonus': jj, 'cap_bonus': cap_bonus,'standard_bonus':standard_bonus})
-            #     other_datas_dict[u"组长考核奖"] = cap_bonus
-            # elif len(cap_pro_data) > 0:
-            #     for r in cap_pro_data.role.split('/'):
-            #         performancecappro_caps = self.env['hr.performancecappro'].search(
-            #     [('role', '=', r)])
-            #         l = [x.jj for x in performancecappro_caps if not x.work_num in remove_member_set]
-            #         temp_cap_bzjxj_list[0]+=sum(l)
-            #         temp_cap_bzjxj_list[1]+=len(l)
-            #     if  temp_cap_bzjxj_list[1] != 0:
-            #         standard_bonus = temp_cap_bzjxj_list[0]/temp_cap_bzjxj_list[1]
-
-            #     if cap_pro_data.cap_bonus > 0.0:
-            #         cap_bonus = cap_pro_data.cap_bonus
-            #     elif cap_pro_data.actual_bonus == 0.0 or cap_pro_data.cap_bonus == 0.0:
-            #         cap_bonus = (cap_pro_data.total_bonus -
-            #                      jj) if cap_pro_data.total_bonus > 0.0 else 0.0
-            #     cap_pro_data.write(
-            #             {'actual_bonus': jj, 'cap_bonus': cap_bonus,'standard_bonus':standard_bonus})
-            #     other_datas_dict[u"组长考核奖"] = cap_bonus
-            # jj += cap_bonus
-
-            # other_datas_list = [k + ":  " + str(v) for k, v in other_datas_dict.items()]
-            # other_datas = "\n".join(other_datas_list) # p.ywlx + u": " +
-            # str(p.zshzjs) + "\n"
-
-            if zyhywbzhs or jbzywzshs:
-                if other_datas_dict.has_key(u"加减业务时间小计"):
-                    bs += other_datas_dict[u"加减业务时间小计"]
-                    del other_datas_dict[u"加减业务时间小计"]
+            if zyhywbzhs or jbzywzshs or bs:
                 other_datas_list = [
                     k + ":  " + str(v) for k, v in other_datas_dict.items()]
                 other_datas = "\n".join(other_datas_list)
@@ -673,11 +624,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 other_datas = "\n".join(other_datas_list)
             jj += kj
 
-            if rd.teller_num in cap_list:
-                pass
 
             pro_zhs = zyhywbzhs + jbzywzshs + bs
-            if jj == 0.0 and pro_zhs == 0.0 and len(self.env['hr.performanceremovemember'].search([('teller_num','=', rd.teller_num)]))<1:
+            if not rd.role in notremoverole_set and jj == 0.0 and pro_zhs == 0.0 and len(self.env['hr.performanceremovemember'].search([('teller_num','=', rd.teller_num)]))<1:
                 self.env['hr.performanceremovemember'].create({
                         'teller_num': rd.teller_num,'teller_name': rd.name,'role': rd.role
                     })
@@ -690,7 +639,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                  'lrzlj_bk': lrzlj_bk, 'shywlxj_cy': shywlxj_cy,
                                                                                  'shjj_db': shjj_db, 'zyhgwjbzywzshs_dy': zyhgwjbzywzshs_dy,
                                                                                  'kj': kj, 'bs': bs, 'zyhywbzhs': zyhywbzhs,
-                                                                                 'jbzywzshs': jbzywzshs, 'jj': jj, 'ranking': ranking,'pro_zhs':pro_zhs,
+                                                                                 'jbzywzshs': jbzywzshs, 'jj': round(jj,2), 'ranking': ranking,'pro_zhs':pro_zhs,
                                                                                  'lrjjdj_bc': jjdj, 'sskc_bd': sskcs,'zyhgwbzj_dz':zyhgwbzj_dz,
                                                                                  'shjjdj_cz': sh_jjdj, 'shsskc_da': sh_sskcs,'ratio':ratio,
                                                                                  'other_datas': other_datas,'attendance_basic': attendance_basic,
@@ -708,7 +657,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         remove_member_set = set([x.teller_num for x in self.env['hr.performanceremovemember'].search([])])
         datas = self.env['hr.performancebonustotal'].search(
             [('role1', '=', u'专业化岗位')])
-        datas = datas.sorted(key=attrgetter('role', 'jj'), reverse=True)
+        datas = datas.sorted(key=attrgetter('role','jj'))#, reverse=True)
         lastrole = ''
         rank = 0
         lastjj = 0.0
@@ -836,7 +785,7 @@ class HrPerformanceBonusCheck(models.TransientModel):
             leave_days = sum([performanceattendance_data.sj, performanceattendance_data.bj, 
                     performanceattendance_data.kg, 
                     performanceattendance_data.cqj, performanceattendance_data.cj])
-            if leave_days >= NOTINCLUDEDAYS and len(self.env['hr.performanceroleori'].search([('teller_num','=', performanceattendance_data.sap_num)]))<1:
+            if leave_days >= NOTINCLUDEDAYS and len(self.env['hr.performanceremovemember'].search([('teller_num','=', performanceattendance_data.sap_num)]))<1:
                 self.env['hr.performanceremovemember'].create({
                     'teller_num': performanceattendance_data.sap_num,'teller_name': performanceattendance_data.teller_name,'role': performanceattendance_data.role})
         

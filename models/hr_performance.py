@@ -87,7 +87,7 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     zyhywbzhs = fields.Float(u'当月专业化业务总标准耗时')
     jbzywzshs = fields.Float(u'兼标准业务折算耗时')
     kj = fields.Float(u'扣奖')
-    jj = fields.Float(u'奖金')
+    jj = fields.Float(u'奖金', digits=(18, 2))
     pro_zhs = fields.Float(u'排名用专业总耗时')
     ranking = fields.Integer(u'排名')
     ratio = fields.Float(u'整体系数', digits=(5, 5))
@@ -583,7 +583,7 @@ class HrPerformanceTeleAdditionReportOri(models.Model):  # 外联附加报表
     dyhbjywhshywl  = fields.Float(u'待银行补件业务核算后业务量')
 
 
-class HrPerformanceRemoveMember(models.Model):  # 外联附加报表
+class HrPerformanceRemoveMember(models.Model):  # 排除人员
     _name = 'hr.performanceremovemember'
     _description = 'Hr Performance Remove Member'
     _order = 'id'
@@ -592,6 +592,13 @@ class HrPerformanceRemoveMember(models.Model):  # 外联附加报表
     teller_name = fields.Char(u'柜员名')
     role = fields.Char(u'角色')
     quarters_date = fields.Date(u'当前岗位上岗日期')
+
+class HrPerformanceNotRemoveRole(models.Model):  # 强制不排除组别
+    _name = 'hr.performancenotremoverole'
+    _description = 'Hr Performance Not Remove Role'
+    _order = 'id'
+
+    role = fields.Char(u'角色')
 
 
 class HrPerformanceProRatio(models.Model):  # 专业化绩效加扣报表
@@ -647,3 +654,10 @@ class HrPerformanceAvgGroup(models.Model):  #
     ccl = fields.Float(u'差错率', digits=(5, 5))
     zql = fields.Float(u'正确率', digits=(5, 5))
     dhl = fields.Float(u'打回率', digits=(5, 5))
+
+class HrPerformanceGWXS(models.Model):  # 岗位系数业务
+    _name = 'hr.performancegwxs'
+    _description = 'Hr Performance GWXS'
+    _order = 'id'
+
+    GWXS_YW = fields.Char(u'岗位系数业务')
