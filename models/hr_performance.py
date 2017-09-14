@@ -434,7 +434,7 @@ class HrPerformanceAttendance(models.Model):  # 考勤
     manager = fields.Char(u'区域负责人')
     emp_type = fields.Char(u'员工身份')
     enter_date = fields.Char(u'进公司日期')
-    leave_date = fields.Char(u'在职情况')
+    leave_date = fields.Char(u'离职日期')
     attendance_basic = fields.Float(u'应出勤')
     attendance_actual = fields.Float(u'出勤日')
     sj = fields.Float(u'250648事假')

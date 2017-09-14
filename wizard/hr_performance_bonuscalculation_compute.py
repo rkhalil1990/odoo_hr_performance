@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import division
 import sys
 from openerp import api, models
 import threading
@@ -6,7 +7,6 @@ import logging
 import itertools
 from operator import itemgetter, attrgetter
 import math
-
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -277,7 +277,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
                     elif p.ywlx == u'加减业务时间小计':
                         zshzjs = p.ywzl * 60
                         zsyz = p.ywzl
-                    if p.ywzl > 0:
+                    if p.ywzl > 0 or p.minus_date>0:
                         performancebonusdetail = self.env['hr.performancebonus'].create({  # 'performancebonus_id': self.id,
                             'teller_num': rd.teller_num,'zsyz': zsyz,
                             'teller_name': rd.name, 'identity': u'派遣', 'quarters': rd.quarters,
@@ -443,7 +443,6 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         for rd in role_datas:
             performancebonus_datas = self.env['hr.performancebonus'].search(
                 [('teller_name', '=', rd.name)])
-            
             performancememberinfo = self.env['hr.performancememberinfo'].search(
                 [('member_num', '=', rd.teller_num)], limit=1)
             performanceprofixedbonus = self.env['hr.performanceprofixedbonus'].search(
@@ -642,7 +641,6 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         self.set_pro_rank(True)
         self.set_pro_rank(False)
 
-
         # complete rate
         all_datas = self.env['hr.performancebonustotal'].search([])
         role_ywlwclkhywl_dict = {}
@@ -659,19 +657,14 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
 
     def set_pro_rank(self,in_or_not):
-        _logger = logging.getLogger(__name__)
-        # remove_member_set = set([x.teller_num for x in self.env['hr.performanceremovemember'].search([])])
         datas = self.env['hr.performancebonustotal'].search([('role1', '=', u'专业化岗位'),('group', 'like', u'H')]) if in_or_not else self.env['hr.performancebonustotal'].search([('role1', '=', u'专业化岗位'),('group', 'not like', u'H')])
         datas = datas.sorted(key=attrgetter('role','pro_zhs'), reverse=True)
-        _logger.info(len(datas))
         lastrole = ''
         rank = 0
         lastjj = 0.0
         samecount = 0
         for d in datas:
             if d.group: # and not d.teller_num in remove_member_set:
-                # if in_or_not:
-                # if in_group_str in d.group:
                 if lastrole == '' or d.role == lastrole:
                     if lastjj == d.pro_zhs:
                         samecount += 1
@@ -685,20 +678,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                     lastrole = d.role
                     samecount = 0
                 d.write({'ranking': rank})
-                # else:
-                #     if not in_group_str in d.group:
-                #         if lastrole == '' or d.role == lastrole:
-                #             if lastjj == d.pro_zhs:
-                #                 samecount += 1
-                #             else:
-                #                 rank = rank + 1 if samecount == 0 else rank + samecount
-                #                 samecount = 0
-                #             lastrole = d.role
-                #             lastjj = d.pro_zhs
-                #         else:
-                #             rank = 1
-                #             lastrole = d.role
-                #         d.write({'ranking': rank})
+
 
 
 class HrPerformanceBonusCheck(models.TransientModel):
@@ -809,6 +789,9 @@ class HrPerformanceCapCalculate(models.TransientModel):
         remove_member_set = set([x.teller_num for x in performanceremovemember_datas])
         cap_pro_datas = self.env['hr.performancecappro'].search([])
         cap_basic_datas = self.env['hr.performancecapbasic'].search([])
+        performancemonth = self.env['hr.performancemonth'].search([], limit=1)
+        m = performancemonth.report_date
+        b19 = (self.env['hr.performancelurushenheparameter'].search([], limit=1)[0]).work_day
         for rd in cap_basic_datas:
             performancebonustotal = self.env['hr.performancebonustotal'].search(
                 [('teller_num', '=', rd.work_num)],limit=1)
@@ -824,7 +807,6 @@ class HrPerformanceCapCalculate(models.TransientModel):
                 performancebonustotal_datas = self.env['hr.performancebonustotal'].search([('role', '=', r)])
                 l = [x.jj for x in performancebonustotal_datas if not x.teller_num in remove_member_set]
                 y = [x.teller_num for x in performancebonustotal_datas if not x.teller_num in remove_member_set]
-                _logger.info(y)
                 temp_cap_bzjxj_list[0]+=sum(l)
                 temp_cap_bzjxj_list[1]+=len(l)
 
@@ -834,11 +816,29 @@ class HrPerformanceCapCalculate(models.TransientModel):
             bonus = (standard_bonus + rd.fix_bonus)*rd.jj_rate
             total_bonus = bonus+rd.addition_bonus
             cap_bonus = total_bonus- jj
+
+            performanceattendance_data = self.env['hr.performanceattendance'].search([('leave_date','>=',m),('sap_num','=',rd.work_num)], limit=1)
+            if len(performanceattendance_data)>0:
+                leave_days = sum([performanceattendance_data.sj, performanceattendance_data.bj, 
+                performanceattendance_data.kg, performanceattendance_data.cqj, performanceattendance_data.cj])
+                attendance_basic = performanceattendance_data.attendance_basic        
+                kfts = leave_days if leave_days>2 else 0
+                attendance_actual = attendance_basic - kfts
+                ratio = attendance_actual*1.00/(b19*1.00)
+                standard_bonus = standard_bonus * ratio
+                bonus = bonus * ratio
+                total_bonus = total_bonus * ratio
+                jj = jj * ratio
+                cap_bonus = cap_bonus * ratio
+
+
             rd.write({'standard_bonus':standard_bonus,'bonus':bonus,
                 'total_bonus':total_bonus,'actual_bonus': jj, 'cap_bonus': cap_bonus,})
+            totaldata = self.env['hr.performancebonustotal'].search([('teller_num', '=', rd.work_num)], limit=1)
+            totaldata.write({'jj':total_bonus})
+
             # other_datas_dict[u"组长考核奖"] = cap_bonus
         for rd in cap_pro_datas:
-
             performanceprofixedbonus = self.env['hr.performanceprofixedbonus'].search(
             [('role', '=', rd.role)], limit=1)
             
@@ -852,9 +852,31 @@ class HrPerformanceCapCalculate(models.TransientModel):
             total_bonus = bonus+rd.addition_bonus
             cap_bonus = total_bonus- jj
 
+            performanceattendance_data = self.env['hr.performanceattendance'].search([('leave_date','>=',m),('sap_num','=',rd.work_num)], limit=1)
+            if len(performanceattendance_data)>0:
+                leave_days = sum([performanceattendance_data.sj, performanceattendance_data.bj, 
+                performanceattendance_data.kg, performanceattendance_data.cqj, performanceattendance_data.cj])
+                attendance_basic = performanceattendance_data.attendance_basic        
+                kfts = leave_days if leave_days>2 else 0
+                attendance_actual = attendance_basic - kfts
+                ratio = attendance_actual*1.00/(b19*1.00)
+                standard_bonus = standard_bonus * ratio
+                bonus = bonus * ratio
+                total_bonus = total_bonus * ratio
+                jj = jj * ratio
+                cap_bonus = cap_bonus * ratio
+
 
             rd.write({'standard_bonus':standard_bonus,'bonus':bonus,
                 'total_bonus':total_bonus,'actual_bonus': jj, 'cap_bonus': cap_bonus,})
+            totaldata = self.env['hr.performancebonustotal'].search([('teller_num', '=', rd.work_num)], limit=1)
+            totaldata.write({'jj':total_bonus})
+
+
+
+        
+        
+
 
 
 class HrPerformanceAvgQuartersCalculate(models.TransientModel):
