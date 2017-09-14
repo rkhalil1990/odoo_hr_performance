@@ -20,7 +20,7 @@ class HrPerformanceBonusCompute(models.TransientModel):
     def performancebonus_compute(self):
 
         self.env.cr.execute("Delete  From hr_performancebonus")
-
+        self.env.cr.execute("Delete  From hr_performancebonustotal")
 
         standard_trans = u'标准化业务-'
         mobile_prefix = u'信用卡'
@@ -414,10 +414,6 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
     def performanceprocalculation_compute(self):
         _logger = logging.getLogger(__name__)
 
-
-        # self.env.cr.execute(
-        #     'delete from hr_performanceproallowance where ywzl = 0')
-        self.env.cr.execute("Delete From hr_performancebonustotal")
         cap_list = [x.work_num for x in self.env['hr.performancecapbasic'].search([])]
         cap_list.extend([x.work_num for x in self.env['hr.performancecappro'].search([])])
         role_datas = self.env['hr.performanceroleori'].search([])
@@ -638,34 +634,14 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                  })
 
 
-
-
             for p in performancebonus_datas:
                 p.write({'performancebonustotal_id': performancebonustotal.id})
         # for end
         
         # rank pro
-        remove_member_set = set([x.teller_num for x in self.env['hr.performanceremovemember'].search([])])
-        datas = self.env['hr.performancebonustotal'].search(
-            [('role1', '=', u'专业化岗位')])
-        datas = datas.sorted(key=attrgetter('role','pro_zhs'), reverse=True)
-        lastrole = ''
-        rank = 0
-        lastjj = 0.0
-        samecount = 0
-        for d in datas:
-            if lastrole == '' or d.role == lastrole:
-                if lastjj == d.pro_zhs:
-                    samecount += 1
-                else:
-                    rank = rank + 1 if samecount == 0 else rank+samecount
-                    samecount = 0
-                lastrole = d.role
-                lastjj = d.pro_zhs
-            else:
-                rank = 1
-                lastrole = d.role
-            d.write({'ranking': rank})
+        self.set_pro_rank(True)
+        self.set_pro_rank(False)
+
 
         # complete rate
         all_datas = self.env['hr.performancebonustotal'].search([])
@@ -680,6 +656,49 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             avg_num = role_ywlwclkhywl_dict[d.role] if role_ywlwclkhywl_dict.has_key(d.role) else 0
             if avg_num:
                 d.write({'complete_rate': d.ywlwclkhywl/avg_num,'other_datas':d.other_datas + "\n\n" + str(avg_num)})
+
+
+    def set_pro_rank(self,in_or_not):
+        _logger = logging.getLogger(__name__)
+        # remove_member_set = set([x.teller_num for x in self.env['hr.performanceremovemember'].search([])])
+        datas = self.env['hr.performancebonustotal'].search([('role1', '=', u'专业化岗位'),('group', 'like', u'H')]) if in_or_not else self.env['hr.performancebonustotal'].search([('role1', '=', u'专业化岗位'),('group', 'not like', u'H')])
+        datas = datas.sorted(key=attrgetter('role','pro_zhs'), reverse=True)
+        _logger.info(len(datas))
+        lastrole = ''
+        rank = 0
+        lastjj = 0.0
+        samecount = 0
+        for d in datas:
+            if d.group: # and not d.teller_num in remove_member_set:
+                # if in_or_not:
+                # if in_group_str in d.group:
+                if lastrole == '' or d.role == lastrole:
+                    if lastjj == d.pro_zhs:
+                        samecount += 1
+                    else:
+                        rank = rank + 1 if samecount == 0 else rank + samecount
+                        samecount = 0
+                    lastrole = d.role
+                    lastjj = d.pro_zhs
+                else:
+                    rank = 1
+                    lastrole = d.role
+                    samecount = 0
+                d.write({'ranking': rank})
+                # else:
+                #     if not in_group_str in d.group:
+                #         if lastrole == '' or d.role == lastrole:
+                #             if lastjj == d.pro_zhs:
+                #                 samecount += 1
+                #             else:
+                #                 rank = rank + 1 if samecount == 0 else rank + samecount
+                #                 samecount = 0
+                #             lastrole = d.role
+                #             lastjj = d.pro_zhs
+                #         else:
+                #             rank = 1
+                #             lastrole = d.role
+                #         d.write({'ranking': rank})
 
 
 class HrPerformanceBonusCheck(models.TransientModel):
@@ -833,11 +852,7 @@ class HrPerformanceCapCalculate(models.TransientModel):
             total_bonus = bonus+rd.addition_bonus
             cap_bonus = total_bonus- jj
 
-            # if rd.cap_bonus > 0.0:
-            #     cap_bonus = rd.cap_bonus
-            # elif rd.actual_bonus == 0.0 or rd.cap_bonus == 0.0:
-            #     cap_bonus = (rd.total_bonus -
-            #                  jj) if rd.total_bonus > 0.0 else 0.0
+
             rd.write({'standard_bonus':standard_bonus,'bonus':bonus,
                 'total_bonus':total_bonus,'actual_bonus': jj, 'cap_bonus': cap_bonus,})
 
