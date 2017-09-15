@@ -475,6 +475,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             # paramater
             other_datas = u""
             other_datas_dict = {}
+            ywl_dict = {}
             cwl = 0.00000
             zql = 0.00000
             dhl = 0.00000
@@ -567,18 +568,20 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                             jj += p.zshzjs
                             zsyz = p.zsyz * 50 if role != u'运营业务资料复核' else p.zsyz * 50 * b13 / b19
                             ywlwclkhywl += zsyz
-
+                            if ywl_dict.has_key(p.ywlx):
+                                ywl_dict[p.ywlx] += zsyz
+                            else:
+                                ywl_dict[p.ywlx] = zsyz
                 # 业务量完成率考核业务量
                 if role in khywl_byquantity_tuple:
-                    ywlwclkhywl += jjzzj_bb - jblr_mul_gwxs_ae + jblr_mul_ac
+                    ywl_dict[u"计奖总字节"] = jjzzj_bb - jblr_mul_gwxs_ae + jblr_mul_ac
+                    ywlwclkhywl += (jjzzj_bb - jblr_mul_gwxs_ae + jblr_mul_ac)
 
                 jj += lrjj_be + lrzlj_bk + shjj_db
             else:
                 pro_para_list = [x.role for x in self.env[
                     'hr.performanceparameter'].search([('quarters', '=', u'专业化岗位')])]
                 for p in performancebonus_datas:
-                    # _logger.info(p.ywlx)
-                    # _logger.info(p.teller_name)
                     if  p.ywlx:
                         if other_datas_dict.has_key(p.ywlx):
                             other_datas_dict[p.ywlx] += p.zshzjs
@@ -621,7 +624,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                 self.env['hr.performanceremovemember'].create({
                         'teller_num': rd.teller_num,'teller_name': rd.name,'role': rd.role
                     })
-
+            ywl_list = [
+                    k + ":  " + str(v) for k, v in ywl_dict.items()]
+            ywl_datas = "\n".join(ywl_list)
             performancebonustotal = self.env['hr.performancebonustotal'].create({'cal_process': ' '.join(cal_process), 'teller_num': teller_num,
                                                                                  'teller_name': teller_name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                  'group': rd.work_group, 'role': rd.role,'quarters_date':quarters_date,
@@ -634,7 +639,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                  'lrjjdj_bc': jjdj, 'sskc_bd': sskcs,'zyhgwbzj_dz':zyhgwbzj_dz,
                                                                                  'shjjdj_cz': sh_jjdj, 'shsskc_da': sh_sskcs,'ratio':ratio,
                                                                                  'other_datas': other_datas,'attendance_basic': attendance_basic,
-                                                                                 'attendance_actual':attendance_actual,'ywlwclkhywl':ywlwclkhywl,
+                                                                                 'attendance_actual':attendance_actual,'ywlwclkhywl':ywlwclkhywl,'ywl_datas':ywl_datas,
                                                                                  })
 
 
@@ -676,11 +681,14 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
 
     def set_complete_rate(self):
         # complete rate
+        performanceremovemember_datas = self.env['hr.performanceremovemember'].search([])
         all_datas = self.env['hr.performancebonustotal'].search([])
         role_ywlwclkhywl_dict = {}
+        remove_teller_set = set([x.teller_num for x in performanceremovemember_datas])
         role_set = set([x.role for x in all_datas])
         for rd in role_set:
             group_datas = all_datas.filtered(lambda r: r.role == rd)
+            group_datas = [y for y in group_datas if not y.teller_num in remove_teller_set]
             if len(group_datas)>0:
                 role_ywlwclkhywl_dict[rd] = sum([y.ywlwclkhywl for y in group_datas])/len(group_datas)
         for d in all_datas:
@@ -707,14 +715,16 @@ class HrPerformanceTest(models.TransientModel):
     def performancebonus_set_complete_rate(self):
         _logger = logging.getLogger(__name__)
         # complete rate
+        performanceremovemember_datas = self.env['hr.performanceremovemember'].search([])
         all_datas = self.env['hr.performancebonustotal'].search([])
         role_ywlwclkhywl_dict = {}
+        remove_teller_set = set([x.teller_num for x in performanceremovemember_datas])
         role_set = set([x.role for x in all_datas])
         for rd in role_set:
             group_datas = all_datas.filtered(lambda r: r.role == rd)
+            group_datas = [y for y in group_datas if not y.teller_num in remove_teller_set]
             if len(group_datas)>0:
                 role_ywlwclkhywl_dict[rd] = sum([y.ywlwclkhywl for y in group_datas])/len(group_datas)
-        _logger.info(role_ywlwclkhywl_dict)
         for d in all_datas:
             avg_num = role_ywlwclkhywl_dict[d.role] if role_ywlwclkhywl_dict.has_key(d.role) else 0
             if avg_num:

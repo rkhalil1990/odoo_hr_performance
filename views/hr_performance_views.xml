@@ -143,6 +143,7 @@
                                 <field name="other_datas"/>
                                 <field name="jk"/>
                                 <field name="jkhjj"/>
+                                <field name="ywl_datas"/>
                         </group>
                     </group>
                      <field name='performancebonusdetail_ids'>
