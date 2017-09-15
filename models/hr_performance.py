@@ -102,6 +102,9 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     other_datas = fields.Text(u'其他奖金明细')
     attendance_basic = fields.Float(u'应出勤')
     attendance_actual = fields.Float(u'出勤日')
+    jk = fields.Float(u'加扣金额', digits=(18, 2))
+    jkhjj = fields.Float(u'加扣后奖金', digits=(18, 2))
+    jj_without_cap = fields.Float(u'排除组长奖金', digits=(18, 2))
 
 
 class HrPerformanceReportOri(models.Model):  # 总行数据处理中心绩效考核报表
