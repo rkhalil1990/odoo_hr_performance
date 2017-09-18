@@ -435,10 +435,10 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             'hr.performancelurushenheparameter'].search([])
         performancegoal_datas = self.env['hr.performancegoal'].search([])
 
-        b13 = self.env['hr.performanceparameter'].search(
-                        [('parameter_name', '=', u'运营业务资料复核')], limit=1)
+        b13 = (self.env['hr.performanceparameter'].search(
+                        [('role', '=', u'运营业务资料复核')], limit=1)[0]).parameter_valuex
         b19 = (self.env['hr.performancelurushenheparameter'].search([], limit=1)[0]).work_day
-        
+        b9 = (self.env['hr.performanceparameter'].search([('role', '=', u'复核')], limit=1)[0]).parameter_valuex
 
         for rd in role_datas:
             performancebonus_datas = self.env['hr.performancebonus'].search(
@@ -566,7 +566,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                 other_datas_dict[p.ywlx] = p.zshzjs
                         if not p.ywlx in except_list:  # or not u'绩效' in p.source_from:
                             jj += p.zshzjs
-                            zsyz = p.zsyz * 50 if role != u'运营业务资料复核' else p.zsyz * 50 * b13 / b19
+                            zsyz = p.zsyz * 50 if p.ywlx != u'运营业务资料复核' else p.zsyz * 50 * b13 / b9
                             ywlwclkhywl += zsyz
                             if ywl_dict.has_key(p.ywlx):
                                 ywl_dict[p.ywlx] += zsyz
@@ -842,6 +842,7 @@ class HrPerformanceCapCalculate(models.TransientModel):
         performancemonth = self.env['hr.performancemonth'].search([], limit=1)
         m = performancemonth.report_date
         b19 = (self.env['hr.performancelurushenheparameter'].search([], limit=1)[0]).work_day
+
         for rd in cap_basic_datas:
             performancebonustotal = self.env['hr.performancebonustotal'].search(
                 [('teller_num', '=', rd.work_num)],limit=1)
