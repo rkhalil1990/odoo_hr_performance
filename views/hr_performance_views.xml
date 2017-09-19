@@ -1764,6 +1764,68 @@
             </field>
        </record>
 
+     <record id="hr_performancesumgroup_form" model="ir.ui.view">
+        <field name="name">hr.performancesumgroup.form</field>
+        <field name="model">hr.performancesumgroup</field>
+        <field name="arch" type="xml">
+            <form string="hr performancesumgroup Form">
+                <sheet>
+                      <group>
+                          <field name="role"/>
+                          <field name="role1"/>
+                          <field name="total_name"/>
+                          <field name="avg_lrjj"/>
+                          <field name="avg_lrzlj"/>
+                          <field name="avg_fhjj"/>
+                          <field name="avg_zlfhj"/>
+                          <field name="avg_xykkhj"/>
+                          <field name="avg_ccjj"/>
+                          <field name="avg_xykjc"/>
+                          <field name="avg_shjj"/>
+                          <field name="avg_hhqrj"/>
+                          <field name="avg_xykjj"/>
+                          <field name="avg_xykjjfh"/>
+                          <field name="avg_wl"/>
+                          <field name="avg_bzjj"/>
+                          <field name="avg_btjj"/>
+                          <field name="avg_zzkhj"/>
+                          <field name="avg_qita"/>
+                          <field name="avg_jjin"/>
+                      </group>
+                </sheet>
+            </form>
+        </field>
+      </record>
+
+       <record id="hr_performancesumgroup_tree" model="ir.ui.view">
+            <field name="name">hr.performancesumgroup.tree</field>
+            <field name="model">hr.performancesumgroup</field>
+            <field name="arch" type="xml">
+                <tree string="Hr performancesumgroup">
+                    <field name="role"/>
+                    <field name="role1"/>
+                    <field name="total_name"/>
+                    <field name="avg_lrjj"/>
+                    <field name="avg_lrzlj"/>
+                    <field name="avg_fhjj"/>
+                    <field name="avg_zlfhj"/>
+                    <field name="avg_xykkhj"/>
+                    <field name="avg_ccjj"/>
+                    <field name="avg_xykjc"/>
+                    <field name="avg_shjj"/>
+                    <field name="avg_hhqrj"/>
+                    <field name="avg_xykjj"/>
+                    <field name="avg_xykjjfh"/>
+                    <field name="avg_wl"/>
+                    <field name="avg_bzjj"/>
+                    <field name="avg_btjj"/>
+                    <field name="avg_zzkhj"/>
+                    <field name="avg_qita"/>
+                    <field name="avg_jjin"/>
+                </tree>
+            </field>
+       </record>
+
 
         <record id="hr_performancebonus_withzero_search" model="ir.ui.view">
             <field name='name'>hr.performancebonus.search</field>
@@ -2230,6 +2292,18 @@
             </field>
       </record>
 
+      <record id="act_hr_performancesumgroup" model="ir.actions.act_window">
+            <field name="name">奖金统计</field>
+            <field name="res_model">hr.performancesumgroup</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field> 
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                奖金统计.
+              </p>
+            </field>
+      </record>
+
 
 	<menuitem
         id="menu_performance_title"
@@ -2250,9 +2324,13 @@
         sequence="104"/>
 		<menuitem action="act_hr_performanceavggroup" name="5.业务量组统计" id="menu_act_hr_performanceavggroup" parent="menu_hr_performance"
         sequence="105"/>
+        <menuitem action="act_hr_performancesumgroup" name="6.奖金统计" id="menu_act_hr_performancesumgroup" parent="menu_hr_performance" 
+        sequence="106"/>
 			 
 	<menuitem id="menu_hr_performance_operation" name="计算奖金" parent="menu_performance_title"
         sequence="200" />
+
+
 		 
 			 
 	<menuitem id="menu_hr_performance_setup" name="设置" parent="menu_performance_title"
@@ -2309,6 +2387,7 @@
          sequence="511"/>
     <menuitem action="act_hr_performancecappro" name="12.专业化业务组长考核" id="menu_act_hr_performancecappro" parent="menu_hr_performance_ori" sequence="512"/>
 <menuitem action="act_hr_performanceremovemember" name="排除人员" id="menu_act_hr_performanceremovemember" parent="menu_hr_performance_ori" sequence="513"/>
+
 
 
 
