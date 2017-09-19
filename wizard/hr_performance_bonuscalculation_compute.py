@@ -1026,3 +1026,11 @@ class HrPerformanceAvgQuartersCalculate(models.TransientModel):
                     self.env['hr.performanceavggroup'].create({
                     'role': role,'group': group,'avg_jjzzj': avg_jjzzj,'total_ywl': total_ywl,
                     'total_mhs': total_mhs,'total_ccs': total_ccs,'ccl': ccl,'zql': zql,'dhl': dhl})
+
+class HrPerformanceSumGroupCalculate(models.TransientModel):
+    _name = 'hr.performancesumgroup.calculate'
+    _description = 'HR Performance Sum Group Calculate'
+
+    @api.multi
+    def performancesumgroupcalculate_check(self):
+        pass
