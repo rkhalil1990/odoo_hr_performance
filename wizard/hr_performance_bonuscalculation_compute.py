@@ -652,6 +652,9 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         self.set_pro_rank(False)
         # complete rate
         self.set_complete_rate()
+        self.set_complete_rate_rank(True)
+        self.set_complete_rate_rank(False)
+
         # jk
         self.set_jk()
 
@@ -694,7 +697,35 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
         for d in all_datas:
             avg_num = role_ywlwclkhywl_dict[d.role] if role_ywlwclkhywl_dict.has_key(d.role) else 0
             if avg_num:
-                d.write({'complete_rate': d.ywlwclkhywl/avg_num,'other_datas':d.other_datas + "\n\n"  +  u'角色平均考核业务量:'+ str(avg_num)})
+                complete_rate = d.ywlwclkhywl/avg_num
+                a = self.env['hr.performanceattendance'].search([], limit=1)
+                leave_days = sum([a.sj, a.bj, a.kg, a.cqj, a.cj])
+                complete_changed_rate = complete_rate*(a.attendance_basic - leave_days - a.xgpx)/a.attendance_basic
+                d.write({'complete_changed_rate': complete_changed_rate, 'complete_rate': complete_rate,'other_datas':d.other_datas + "\n\n"  +  u'角色平均考核业务量:'+ str(avg_num)})
+
+
+    def set_complete_rate_rank(self,in_or_not):
+        datas = self.env['hr.performancebonustotal'].search([('role1', '=', u'专业化岗位'),('group', 'like', u'H')]) if in_or_not else self.env['hr.performancebonustotal'].search([('role1', '=', u'专业化岗位'),('group', 'not like', u'H')])
+        datas = datas.sorted(key=attrgetter('role','complete_rate'), reverse=True)
+        lastrole = ''
+        rank = 0
+        lastjj = 0.0
+        samecount = 0
+        for d in datas:
+            if d.group: # and not d.teller_num in remove_member_set:
+                if lastrole == '' or d.role == lastrole:
+                    if lastjj == d.complete_rate:
+                        samecount += 1
+                    else:
+                        rank = rank + 1 if samecount == 0 else rank + samecount
+                        samecount = 0
+                    lastrole = d.role
+                    lastjj = d.complete_rate
+                else:
+                    rank = 1
+                    lastrole = d.role
+                    samecount = 0
+                d.write({'complete_rate_ranking': rank})
 
 
     def set_jk(self):
@@ -886,7 +917,7 @@ class HrPerformanceCapCalculate(models.TransientModel):
             rd.write({'standard_bonus':standard_bonus,'bonus':bonus,
                 'total_bonus':total_bonus,'actual_bonus': jj, 'cap_bonus': cap_bonus,})
             totaldata = self.env['hr.performancebonustotal'].search([('teller_num', '=', rd.work_num)], limit=1)
-            totaldata.write({'jj':total_bonus})
+            totaldata.write({'jj':total_bonus,'jkhjj':total_bonus + totaldata.jk})
 
             # other_datas_dict[u"组长考核奖"] = cap_bonus
         for rd in cap_pro_datas:
@@ -921,13 +952,7 @@ class HrPerformanceCapCalculate(models.TransientModel):
             rd.write({'standard_bonus':standard_bonus,'bonus':bonus,
                 'total_bonus':total_bonus,'actual_bonus': jj, 'cap_bonus': cap_bonus,})
             totaldata = self.env['hr.performancebonustotal'].search([('teller_num', '=', rd.work_num)], limit=1)
-            totaldata.write({'jj':total_bonus})
-
-
-
-        
-        
-
+            totaldata.write({'jj':total_bonus,'jkhjj':total_bonus + totaldata.jk})
 
 
 class HrPerformanceAvgQuartersCalculate(models.TransientModel):

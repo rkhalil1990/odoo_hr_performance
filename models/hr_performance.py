@@ -95,7 +95,7 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     ywlwclkhywl = fields.Float(u'业务量完成率考核业务量')
 
     complete_rate = fields.Float(u'完成率', digits=(5, 5))  # 录入复核， 差错外联审核，专业化
-    complete_changed_rate = fields.Float(u'调整后成率', digits=(5, 5))
+    complete_changed_rate = fields.Float(u'调整后完成率', digits=(5, 5))
     manual_jj = fields.Float(u'手加减奖金')
     performancebonusdetail_ids = fields.One2many(
         'hr.performancebonus', 'performancebonustotal_id', "performancebonus")
@@ -106,6 +106,8 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     jkhjj = fields.Float(u'加扣后奖金', digits=(18, 2))
     jj_without_cap = fields.Float(u'排除组长奖金', digits=(18, 2))
     ywl_datas = fields.Text(u'业务量考核业务量明细')
+    complete_rate_ranking = fields.Integer(u'完成率排名')
+
 
 class HrPerformanceReportOri(models.Model):  # 总行数据处理中心绩效考核报表
     _name = 'hr.performancereportori'
@@ -451,7 +453,7 @@ class HrPerformanceAttendance(models.Model):  # 考勤
     cqj = fields.Float(u'250651产前假')
     cj = fields.Float(u'250653产假')
     gj = fields.Float(u'250655公假')
-
+    xgpx = fields.Float(u'下岗培训')
 
 
 

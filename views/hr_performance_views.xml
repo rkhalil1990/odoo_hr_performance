@@ -136,6 +136,7 @@
                                 <field name="ywlwclkhywl"/>
                                 <field name="complete_rate"/>
                                 <field name="complete_changed_rate"/>
+                                <field name="complete_rate_ranking"/>
                         </group>
                         <group>   
                                 <field name="attendance_basic"/>
@@ -221,6 +222,8 @@
                             <field name="attendance_actual"/>
                             <field name="jk"/>
                             <field name="jkhjj"/>
+                            <field name="complete_changed_rate"/>
+                            <field name="complete_rate_ranking"/>
                 </tree>
             </field>
        </record>
@@ -1126,6 +1129,7 @@
                             <field name="cqj"/> 
                             <field name="cj"/> 
                             <field name="gj"/> 
+                            <field name="xgpx"/> 
                     </group>
                 </sheet>
             </form>
@@ -1162,7 +1166,8 @@
                             <field name="dx"/>
                             <field name="cqj"/> 
                             <field name="cj"/> 
-                            <field name="gj"/> 
+                            <field name="gj"/>
+                            <field name="xgpx"/> 
                 </tree>
             </field>
        </record>
