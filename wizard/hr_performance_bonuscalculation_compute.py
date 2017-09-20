@@ -1026,3 +1026,51 @@ class HrPerformanceAvgQuartersCalculate(models.TransientModel):
                     self.env['hr.performanceavggroup'].create({
                     'role': role,'group': group,'avg_jjzzj': avg_jjzzj,'total_ywl': total_ywl,
                     'total_mhs': total_mhs,'total_ccs': total_ccs,'ccl': ccl,'zql': zql,'dhl': dhl})
+
+class HrPerformanceSumGroupCalculate(models.TransientModel):
+    _name = 'hr.performancesumgroup.calculate'
+    _description = 'HR Performance Sum Group Calculate'
+
+    @api.multi
+    def performancesumgroupcalculate_check(self):
+        _logger = logging.getLogger(__name__)
+        self.env.cr.execute("Delete  From hr_performancesumgroup")
+
+        role_set = set([x.role + ',' + x.role1 for x in  self.env['hr.performancebonustotal'].search([])])
+        for role12 in role_set:
+            total_name = 0.0
+            avg_lrjj = 0.0
+            avg_lrzlj = 0.0
+            avg_fhjj = 0.0
+            avg_zlfhj = 0.0
+            avg_xykkhj = 0.0
+            avg_ccjj = 0.0
+            avg_xykjc = 0.0
+            avg_shjj = 0.0
+            avg_hhqrj = 0.0
+            avg_xykjj = 0.0
+            avg_xykjjfh = 0.0
+            avg_wl = 0.0
+            avg_bzjj = 0.0
+            avg_btjj = 0.0
+            avg_zzkhj = 0.0
+            avg_qita = 0.0
+            avg_jjin = 0.0
+            role,role1 = role12.split(',')
+            datas = performancebonustotal = self.env['hr.performancebonustotal'].search(
+                [('role', '=', role),('role1', '=', role1)])
+            if len(datas)>0:
+                avg_lrjj = round(sum([data.lrjj_be for data in datas])/len(datas),2)
+                avg_lrzlj = round(sum([data.lrzlj_bk for data in datas])/len(datas),2)
+                avg_shjj = round(sum([data.shjj_db for data in datas])/len(datas),2)
+
+                self.env['hr.performancesumgroup'].create({
+                    'role': role,'role1': role1,'total_name': len(datas),'avg_lrjj': avg_lrjj,
+                    'avg_lrzlj': avg_lrzlj,'avg_fhjj': avg_fhjj,'avg_zlfhj': avg_zlfhj,'avg_xykkhj': avg_xykkhj,
+                    'avg_ccjj': avg_ccjj,'avg_xykjc': avg_xykjc,'avg_shjj': avg_shjj,'avg_hhqrj': avg_hhqrj,
+                    'avg_xykjj': avg_xykjj,'avg_xykjjfh':avg_xykjjfh,'avg_wl': avg_wl,'avg_bzjj': avg_bzjj,
+                    'avg_btjj': avg_btjj,'avg_zzkhj': avg_zzkhj,'avg_qita': avg_qita,'avg_jjin': avg_jjin})
+
+
+
+            
