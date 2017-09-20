@@ -107,7 +107,7 @@ class HrPerformanceBonusTotal(models.Model):  # 奖金计算汇总new
     jj_without_cap = fields.Float(u'排除组长奖金', digits=(18, 2))
     ywl_datas = fields.Text(u'业务量考核业务量明细')
     complete_rate_ranking = fields.Integer(u'完成率排名')
-
+    pickl_other_datas_dict = fields.Text(u'序列化其他奖金明细')
 
 class HrPerformanceReportOri(models.Model):  # 总行数据处理中心绩效考核报表
     _name = 'hr.performancereportori'

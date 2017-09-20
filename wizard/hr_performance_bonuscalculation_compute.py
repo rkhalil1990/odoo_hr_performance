@@ -7,6 +7,8 @@ import logging
 import itertools
 from operator import itemgetter, attrgetter
 import math
+import pickle
+
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -627,6 +629,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             ywl_list = [
                     k + ":  " + str(v) for k, v in ywl_dict.items()]
             ywl_datas = "\n".join(ywl_list)
+            pickl_other_datas_dict = pickle.dump(other_datas_dict)
             performancebonustotal = self.env['hr.performancebonustotal'].create({'cal_process': ' '.join(cal_process), 'teller_num': teller_num,
                                                                                  'teller_name': teller_name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                  'group': rd.work_group, 'role': rd.role,'quarters_date':quarters_date,
@@ -638,7 +641,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
                                                                                  'jbzywzshs': jbzywzshs, 'jj': round(jj,2), 'ranking': ranking,'pro_zhs':pro_zhs,
                                                                                  'lrjjdj_bc': jjdj, 'sskc_bd': sskcs,'zyhgwbzj_dz':zyhgwbzj_dz,
                                                                                  'shjjdj_cz': sh_jjdj, 'shsskc_da': sh_sskcs,'ratio':ratio,
-                                                                                 'other_datas': other_datas,'attendance_basic': attendance_basic,
+                                                                                 'other_datas': other_datas,'attendance_basic': attendance_basic,'pickl_other_datas_dict':pickl_other_datas_dict,
                                                                                  'attendance_actual':attendance_actual,'ywlwclkhywl':ywlwclkhywl,'ywl_datas':ywl_datas,
                                                                                  })
 
