@@ -222,7 +222,6 @@
                             <field name="attendance_actual"/>
                             <field name="jk"/>
                             <field name="jkhjj"/>
-                            <field name="complete_changed_rate"/>
                             <field name="complete_rate_ranking"/>
                 </tree>
             </field>

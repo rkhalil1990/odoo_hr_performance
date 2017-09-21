@@ -629,7 +629,7 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             ywl_list = [
                     k + ":  " + str(v) for k, v in ywl_dict.items()]
             ywl_datas = "\n".join(ywl_list)
-            pickl_other_datas_dict = pickle.dump(other_datas_dict)
+            pickl_other_datas_dict = pickle.dumps(other_datas_dict)
             performancebonustotal = self.env['hr.performancebonustotal'].create({'cal_process': ' '.join(cal_process), 'teller_num': teller_num,
                                                                                  'teller_name': teller_name, 'identity': u'派遣', 'quarters': rd.quarters,
                                                                                  'group': rd.work_group, 'role': rd.role,'quarters_date':quarters_date,
@@ -701,14 +701,15 @@ class HrPerformanceProCalculationCompute(models.TransientModel):  # 生成
             avg_num = role_ywlwclkhywl_dict[d.role] if role_ywlwclkhywl_dict.has_key(d.role) else 0
             if avg_num:
                 complete_rate = d.ywlwclkhywl/avg_num
-                a = self.env['hr.performanceattendance'].search([], limit=1)
-                leave_days = sum([a.sj, a.bj, a.kg, a.cqj, a.cj])
-                complete_changed_rate = complete_rate*(a.attendance_basic - leave_days - a.xgpx)/a.attendance_basic
+                a = self.env['hr.performanceattendance'].search([('sap_num', '=', d.teller_num)], limit=1)
+                leave_days = sum([a.sj, a.bj, a.hzj, a.kg, a.nxj,a.dx,a.cqj, a.cj, a.gj,a.xgpx])
+                if (a.attendance_basic - leave_days )>0:
+                    complete_changed_rate = complete_rate/(a.attendance_basic - leave_days)*a.attendance_basic
                 d.write({'complete_changed_rate': complete_changed_rate, 'complete_rate': complete_rate,'other_datas':d.other_datas + "\n\n"  +  u'角色平均考核业务量:'+ str(avg_num)})
 
 
     def set_complete_rate_rank(self,in_or_not):
-        datas = self.env['hr.performancebonustotal'].search([('role1', '=', u'专业化岗位'),('group', 'like', u'H')]) if in_or_not else self.env['hr.performancebonustotal'].search([('role1', '=', u'专业化岗位'),('group', 'not like', u'H')])
+        datas = self.env['hr.performancebonustotal'].search([('group', 'like', u'H')]) if in_or_not else self.env['hr.performancebonustotal'].search([('group', 'not like', u'H')])
         datas = datas.sorted(key=attrgetter('role','complete_rate'), reverse=True)
         lastrole = ''
         rank = 0
@@ -1030,6 +1031,7 @@ class HrPerformanceAvgQuartersCalculate(models.TransientModel):
                     'role': role,'group': group,'avg_jjzzj': avg_jjzzj,'total_ywl': total_ywl,
                     'total_mhs': total_mhs,'total_ccs': total_ccs,'ccl': ccl,'zql': zql,'dhl': dhl})
 
+
 class HrPerformanceSumGroupCalculate(models.TransientModel):
     _name = 'hr.performancesumgroup.calculate'
     _description = 'HR Performance Sum Group Calculate'
@@ -1037,9 +1039,9 @@ class HrPerformanceSumGroupCalculate(models.TransientModel):
     @api.multi
     def performancesumgroupcalculate_check(self):
         _logger = logging.getLogger(__name__)
-        self.env.cr.execute("Delete  From hr_performancesumgroup")
+        self.env.cr.execute("Delete From hr_performancesumgroup")
 
-        role_set = set([x.role + ',' + x.role1 for x in  self.env['hr.performancebonustotal'].search([])])
+        role_set = set([x.role + ',' + x.role1 for x in self.env['hr.performancebonustotal'].search([])])
         for role12 in role_set:
             total_name = 0.0
             avg_lrjj = 0.0
@@ -1067,12 +1069,20 @@ class HrPerformanceSumGroupCalculate(models.TransientModel):
                 avg_lrzlj = round(sum([data.lrzlj_bk for data in datas])/len(datas),2)
                 avg_shjj = round(sum([data.shjj_db for data in datas])/len(datas),2)
 
+                lists = [pickle.loads(data.pickl_other_datas_dict) for data in datas]
+                avg_fhjj = sum([lists1[u"复核"] for lists1 in lists])/len(datas)
+                avg_zlfhj = sum([lists1[u"运营业务资料复核"] for lists1 in lists])/len(datas)
+                avg_xykkhj = sum([lists1[u"信用卡确认函差错"] for lists1 in lists])/len(datas)
+                avg_ccjj = sum([lists1[u"差错"] for lists1 in lists])/len(datas)
+                avg_hhqrj = sum([lists1[u"行号确认"] for lists1 in lists])/len(datas)
+
                 self.env['hr.performancesumgroup'].create({
                     'role': role,'role1': role1,'total_name': len(datas),'avg_lrjj': avg_lrjj,
                     'avg_lrzlj': avg_lrzlj,'avg_fhjj': avg_fhjj,'avg_zlfhj': avg_zlfhj,'avg_xykkhj': avg_xykkhj,
                     'avg_ccjj': avg_ccjj,'avg_xykjc': avg_xykjc,'avg_shjj': avg_shjj,'avg_hhqrj': avg_hhqrj,
                     'avg_xykjj': avg_xykjj,'avg_xykjjfh':avg_xykjjfh,'avg_wl': avg_wl,'avg_bzjj': avg_bzjj,
                     'avg_btjj': avg_btjj,'avg_zzkhj': avg_zzkhj,'avg_qita': avg_qita,'avg_jjin': avg_jjin})
+
 
 
 
